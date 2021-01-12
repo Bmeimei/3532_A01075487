@@ -55,7 +55,7 @@ def Subtract(first: int, second: int) -> float:
     return first - second
 
 
-def main():
+def main() -> None:
     operator_dict = {"1": CalculateHypotenuse, "2": Sum, "3": Subtract, "4": Multiply, "5": Divide}
     print("1 to calculate hypotenuse")
     print("2 to add")
