@@ -6,50 +6,66 @@ from math import sqrt
 
 
 def CalculateHypotenuse(first_side: int, second_side: int) -> float:
-    """ Calculate the hypotenuse for two numbers.
+    """
+    Calculates the length of the hypotenuse when given
+    two arguments that are the lengths of the sides of a right angle triangle.
 
-    :param first_side: first number as an int
-    :param second_side: second number as an int
+    :param first_side: an int that represents one side
+    :param second_side: an int that represents another side
+    :precondition: first_side must be an int
+    :precondition: second_side must be an int
     :return: hypotenuse as a float
     """
     return sqrt(first_side ** 2 + second_side ** 2)
 
 
 def Sum(first: int, second: int) -> float:
-    """ Calculate the Sum for two numbers.
+    """
+    Calculates the Sum for two numbers.
 
     :param first: first number as an int
     :param second: second number as an int
+    :precondition: first must be an int
+    :precondition: second must be an int
     :return: sum as a float
     """
     return first + second
 
 
 def Multiply(first: int, second: int) -> float:
-    """ Calculate the Multiply for two numbers.
+    """
+    Calculates the Multiply for two numbers.
 
     :param first: first number as an int
     :param second: second number as an int
+    :precondition: first must be an int
+    :precondition: second must be an int
     :return: multiply as a float
     """
     return first * second
 
 
 def Divide(first: int, second: int) -> float:
-    """ Calculate the Divide for two numbers.
+    """
+    Calculates the Divide for two numbers.
 
     :param first: first number as an int
     :param second: second number as an int
+    :precondition: first must be an int
+    :precondition: second must be an int
     :return: divide as a float
     """
     return first / second
 
 
 def Subtract(first: int, second: int) -> float:
-    """ Calculate the Subtract for two numbers.
+    """
+    Calculates the Subtract for two numbers.
 
     :param first: first number as an int
     :param second: second number as an int
+    :precondition: first must be an int
+    :precondition: second must be an int
     :return: subtract as a float
     """
     return first - second
