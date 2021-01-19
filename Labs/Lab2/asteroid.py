@@ -171,4 +171,5 @@ class Asteroid:
 
         :return: the information of Asteroid as a string
         """
-        return "Metres: %d, Position: %s, Velocity: %s" % (self.__circumference, self.__position, self.__velocity)
+        return "Circumference: %d, Position: %s, Velocity: %s"\
+               % (self.__circumference, self.__position, self.__velocity)

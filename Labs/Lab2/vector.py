@@ -44,7 +44,8 @@ class Vector:
 
     def get_vector(self) -> tuple:
         """
-        Returns the vector
+        Returns the vector as a tuple
+
         :return: the tuple that represents the vector, including x, y, and z axis
         """
         return self.__x, self.__y, self.__z
@@ -131,4 +132,4 @@ class Vector:
 
         :return: a string that represents the vector
         """
-        return (self.__x, self.__y, self.__z).__str__()
+        return f"%{self.__x}, {self.__y}, {self.__z}"
