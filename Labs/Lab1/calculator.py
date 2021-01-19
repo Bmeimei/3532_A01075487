@@ -58,6 +58,10 @@ def Subtract(first: int, second: int) -> float:
 
 
 def main() -> None:
+    """
+    Driver of calculator.
+    """
+
     operator_dict = {"1": CalculateHypotenuse, "2": Add, "3": Subtract, "4": Multiply, "5": Divide}
     print("1 to calculate hypotenuse")
     print("2 to add")

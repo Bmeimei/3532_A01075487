@@ -19,7 +19,11 @@ def CalculateHypotenuse(first_side: int, second_side: int) -> float:
     return sqrt(first_side ** 2 + second_side ** 2)
 
 
-def main():
+def main() -> None:
+    """
+    Driver of hypotenuse.
+    """
+
     first_value = input("Please input the first value: ")
     second_value = input("Please input the second value: ")
     print("Result:", CalculateHypotenuse(int(first_value), int(second_value)))
