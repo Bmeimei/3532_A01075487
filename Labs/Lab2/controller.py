@@ -31,10 +31,15 @@ class Controller:
 
         :param target: the target tuple
         :return: a string of tuple elements
+
         >>> Controller.string_of_element_in_tuple_without_parentheses((1, 2, 3))
         '1, 2, 3'
         >>> Controller.string_of_element_in_tuple_without_parentheses((10, 2))
         '10, 2'
+        >>> Controller.string_of_element_in_tuple_without_parentheses(tuple([1]))
+        '1'
+        >>> Controller.string_of_element_in_tuple_without_parentheses(tuple())
+        ''
         """
         return "".join(map(lambda x: str(x) + ", ", target))[0: -2]
 

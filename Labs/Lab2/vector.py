@@ -92,30 +92,6 @@ class Vector:
         """
         self.__z = z
 
-    @property
-    def property_X(self) -> property:
-        """
-        Property for getting and setting X
-        :return: the property to get or set x
-        """
-        return property(self.get_X, self.set_X)
-
-    @property
-    def property_Y(self) -> property:
-        """
-        Property for getting and setting Y
-        :return: the property to get or set Y
-        """
-        return property(self.get_Y, self.set_Y)
-
-    @property
-    def property_Z(self) -> property:
-        """
-        Property for getting and setting Z
-        :return: the property to get or set Z
-        """
-        return property(self.get_Z, self.set_Z)
-
     def add(self, vector) -> None:
         """
         Adds another vector to this vector

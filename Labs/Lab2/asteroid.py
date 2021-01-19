@@ -129,33 +129,6 @@ class Asteroid:
         """
         self.__velocity = velocity
 
-    @property
-    def property_metres(self) -> property:
-        """
-        Property for getting or setting metres.
-
-        :return: A property of getter and setter for metres
-        """
-        return property(self.get_circumference, self.set_circumference)
-
-    @property
-    def property_position(self) -> property:
-        """
-        Property for getting or setting position.
-
-        :return: A property of getter and setter for position
-        """
-        return property(self.get_position, self.set_position)
-
-    @property
-    def property_velocity(self) -> property:
-        """
-        Property for getting or setting velocity.
-
-        :return: A property of getter and setter for velocity
-        """
-        return property(self.get_velocity, self.set_velocity)
-
     def move(self) -> tuple:
         """
         Moves the Asteroid!
