@@ -40,10 +40,12 @@ class Controller:
             print("Moving Asteroids!\n"
                   "----------------")
             for asteroid in self.asteroids_list:
-                print("Asteroid %d Moved! Old Pos: %s -> New Pos: %s" % (asteroid.get_id(), asteroid, asteroid.move()))
-                print("Asteroid %d is currently at %s and moving at %s metres per second."
+                print("Asteroid %d Moved! Old Pos: %s -> New Pos: %s" % (asteroid.get_id(),
+                                                                         asteroid.get_position(), asteroid.move()))
+                print("Asteroid %d is currently at %s and moving at %s metres per second. "
                       "It has a circumference of %s" % (asteroid.get_id(), asteroid.get_position(),
                                                         asteroid.get_velocity(), asteroid.get_circumference()))
+            print()
             seconds -= 1
 
 
