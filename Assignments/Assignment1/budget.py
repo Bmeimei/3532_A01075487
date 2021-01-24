@@ -30,8 +30,11 @@ class Budgets:
         """
         Constructs the Budgets.
         There are two dicts in the constructor. categories and status.
-        categories is to record the original budgets in four categories
-        status is to record the status of categories. True means active, False means lock out
+
+        - categories is to record the original budgets in four categories
+        - account_status represents if the account is ban or not. True means active,
+          False means the account has been banned.
+        - status is to record the status of categories. True means active, False means lock out
 
         :param games_entertainment: Cost for games and entertainment as a non zero number
         :param clothing_accessorise: Cost for clothing accessorise as a non zero number
@@ -48,13 +51,14 @@ class Budgets:
         self._clothing_accessorise = clothing_accessorise
         self._eating_out = eating_out
         self._miscellaneous = miscellaneous
-        self.categories = {
+        self.__categories = {
                             Categories.GAMES_ENTERTAINMENT: games_entertainment,
                             Categories.CLOTHING_ACCESSORISE: clothing_accessorise,
                             Categories.EATING_OUT: eating_out,
                             Categories.MISCELLANEOUS: miscellaneous
         }
-        self.status = {
+        self.__account_status = True
+        self.__status = {
                         Categories.GAMES_ENTERTAINMENT: True,
                         Categories.CLOTHING_ACCESSORISE: True,
                         Categories.EATING_OUT: True,
@@ -68,9 +72,9 @@ class Budgets:
         :param category: a category which would be searched for
         :return: A float that represents the specific category cost
         """
-        return self.categories[category]
+        return self.__categories[category]
 
-    def _get_current_category_list(self) -> dict:
+    def _get_current_category_dict(self) -> dict:
         """
         Gets the current specific category dict.
 
@@ -90,7 +94,7 @@ class Budgets:
         :param category: a category which would be searched for
         :return: A float that represents the specific category cost
         """
-        category_dict = self._get_current_category_list()
+        category_dict = self._get_current_category_dict()
         return category_dict[category]
 
     def deduct_category_budget(self, category: Categories, amount: float) -> None:
@@ -101,8 +105,17 @@ class Budgets:
         :param category: the specific category that would be changed
         :param amount: the process amount
         """
-        category_dict = self._get_current_category_list()
+        category_dict = self._get_current_category_dict()
         category_dict[category] -= amount
+
+    def get_account_status(self) -> bool:
+        """
+        Gets the boolean of the status of the account.
+        True means not locked, False means banned.
+
+        :return: A boolean that represents the account status
+        """
+        return self.__account_status
 
     def get_status(self, category: Categories) -> bool:
         """
@@ -112,7 +125,7 @@ class Budgets:
         :param category: a category which would be searched for
         :return: A boolean that represents the lock status of category
         """
-        return self.status[category]
+        return self.__status[category]
 
     def lock_category(self, category: Categories) -> None:
         """
@@ -120,7 +133,17 @@ class Budgets:
 
         :param category: a category which would be locked
         """
-        self.status[category] = False
+        self.__status[category] = False
+
+    def ban_account(self) -> None:
+        """
+        Bans this budget account. All the category would be locked, and user can't do any transactions.
+        """
+        self.__account_status = False
+        categories = [Categories.GAMES_ENTERTAINMENT, Categories.CLOTHING_ACCESSORISE,
+                      Categories.EATING_OUT, Categories.MISCELLANEOUS]
+        for category in categories:
+            self.lock_category(category)
 
     def get_category_status(self, category: Categories) -> str:
         """
@@ -141,7 +164,7 @@ class Budgets:
         :param category: the specific category
         :return: True if the category budget is under 0
         """
-        category_dict = self._get_current_category_list()
+        category_dict = self._get_current_category_dict()
         return category_dict[category] < self._INITIAL_BALANCE
 
     def numbers_of_exceed_category(self) -> int:
@@ -150,7 +173,7 @@ class Budgets:
 
         :return: the number of exceed category as an int
         """
-        category_dict = self._get_current_category_list()
+        category_dict = self._get_current_category_dict()
         return len(list(filter(lambda x: x < self._INITIAL_BALANCE, category_dict.values())))
 
     @property
@@ -232,14 +255,16 @@ class Budgets:
 
         :return: a formatted string of budget.
         """
+        account_status = "Active" if self.get_account_status() else "Banned"
         status_list = [self.get_category_status(Categories.GAMES_ENTERTAINMENT),
                        self.get_category_status(Categories.CLOTHING_ACCESSORISE),
                        self.get_category_status(Categories.EATING_OUT),
                        self.get_category_status(Categories.MISCELLANEOUS)]
-        return "Games and Entertainment: %s\n" \
+        return "Account Status: %s\n" \
+               "Games and Entertainment: %s\n" \
                "Clothing and Accessorise: %s\n" \
                "Eating Out: %s\n" \
-               "Miscellaneous: %s" % (status_list[0], status_list[1], status_list[2], status_list[3])
+               "Miscellaneous: %s" % (account_status, status_list[0], status_list[1], status_list[2], status_list[3])
 
     def __repr__(self) -> str:
         """

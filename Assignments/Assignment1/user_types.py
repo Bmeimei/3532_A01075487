@@ -4,6 +4,7 @@
 # File Name:        user_types.py
 from enum import Enum, auto
 
+
 class UserTypes(Enum):
     """
     The Enum class that contains three different User Types.

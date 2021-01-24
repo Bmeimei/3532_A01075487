@@ -1,44 +1,40 @@
 # Author:           Luke Mei
 # Student Number :  A01075487
-# Created time :    2021/1/20 0:13 
+# Created time :    2021/1/20 0:14 
 # File Name:        menu.py
 
-from menu_interface import ViewMenu
-from user import User
+from abc import ABC, abstractmethod
 
 
-class Menu(ViewMenu):
+class ViewMenu(ABC):
     """
-    A Menu that provides multiple options for users after they create accounts.
+    An interface that must be implemented. \n
+    Four methods must be implemented.
 
-    - View Budgets
-    - Record Transaction
-    - View Transactions by Budget
-    - View Bank Account Details
+    - view_budgets
+    - record_transaction
+    - view_transactions_by_budget
+    - view_bank_account_details
     """
 
-    def __init__(self, user: User) -> None:
-        """
-        Constructs a menu with a user.
-
-        :param user: The current user
-        :precondition: user must be a User
-        """
-        self.user = user
-
+    @abstractmethod
     def view_budgets(self) -> None:
         """
         Shows the user the current status of their budgets (locked or not)
         in addition to the amount spent, amount left, and the total amount allocated to the budget.
         """
-        print(self.user.budgets)
+        pass
 
+    @abstractmethod
     def record_transaction(self) -> None:
         """
         Takes the user to a sub-menu where they are prompted to enter the transaction details.
+
+        :return: a recorded transaction
         """
         pass
 
+    @abstractmethod
     def view_transactions_by_budget(self) -> None:
         """
         Takes the user to a sub-menu where they select their budget category
@@ -46,9 +42,16 @@ class Menu(ViewMenu):
         """
         pass
 
+    @abstractmethod
     def view_bank_account_details(self) -> None:
         """
         Prints out the bank account details of the user and all transactions
         conducted to date alongside the closing balance.
         """
         pass
+
+    @abstractmethod
+    def exit_and_show_users_status(self) -> None:
+        """
+        Terminates the process and prints the final status of users.
+        """

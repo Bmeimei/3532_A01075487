@@ -5,6 +5,7 @@
 
 from user_types import UserTypes
 from user_type import UserType
+from user_lockable_type import LockableUserType
 from troublemaker import Troublemaker
 from angel import Angel
 from rebel import Rebel
@@ -15,6 +16,13 @@ from exception import check_type, check_string_is_empty, check_all_input_type, c
 class User:
     """
     A bank account class for registering user.
+
+    - name: child's name as a string
+    - age: child's age as an int, could be 0.
+    - user_type: user account type as UserTypes
+    - budgets: child's budgets
+    - bank_balance: account balance as a float, default value is 0
+    - bank_name: bank name as a string, default value is ITCB
     """
 
     _BANK_NAME = "ITCB"
@@ -22,13 +30,34 @@ class User:
     Default Bank Name is ITCB (Reverse of BCIT).
     """
 
+    _DEFAULT_NAME = "Luke"
+    """
+    Default User Bank is Luke.
+    """
+
+    _DEFAULT_AGE = 10
+    """
+    Default Age is 10.
+    """
+
+    _DEFAULT_USER_TYPE = UserTypes.ANGEL
+    """
+    Default User Type is Angel Type.
+    """
+
+    _DEFAULT_BUDGET = Budgets()
+    """
+    Default Budgets.
+    """
+
     _INITIAL_BALANCE = 0
     """
     Default account Balance is 0.
     """
 
-    def __init__(self, name: str, age: int, user_type: UserTypes, budgets: Budgets,
-                 bank_balance: float = _INITIAL_BALANCE, bank_name: str = _BANK_NAME) -> None:
+    def __init__(self, name: str = _BANK_NAME, age: int = _DEFAULT_AGE, user_type: UserTypes = _DEFAULT_USER_TYPE,
+                 budgets: Budgets = _DEFAULT_BUDGET, bank_balance: float = _INITIAL_BALANCE,
+                 bank_name: str = _BANK_NAME) -> None:
         """
         User account includes Child's financial details.
 
@@ -47,6 +76,8 @@ class User:
         self._budgets = budgets
         self._user_type = self.select_account_type(user_type)
         self._bank_balance = bank_balance
+        if len(bank_name.strip()) == 0:
+            bank_name = self._BANK_NAME
         self._bank_name = bank_name
 
     def __check_input_type_and_value(self, name: str, age: int, user_type: UserTypes, budgets: Budgets,
@@ -68,7 +99,6 @@ class User:
         check_type(user_type, UserTypes)
         check_type(budgets, Budgets)
         check_string_is_empty(name)
-        check_string_is_empty(bank_name)
         check_all_input_value([age, bank_balance], self._INITIAL_BALANCE)
 
     @staticmethod
@@ -102,7 +132,7 @@ class User:
         """
         return self._age
 
-    def get_user_type(self) -> UserType:
+    def get_user_type(self) -> UserType or LockableUserType:
         """
         Gets user account type.
 

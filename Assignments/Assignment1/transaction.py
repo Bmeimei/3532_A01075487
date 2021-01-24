@@ -4,6 +4,7 @@
 # File Name:        transaction.py
 
 from datetime import datetime
+from rebel import Rebel
 from user import User
 from categories import Categories
 from exception import check_value_is_lower_equal_than_threshold, check_type, check_string_is_empty
@@ -56,6 +57,8 @@ class Transaction:
         Helper function to process transaction.
 
         - if _is_process is true, means this function has already called in the constructor, avoid the future calls.
+        - if the account has been banned, prevent this transaction and print banned message.
+        - if the category has been locked, prevent this transaction and print locked message.
         - if the bank balance is less than amount, the process would be rejected
           and prevent subtracting the bank balance.
         - _status would become True after the transaction processes successfully.
@@ -65,12 +68,22 @@ class Transaction:
         if self._is_process:
             raise Exception("This transaction has been processed!")
         self._is_process = True
+
+        if not self._check_account_valid():
+            print(self._user.get_user_type().ban_account_message())
+            return None
+
+        if not self._check_category_valid():
+            print(self._user.get_user_type().lock_category_message())
+            return None
+
         if self._user.bank_balance - self._amount >= 0:
             self._user.bank_balance = self._user.bank_balance - self._amount
             self._user.budgets.deduct_category_budget(self._category, self._amount)
             self.__show_notify_if_need()
             self.__show_warning_if_need()
             self._status = True
+            print("Your transaction has been processed successfully!\n")
         else:
             print("Your bank balance is insufficient to afford this purchase!")
 
@@ -82,14 +95,36 @@ class Transaction:
         """
         return self._status
 
-    def __str__(self) -> str:
+    def get_category_type(self) -> Categories:
         """
-        Returns the formatted string that represents this transaction.
+        Gets the type of Category.
 
-        :return: a formatted string of this transaction
+        :return: the transaction budget category
         """
-        return "Time: %s, Amount: %f, Category: %s, Institution Name: %s" % \
-               (datetime.fromtimestamp(self._timestamp), self._amount, self._category, self._name)
+        return self._category
+
+    def get_timestamp(self) -> float:
+        """
+        Gets the timestamp of this transaction.
+
+        :return: the timestamp of the transaction as a float
+        """
+        return self._timestamp
+
+    def _check_account_valid(self) -> bool:
+        """
+        Checks if the budget account is valid.
+
+        :return: True if the account is valid, False if the account is banned
+        """
+        return self._user.budgets.get_account_status()
+
+    def _check_category_valid(self) -> bool:
+        """
+        Checks if the category is valid.
+        :return: True if the account is valid, False if the account is banned
+        """
+        return self._user.budgets.get_status(self._category)
 
     def __show_warning_if_need(self) -> None:
         """
@@ -101,7 +136,7 @@ class Transaction:
         budget = self._user.budgets
         if budget.get_current_category(self._category) < budget.get_origin_category(self._category) * (1 - threshold)\
                 and not budget.is_category_exceed(self._category):
-            user_type.warning_message(self._category)
+            print(user_type.warning_message(self._category))
 
     def __show_notify_if_need(self) -> None:
         """
@@ -111,3 +146,29 @@ class Transaction:
         budget = self._user.budgets
         if budget.is_category_exceed(self._category):
             print(user_type.notified(self._category))
+
+    def __lock_category_if_need(self) -> None:
+        """
+        Locks the category after transaction if the remaining budgets below the lock threshold.
+        """
+        user_type = self._user.get_user_type()
+        threshold = user_type.get_lock_threshold()
+        budget = self._user.budgets
+        if budget.get_current_category(self._category) < -(budget.get_origin_category(self._category) * threshold):
+            self._user.budgets.lock_category(self._category)
+
+    def __ban_account_if_need(self) -> None:
+        """
+        Bans the account. Only works for Rebel class which has over 1 locked categories.
+        """
+        if isinstance(self._user.get_user_type(), Rebel) and self._user.budgets.numbers_of_exceed_category() > 1:
+            self._user.budgets.ban_account()
+
+    def __str__(self) -> str:
+        """
+        Returns the formatted string that represents this transaction.
+
+        :return: a formatted string of this transaction
+        """
+        return "Time: %s, Amount: %f, Category: %s, Institution Name: %s" % \
+               (datetime.fromtimestamp(self._timestamp), self._amount, self._category, self._name)
