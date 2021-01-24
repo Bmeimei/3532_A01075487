@@ -111,8 +111,9 @@ class FAM(ViewMenu, Features):
             "5": self.exit_and_show_users_status
         }
         if option not in option_dict:
-            raise Exception("Invalid Command!")
-        option_dict[option]()
+            print("Invalid Command!")
+        else:
+            option_dict[option]()
 
     def execute_features(self):
         print("Registering User:\n"
@@ -168,9 +169,11 @@ class FAM(ViewMenu, Features):
             return None
         category = self.__categories_dict[select]
         transaction_sublist = filter(lambda x: x.get_category_type() == category, self.__transaction_record)
-        transaction_sublist = sorted(transaction_sublist, key=lambda x: x.get_category_type())
+        transaction_sublist = sorted(transaction_sublist, key=lambda x: x.get_timestamp())
+        if len(transaction_sublist) == 0:
+            print("Currently no transactions in this Category: %s." % category)
         for key, transaction in enumerate(transaction_sublist):
-            print(key, ":", transaction)
+            print(key + 1, ":", transaction)
 
     def view_bank_account_details(self) -> None:
         """
@@ -178,9 +181,11 @@ class FAM(ViewMenu, Features):
         conducted to date alongside the closing balance.
         """
         print(self.__user)
-        transaction_sorted_list = sorted(self.__transaction_record, key=lambda x: x.get_category_type())
+        transaction_sorted_list = sorted(self.__transaction_record, key=lambda x: x.get_timestamp())
+        if len(transaction_sorted_list) == 0:
+            print("Currently no transactions in this account.")
         for key, transaction in enumerate(transaction_sorted_list):
-            print(key, ":", transaction)
+            print(key + 1, ":", transaction)
 
     def exit_and_show_users_status(self) -> None:
         """

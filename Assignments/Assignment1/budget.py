@@ -105,8 +105,14 @@ class Budgets:
         :param category: the specific category that would be changed
         :param amount: the process amount
         """
-        category_dict = self._get_current_category_dict()
-        category_dict[category] -= amount
+        if category == Categories.GAMES_ENTERTAINMENT:
+            self.games_entertainment -= amount
+        elif category == Categories.CLOTHING_ACCESSORISE:
+            self.clothing_accessorise -= amount
+        elif category == Categories.EATING_OUT:
+            self.eating_out -= amount
+        else:
+            self.miscellaneous -= amount
 
     def get_account_status(self) -> bool:
         """
@@ -261,10 +267,11 @@ class Budgets:
                        self.get_category_status(Categories.EATING_OUT),
                        self.get_category_status(Categories.MISCELLANEOUS)]
         return "Account Status: %s\n" \
-               "Games and Entertainment: %s\n" \
+               "Games and Entertainment:  %s\n" \
                "Clothing and Accessorise: %s\n" \
-               "Eating Out: %s\n" \
-               "Miscellaneous: %s" % (account_status, status_list[0], status_list[1], status_list[2], status_list[3])
+               "Eating Out:               %s\n" \
+               "Miscellaneous:            %s" % (account_status,
+                                                 status_list[0], status_list[1], status_list[2], status_list[3])
 
     def __repr__(self) -> str:
         """
