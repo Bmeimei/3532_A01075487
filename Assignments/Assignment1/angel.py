@@ -19,5 +19,10 @@ class Angel(UserType):
       it by 120% of the amount assigned to the budget in question.
     """
 
+    __threshold = 0.75
+
+    def __init__(self) -> None:
+        super().__init__(self.__threshold)
+
     def __str__(self):
         return "Angle"

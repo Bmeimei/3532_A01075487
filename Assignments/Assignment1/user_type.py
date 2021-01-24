@@ -4,7 +4,7 @@
 # File Name:        user_type.py
 
 from abc import ABC, abstractmethod
-from budget import Budgets
+from categories import Categories
 
 
 class UserType(ABC):
@@ -26,35 +26,53 @@ class UserType(ABC):
 
     Basic Attributes of UserType:
 
-    - budget
     - threshold
     """
 
     @abstractmethod
-    def __init__(self, budgets: Budgets, threshold: float):
+    def __init__(self, threshold: float) -> None:
         """
         Constructs a user type.
         Since the UserType is an abstract class, this constructor can't be called.
 
-        :param budgets: the budgets that represents the user's budgets
         :param threshold: the threshold that represents the percentage of exceeding a budget category,
                           should be range from (0, 1)
         :raise TypeError if the UserType is instantiated.
         """
-        self._budgets = budgets
         self._threshold = threshold
 
-    def warning_message(self) -> str:
+    def warning_message(self, category: Categories) -> str:
         """
         A warning if user exceed more than amount of value of a budget.
+
+        :param category: Category of a budget
+        :return: a string of warning message
         """
-        return "One or more of your budget category has been exceeded the threshold %d!" % self._threshold
+        return "WARNING: Your budget category: {0} has been exceeded the threshold: {1:.0%}!"\
+            .format(category, self._threshold)
+
+    def get_threshold(self) -> float:
+        """
+        Gets the threshold.
+
+        :return: threshold as a float
+        """
+        return self._threshold
+
+    @staticmethod
+    def notified(category: Categories) -> str:
+        """
+        Gets notified if user exceeds a budget category.
+        :param category: Category of a budget
+        :return: a string of notified message
+        """
+        return "NOTIFIED: The category %s has been exceed from your budgets!" % category
 
     @abstractmethod
-    def __str__(self):
+    def __str__(self) -> str:
         """
         Returns a formatted string that represents the current user type.
 
         :return: a formatted string that represents the user type.
         """
-        "Default User Type!"
+        return "Default User Type!"

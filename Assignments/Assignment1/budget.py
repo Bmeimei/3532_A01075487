@@ -31,7 +31,7 @@ class Budgets:
         Constructs the Budgets.
         There are two dicts in the constructor. categories and status.
         categories is to record the original budgets in four categories
-        status is to record the status of categories. False means active, True means lock out
+        status is to record the status of categories. True means active, False means lock out
 
         :param games_entertainment: Cost for games and entertainment as a non zero number
         :param clothing_accessorise: Cost for clothing accessorise as a non zero number
@@ -44,10 +44,10 @@ class Budgets:
         total_list = [games_entertainment, clothing_accessorise, eating_out, miscellaneous]
         check_all_input_type(total_list, int, float)
         check_all_input_value(total_list, self._INITIAL_BALANCE)
-        self.games_entertainment = games_entertainment
-        self.clothing_accessorise = clothing_accessorise
-        self.eating_out = eating_out
-        self.miscellaneous = miscellaneous
+        self._games_entertainment = games_entertainment
+        self._clothing_accessorise = clothing_accessorise
+        self._eating_out = eating_out
+        self._miscellaneous = miscellaneous
         self.categories = {
                             Categories.GAMES_ENTERTAINMENT: games_entertainment,
                             Categories.CLOTHING_ACCESSORISE: clothing_accessorise,
@@ -55,20 +55,34 @@ class Budgets:
                             Categories.MISCELLANEOUS: miscellaneous
         }
         self.status = {
-                        Categories.GAMES_ENTERTAINMENT: False,
-                        Categories.CLOTHING_ACCESSORISE: False,
-                        Categories.EATING_OUT: False,
-                        Categories.MISCELLANEOUS: False,
+                        Categories.GAMES_ENTERTAINMENT: True,
+                        Categories.CLOTHING_ACCESSORISE: True,
+                        Categories.EATING_OUT: True,
+                        Categories.MISCELLANEOUS: True
         }
 
     def get_origin_category(self, category: Categories) -> float:
         """
-        Gets the original specific category amount.
+        Gets the original specific category amount from the category list.
 
         :param category: a category which would be searched for
         :return: A float that represents the specific category cost
         """
         return self.categories[category]
+
+    def _get_current_category_list(self) -> dict:
+        """
+        Gets the current specific category dict.
+
+        :return: current category dict
+        """
+        category_dict = {
+            Categories.GAMES_ENTERTAINMENT: self.games_entertainment,
+            Categories.CLOTHING_ACCESSORISE: self.clothing_accessorise,
+            Categories.EATING_OUT: self.eating_out,
+            Categories.MISCELLANEOUS: self.miscellaneous
+        }
+        return category_dict
 
     def get_current_category(self, category: Categories) -> float:
         """
@@ -76,24 +90,37 @@ class Budgets:
         :param category: a category which would be searched for
         :return: A float that represents the specific category cost
         """
-        if category == Categories.GAMES_ENTERTAINMENT:
-            return self.games_entertainment
-        if category == Categories.CLOTHING_ACCESSORISE:
-            return self.clothing_accessorise
-        if category == Categories.EATING_OUT:
-            return self.eating_out
-        if category == Categories.MISCELLANEOUS:
-            return self.miscellaneous
+        category_dict = self._get_current_category_list()
+        return category_dict[category]
+
+    def deduct_category_budget(self, category: Categories, amount: float) -> None:
+        """
+        Sets the specific category.
+        The category would deduct amount.
+
+        :param category: the specific category that would be changed
+        :param amount: the process amount
+        """
+        category_dict = self._get_current_category_list()
+        category_dict[category] -= amount
 
     def get_status(self, category: Categories) -> bool:
         """
         Gets the boolean of the lock status of a single category.
-        False means not locked, True means locked.
+        True means not locked, False means locked.
 
         :param category: a category which would be searched for
         :return: A boolean that represents the lock status of category
         """
         return self.status[category]
+
+    def lock_category(self, category: Categories) -> None:
+        """
+        Locks a single category to prevent future transaction.
+
+        :param category: a category which would be locked
+        """
+        self.status[category] = False
 
     def get_category_status(self, category: Categories) -> str:
         """
@@ -108,6 +135,24 @@ class Budgets:
         return "Status: {0}, Amount Spent: {1}, Amount Left: {2}, Total Amount: {3}".format(
             status, origin - current, current, origin)
 
+    def is_category_exceed(self, category: Categories) -> bool:
+        """
+        Checks if a specific category exceed the budget.
+        :param category: the specific category
+        :return: True if the category budget is under 0
+        """
+        category_dict = self._get_current_category_list()
+        return category_dict[category] < self._INITIAL_BALANCE
+
+    def numbers_of_exceed_category(self) -> int:
+        """
+        Returns the number of exceed category.
+
+        :return: the number of exceed category as an int
+        """
+        category_dict = self._get_current_category_list()
+        return len(list(filter(lambda x: x < self._INITIAL_BALANCE, category_dict.values())))
+
     @property
     def games_entertainment(self) -> float:
         """
@@ -115,7 +160,7 @@ class Budgets:
 
         :return: a float that represents the games and entertainment
         """
-        return self.games_entertainment
+        return self._games_entertainment
 
     @games_entertainment.setter
     def games_entertainment(self, games_entertainment: float) -> None:
@@ -124,7 +169,7 @@ class Budgets:
 
         :param games_entertainment: new games and entertainment as a float
         """
-        self.games_entertainment = games_entertainment
+        self._games_entertainment = games_entertainment
 
     @property
     def clothing_accessorise(self) -> float:
@@ -133,7 +178,7 @@ class Budgets:
 
         :return: a float that represents the clothing_accessorise
         """
-        return self.clothing_accessorise
+        return self._clothing_accessorise
 
     @clothing_accessorise.setter
     def clothing_accessorise(self, clothing_accessorise: float) -> None:
@@ -142,7 +187,7 @@ class Budgets:
 
         :param clothing_accessorise: new clothing and accessorise as a float
         """
-        self.clothing_accessorise = clothing_accessorise
+        self._clothing_accessorise = clothing_accessorise
 
     @property
     def eating_out(self) -> float:
@@ -151,7 +196,7 @@ class Budgets:
 
         :return: a float that represents the eating out
         """
-        return self.eating_out
+        return self._eating_out
 
     @eating_out.setter
     def eating_out(self, eating_out: float) -> None:
@@ -160,7 +205,7 @@ class Budgets:
 
         :param eating_out: new eating out as a float
         """
-        self.eating_out = eating_out
+        self._eating_out = eating_out
 
     @property
     def miscellaneous(self) -> float:
@@ -169,7 +214,7 @@ class Budgets:
 
         :return: a float that represents the miscellaneous
         """
-        return self.miscellaneous
+        return self._miscellaneous
 
     @miscellaneous.setter
     def miscellaneous(self, miscellaneous: float) -> None:
@@ -178,7 +223,7 @@ class Budgets:
 
         :param miscellaneous: new miscellaneous as a float
         """
-        self.miscellaneous = miscellaneous
+        self._miscellaneous = miscellaneous
 
     def __str__(self) -> str:
         """
@@ -202,5 +247,5 @@ class Budgets:
 
         :return: a bunch of numbers that represents the status of budget
         """
-        return "{%f, %f, %f, %f}" % (self.games_entertainment, self.clothing_accessorise,
-                                     self.eating_out, self.miscellaneous)
+        return "{%f, %f, %f, %f}" % (self._games_entertainment, self._clothing_accessorise,
+                                     self._eating_out, self._miscellaneous)

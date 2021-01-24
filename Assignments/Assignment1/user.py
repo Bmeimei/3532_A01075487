@@ -9,7 +9,6 @@ from troublemaker import Troublemaker
 from angel import Angel
 from rebel import Rebel
 from budget import Budgets
-from transaction import Transaction
 from exception import check_type, check_string_is_empty, check_all_input_type, check_all_input_value
 
 
@@ -46,10 +45,9 @@ class User:
         self._name = name
         self._age = age
         self._budgets = budgets
-        self._user_type = self.__select_account_type(user_type)
+        self._user_type = self.select_account_type(user_type)
         self._bank_balance = bank_balance
         self._bank_name = bank_name
-        self._transactions_record = []
 
     def __check_input_type_and_value(self, name: str, age: int, user_type: UserTypes, budgets: Budgets,
                                      bank_balance: float, bank_name: str) -> None:
@@ -73,7 +71,8 @@ class User:
         check_string_is_empty(bank_name)
         check_all_input_value([age, bank_balance], self._INITIAL_BALANCE)
 
-    def __select_account_type(self, user_type: UserTypes) -> UserType:
+    @staticmethod
+    def select_account_type(user_type: UserTypes) -> UserType:
         """
         Returns a specific user type and passing the current budgets based on the input UserTypes.
 
@@ -85,30 +84,7 @@ class User:
             UserTypes.REBEL: Rebel,
             UserTypes.ANGEL: Angel
         }
-        return total_account.get(user_type)(self.budgets)
-
-    def __str__(self) -> str:
-        """
-        Returns A formatted string that represents the current user.
-
-        :return: A formatted string that represents the current user.
-        """
-        return "Name: %s\n" \
-               "Age: %d\n" \
-               "User Type: %s\n" \
-               "Budgets: {%s}\n" \
-               "Bank Balance: %f\n" \
-               "Bank Name: %s" % (self._name, self._age, self._user_type,
-                                  self._budgets.__str__(), self._bank_balance, self._bank_name)
-
-    def __repr__(self) -> str:
-        """
-        Returns a string that represents the status of current user.
-
-        :return: A long string with a bracket that shows the status of user
-        """
-        return "{%s, %d, %s, %s, %f, %s}" % (self._name, self._age, self._user_type,
-                                             self._budgets.__repr__(), self._bank_balance, self._bank_name)
+        return total_account.get(user_type)()
 
     def get_name(self) -> str:
         """
@@ -121,6 +97,7 @@ class User:
     def get_age(self) -> int:
         """
         Gets User age.
+
         :return: user age as an int
         """
         return self._age
@@ -128,6 +105,7 @@ class User:
     def get_user_type(self) -> UserType:
         """
         Gets user account type.
+
         :return: user account type
         """
         return self._user_type
@@ -135,18 +113,19 @@ class User:
     def get_bank_name(self) -> str:
         """
         Gets bank name.
+
         :return: bank name as a string
         """
         return self._bank_name
 
     @property
-    def budgets(self) -> str:
+    def budgets(self) -> Budgets:
         """
         Creates a property for budgets.
 
         :return: A formatted string that represents the budgets
         """
-        return self._budgets.__str__()
+        return self._budgets
 
     @budgets.setter
     def budgets(self, budgets: Budgets) -> None:
@@ -175,25 +154,33 @@ class User:
         """
         self._bank_balance = bank_balance
 
-    def get_transactions(self) -> list:
+    def __str__(self) -> str:
         """
-        Gets the total transactions record.
+        Returns A formatted string that represents the current user.
 
-        :return: The history transactions as a list
+        :return: A formatted string that represents the current user.
         """
-        return self._transactions_record
+        return "Name: %s\n" \
+               "Age: %d\n" \
+               "User Type: %s\n" \
+               "Budgets: {%s}\n" \
+               "Bank Balance: %s\n" \
+               "Bank Name: %s" % (self._name, self._age, self._user_type,
+                                  self._budgets.__str__(), self._bank_balance, self._bank_name)
 
-    def conduct_transactions(self, transaction: Transaction) -> None:
+    def __repr__(self) -> str:
         """
-        Conducts a transaction and add it into history transactions.
+        Returns a string that represents the status of current user.
 
-        :param transaction: a new transaction
+        :return: A long string with a bracket that shows the status of user
         """
-        self._transactions_record.append(transaction)
+        return "{%s, %d, %s, %s, %f, %s}" % (self._name, self._age, self._user_type,
+                                             self._budgets.__repr__(), self._bank_balance, self._bank_name)
 
 
 def main():
-    user = User("Luke", 20, UserTypes.TROUBLEMAKER, Budgets())
+    budget = Budgets(500, 500, 500, 500)
+    user = User("Luke", 20, UserTypes.ANGEL, budget, 1000)
     print(user)
 
 

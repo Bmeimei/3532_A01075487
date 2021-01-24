@@ -20,5 +20,19 @@ class Rebel(LockableUserType):
     • If they exceed their budget in 2 or more categories then they get locked out of their account completely
     """
 
-    def __str__(self):
+    __threshold = 0.50
+    __lock_threshold = 1
+
+    def __init__(self) -> None:
+        super().__init__(self.__threshold, self.__lock_threshold)
+
+    def __str__(self) -> str:
         return "Rebel"
+
+    @staticmethod
+    def ban_account_message() -> str:
+        """
+        Tells users their account has been banned.
+        :return: a string that tells user their account has been banned.
+        """
+        return "Your Account has been banned!"

@@ -18,11 +18,14 @@ class Troublemaker(LockableUserType):
       it by 120% of the amount assigned to the budget in question.
     """
 
-    def __init__(self):
-        """
+    __threshold = 0.75
+    __lock_threshold = 1.2
 
+    def __init__(self) -> None:
         """
-        super().__init__()
+        Constructs a Troublemaker type.
+        """
+        super().__init__(self.__threshold, self.__lock_threshold)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return "Troublemaker"
