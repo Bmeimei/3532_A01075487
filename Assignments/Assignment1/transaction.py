@@ -70,11 +70,11 @@ class Transaction:
         self._is_process = True
 
         if not self._check_account_valid():
-            print(self._user.get_user_type().ban_account_message())
+            print(self._user.get_user_type().ban_account_message() + " Transaction has been REJECTED!")
             return None
 
         if not self._check_category_valid():
-            print(self._user.get_user_type().lock_category_message())
+            print(self._user.get_user_type().lock_category_message(self._category) + " Transaction has been REJECTED!")
             return None
 
         if self._user.bank_balance - self._amount >= 0:
@@ -83,6 +83,8 @@ class Transaction:
             self.__show_notify_if_need()
             self.__show_warning_if_need()
             self._status = True
+            self.__lock_category_if_need()
+            self.__ban_account_if_need()
             print("Your transaction has been processed successfully!\n")
         else:
             print("Your bank balance is insufficient to afford this purchase!")
@@ -154,8 +156,9 @@ class Transaction:
         user_type = self._user.get_user_type()
         threshold = user_type.get_lock_threshold()
         budget = self._user.budgets
-        if budget.get_current_category(self._category) < -(budget.get_origin_category(self._category) * threshold):
+        if budget.get_current_category(self._category) < budget.get_origin_category(self._category) * (1 - threshold):
             self._user.budgets.lock_category(self._category)
+            print(user_type.lock_category_message(self._category))
 
     def __ban_account_if_need(self) -> None:
         """
@@ -163,6 +166,7 @@ class Transaction:
         """
         if isinstance(self._user.get_user_type(), Rebel) and self._user.budgets.numbers_of_exceed_category() > 1:
             self._user.budgets.ban_account()
+            print(self._user.get_user_type().ban_account_message())
 
     def __str__(self) -> str:
         """

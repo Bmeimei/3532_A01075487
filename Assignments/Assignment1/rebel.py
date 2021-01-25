@@ -21,7 +21,7 @@ class Rebel(LockableUserType):
     """
 
     __threshold = 0.50
-    __lock_threshold = 1
+    __lock_threshold = 1.00
 
     def __init__(self) -> None:
         super().__init__(self.__threshold, self.__lock_threshold)

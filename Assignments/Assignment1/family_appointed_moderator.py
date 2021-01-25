@@ -218,7 +218,7 @@ class FAM(ViewMenu, Features):
             select = input("User Type: 1: Angel  2: Troublemaker  3: Rebel:")
             if select in user_type_dict:
                 return user_type_dict[select]
-            print("Invalid Command! Please Type again"
+            print("Invalid Command! Please Type again\n"
                   "----------------------------------")
 
 

@@ -26,7 +26,7 @@ class LockableUserType(UserType, ABC):
         :param lock_threshold: the lock threshold that represents the percentage of exceeding a budget category.
         :raise TypeError if the UserType is instantiated.
         """
-        super().__init__(threshold, lock_threshold)
+        super().__init__(threshold)
         self._lock_threshold = lock_threshold
 
     def lock_category_message(self, category: Categories) -> str:
@@ -35,7 +35,7 @@ class LockableUserType(UserType, ABC):
         :param category: A locked category
         :return: a string that tells user the category has been locked
         """
-        return "Your category: {0} has been Locked since you exceed it by {1: .0%} of the amount!"\
+        return "Your category: {0} has been Locked since you exceed it by {1:.0%} of the amount!"\
             .format(category, self._lock_threshold)
 
     def get_lock_threshold(self) -> float:
