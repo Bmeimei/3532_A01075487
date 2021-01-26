@@ -115,7 +115,10 @@ class FAM(ViewMenu, Features):
         else:
             option_dict[option]()
 
-    def execute_features(self):
+    def execute_features(self) -> None:
+        """
+        Execute F.A.M.
+        """
         print("Registering User:\n"
               "-----------------")
         self._registering_user()
@@ -198,15 +201,16 @@ class FAM(ViewMenu, Features):
         Helper function to select categories.
         :return: A specific category
         """
-        select = input("Please type the category:\n"
-                       "1: Games and Entertainment\n"
-                       "2: Clothing and Accessorise\n"
-                       "3: Eating Out\n"
-                       "4: Miscellaneous\n")
         categories_dict = self.__categories_dict
-        if select in categories_dict:
-            return categories_dict[select]
-        print("Invalid Input!")
+        while True:
+            select = input("Please type the category:\n"
+                           "1: Games and Entertainment\n"
+                           "2: Clothing and Accessorise\n"
+                           "3: Eating Out\n"
+                           "4: Miscellaneous\n")
+            if select in categories_dict:
+                return categories_dict[select]
+            print("Invalid Input!")
 
     def __select_user_type(self) -> UserTypes:
         """
@@ -223,6 +227,9 @@ class FAM(ViewMenu, Features):
 
 
 def main():
+    """
+    Driver!
+    """
     fam = FAM()
     fam.execute_features()
 
