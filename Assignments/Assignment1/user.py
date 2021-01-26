@@ -122,7 +122,7 @@ class User:
 
         :return: user name as a string
         """
-        return self._name
+        return self._name.title()
 
     def get_age(self) -> int:
         """
