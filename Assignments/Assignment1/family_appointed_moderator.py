@@ -52,7 +52,7 @@ class FAM(ViewMenu, Features):
         self.__user = User()
         self.__transaction_record = []
 
-    def registering_user(self) -> None:
+    def _registering_user(self) -> None:
         """
         The user (usually a parent) must register their child's financial details.
         This includes (but is not necessarily limited to):
@@ -73,7 +73,7 @@ class FAM(ViewMenu, Features):
         bank_name = input("Please input the bank name (Optional):")
         self.__user = User(user_name, age, user_type, budgets, bank_balance, bank_name)
 
-    def assigning_budget_categories(self) -> None:
+    def _assigning_budget_categories(self) -> None:
         """
         Each child that is being monitored is assigned the following budget categories.
         The exact value of each budget is assigned when registering the child as a user.
@@ -89,7 +89,7 @@ class FAM(ViewMenu, Features):
         miscellaneous = float(input("Please input a positive budget for miscellaneous:"))
         self.__user.budgets = Budgets(games_entertainment, clothing_accessories, eating_out, miscellaneous)
 
-    def showing_menu(self) -> None:
+    def _showing_menu(self) -> None:
         """
         Prints the menu
         """
@@ -99,16 +99,16 @@ class FAM(ViewMenu, Features):
               "4. View Bank Account Details\n"
               "5. Exit")
 
-    def processing_menu_option(self, option: str) -> None:
+    def _processing_menu_option(self, option: str) -> None:
         """
         Processing based on the menu option.
         """
         option_dict = {
-            '1': self.view_budgets,
+            '1': self._view_budgets,
             '2': self.record_transaction,
             '3': self.view_transactions_by_budget,
-            '4': self.view_bank_account_details,
-            "5": self.exit_and_show_users_status
+            '4': self._view_bank_account_details,
+            "5": self._exit_and_show_users_status
         }
         if option not in option_dict:
             print("Invalid Command!")
@@ -118,23 +118,23 @@ class FAM(ViewMenu, Features):
     def execute_features(self):
         print("Registering User:\n"
               "-----------------")
-        self.registering_user()
+        self._registering_user()
 
         print("Assigning Budgets Categories:\n"
               "-----------------")
-        self.assigning_budget_categories()
+        self._assigning_budget_categories()
 
         option = None
         exit_command = "5"
         while option != exit_command:
             print("Menu:\n"
                   "-----------------")
-            self.showing_menu()
+            self._showing_menu()
             option = input("Please type the menu command:")
-            self.processing_menu_option(option)
+            self._processing_menu_option(option)
             print()
 
-    def view_budgets(self) -> None:
+    def _view_budgets(self) -> None:
         """
         Shows the user the current status of their budgets (locked or not)
         in addition to the amount spent, amount left, and the total amount allocated to the budget.
@@ -175,7 +175,7 @@ class FAM(ViewMenu, Features):
         for key, transaction in enumerate(transaction_sublist):
             print(key + 1, ":", transaction)
 
-    def view_bank_account_details(self) -> None:
+    def _view_bank_account_details(self) -> None:
         """
         Prints out the bank account details of the user and all transactions
         conducted to date alongside the closing balance.
@@ -187,7 +187,7 @@ class FAM(ViewMenu, Features):
         for key, transaction in enumerate(transaction_sorted_list):
             print(key + 1, ":", transaction)
 
-    def exit_and_show_users_status(self) -> None:
+    def _exit_and_show_users_status(self) -> None:
         """
         Exits the program and shows the user status.
         """

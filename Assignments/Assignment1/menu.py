@@ -18,7 +18,7 @@ class ViewMenu(ABC):
     """
 
     @abstractmethod
-    def view_budgets(self) -> None:
+    def _view_budgets(self) -> None:
         """
         Shows the user the current status of their budgets (locked or not)
         in addition to the amount spent, amount left, and the total amount allocated to the budget.
@@ -43,7 +43,7 @@ class ViewMenu(ABC):
         pass
 
     @abstractmethod
-    def view_bank_account_details(self) -> None:
+    def _view_bank_account_details(self) -> None:
         """
         Prints out the bank account details of the user and all transactions
         conducted to date alongside the closing balance.
@@ -51,7 +51,7 @@ class ViewMenu(ABC):
         pass
 
     @abstractmethod
-    def exit_and_show_users_status(self) -> None:
+    def _exit_and_show_users_status(self) -> None:
         """
         Terminates the process and prints the final status of users.
         """

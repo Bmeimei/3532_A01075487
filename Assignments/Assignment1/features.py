@@ -20,7 +20,7 @@ class Features(ABC):
     """
 
     @abstractmethod
-    def registering_user(self) -> None:
+    def _registering_user(self) -> None:
         """
         The user (usually a parent) must register their child's financial details.
         This includes (but is not necessarily limited to):
@@ -36,7 +36,7 @@ class Features(ABC):
         pass
 
     @abstractmethod
-    def assigning_budget_categories(self) -> None:
+    def _assigning_budget_categories(self) -> None:
         """
         Each child that is being monitored is assigned the following budget categories.
         The exact value of each budget is assigned when registering the child as a user.
@@ -49,7 +49,7 @@ class Features(ABC):
         pass
 
     @abstractmethod
-    def showing_menu(self) -> None:
+    def _showing_menu(self) -> None:
         """
         Once the user account is set up and the budgets have been created,
         the system should prompt the user with the following menu options(or a variation of the following menu).
@@ -59,7 +59,7 @@ class Features(ABC):
         pass
 
     @abstractmethod
-    def processing_menu_option(self, option: str) -> None:
+    def _processing_menu_option(self, option: str) -> None:
         """
         Processing a specific command based on what menu option does User choose.
         """
