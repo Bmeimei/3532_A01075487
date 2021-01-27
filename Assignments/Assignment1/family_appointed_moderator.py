@@ -91,7 +91,7 @@ class FAM(ViewMenu, Features):
 
     def _showing_menu(self) -> None:
         """
-        Prints the menu
+        Prints the menu.
         """
         print("1. View Budgets\n"
               "2. Record a Transaction\n"
@@ -118,24 +118,32 @@ class FAM(ViewMenu, Features):
     def execute_features(self) -> None:
         """
         Execute F.A.M.
+
+        :raise TypeError: If user inputs the wrong types.
+        :raise ValueError: If user inputs wrong values.
         """
-        print("Registering User:\n"
-              "-----------------")
-        self._registering_user()
-
-        print("Assigning Budgets Categories:\n"
-              "-----------------")
-        self._assigning_budget_categories()
-
-        option = None
-        exit_command = "5"
-        while option != exit_command:
-            print("Menu:\n"
+        try:
+            print("Registering User:\n"
                   "-----------------")
-            self._showing_menu()
-            option = input("Please type the menu command:")
-            self._processing_menu_option(option)
-            print()
+            self._registering_user()
+
+            print("Assigning Budgets Categories:\n"
+                  "-----------------")
+            self._assigning_budget_categories()
+
+            option = None
+            exit_command = "5"
+            while option != exit_command:
+                print("Menu:\n"
+                      "-----------------")
+                self._showing_menu()
+                option = input("Please type the menu command:")
+                self._processing_menu_option(option)
+                print()
+        except TypeError:
+            print("Invalid Type!")
+        except ValueError:
+            print("Invalid Input Value!")
 
     def _view_budgets(self) -> None:
         """

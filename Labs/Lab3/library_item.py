@@ -3,8 +3,12 @@ from abc import ABC, abstractmethod
 
 class LibraryItem(ABC):
     """
-    Represents a single book in a library which is identified through
-    it's call number.
+    An abstract class that represents the library item.
+    It would be extended by:
+
+    - DVD
+    - Book
+    - Journal
     """
 
     def __init__(self, call_num: str, title: str, num_copies: int, author: str):
@@ -86,4 +90,9 @@ class LibraryItem(ABC):
 
     @abstractmethod
     def __str__(self) -> str:
+        """
+        Returns a formatted string that represents the item.
+        This method must be override by items.
+        :return: a formatted string of item
+        """
         pass

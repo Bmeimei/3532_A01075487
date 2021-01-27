@@ -47,10 +47,10 @@ class LibraryItemGenerator:
         """
         call_number = input("Enter Call Number: ")
         title = input("Enter Journal Name: ")
-        num_copies = int(input("Enter Issue Number: "
-                               "(positive number): "))
+        num_copies = int(input("Enter Number of Copies: "))
+        issue_number = input("Enter Issue Number: ")
         author = input("Enter Publisher Name: ")
-        return Journal(call_number, title, num_copies, author)
+        return Journal(call_number, title, num_copies, issue_number, author)
 
     @staticmethod
     def create_library_item() -> LibraryItem:

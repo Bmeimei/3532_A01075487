@@ -159,7 +159,7 @@ def generate_test_books() -> list:
         Book("999.224.854", "Harry Potter 2", 5, "J K Rowling"),
         Book("631.495.302", "Harry Potter 3", 4, "J K Rowling"),
         Book("123.02.204", "The Cat in the Hat", 1, "Dr. Seuss"),
-        Journal("100.132.126", "My Travel", 5, "Luke"),
+        Journal("100.132.126", "My Travel", 5, "123.1231.614a", "Luke"),
         DVD("123.456.123", "My Dream", 10, "Mike", "2020-03-10", "123")
     ]
     return book_list

@@ -29,6 +29,9 @@ class DVD(LibraryItem):
         return self._region_code
 
     def __str__(self) -> str:
+        """
+        DVD String.
+        """
         return f"---- DVD: {self.get_title()} ----\n" \
                f"Call Number: {self.call_number}\n" \
                f"Number of Copies: {self._num_copies}\n" \

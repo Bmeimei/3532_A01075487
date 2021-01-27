@@ -15,6 +15,9 @@ class Book(LibraryItem):
         super().__init__(call_num, title, num_copies, author)
 
     def __str__(self) -> str:
+        """
+        Book String.
+        """
         return f"---- Book: {self.get_title()} ----\n" \
                f"Call Number: {self.call_number}\n" \
                f"Number of Copies: {self._num_copies}\n" \
