@@ -10,6 +10,9 @@ from dvd import DVD
 
 
 class LibraryItemGenerator:
+    """
+    Library Item Generator.
+    """
 
     @staticmethod
     def create_book() -> Book:
