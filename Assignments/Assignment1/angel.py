@@ -13,10 +13,10 @@ class Angel(UserType):
     They already have a five-year plan in place and a roadmap which is guaranteed to get them into Harvard.
     The Angel is the child who would set up their own FAM account so they can monitor their expenses.
 
-    • Gets a warning if they exceed more than 75% of a budget category.
-    • Gets politely notified iIf they exceed a budget category.
-    • Gets locked out of conducting transactions in a budget category if they exceed
-      it by 120% of the amount assigned to the budget in question.
+    • Never gets locked out of a budget category. They can continue spending money even if they exceed the budget
+      in question.
+    • Gets politely notified if they exceed a budget category.
+    • Gets a warning if they exceed more than 90% of a budget.
     """
 
     __threshold = 0.90

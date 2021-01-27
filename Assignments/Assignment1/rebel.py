@@ -2,7 +2,7 @@
 # Student Number :  A01075487
 # Created time :    2021/1/20 1:10 
 # File Name:        rebel.py
-
+from Assignments.Assignment1.categories import Categories
 from user_lockable_type import LockableUserType
 
 
@@ -36,3 +36,11 @@ class Rebel(LockableUserType):
         :return: a string that tells user their account has been banned.
         """
         return "Your Account has been banned!"
+
+    @staticmethod
+    def notified(category: Categories) -> str:
+        """
+        Gets ruthlessly notified if user exceeds a budget category.
+        """
+        return ("YOUR ACCOUNT WOULD BE LOCKED OUT IF YOU CONTINUE EXCEEDING YOUR BUDGETS!!! "
+                "NOTIFIED: The category %s has been exceed from your budgets!" % category).upper()
