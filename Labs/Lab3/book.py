@@ -11,7 +11,7 @@ class Book(LibraryItem):
     Book.
     """
 
-    def __init__(self, call_num: str, title: str, num_copies: int, author: str):
+    def __init__(self, call_num: str, title: str, num_copies: int, author: str) -> None:
         super().__init__(call_num, title, num_copies, author)
 
     def __str__(self) -> str:

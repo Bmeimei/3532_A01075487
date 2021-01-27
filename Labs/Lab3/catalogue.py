@@ -15,7 +15,7 @@ class Catalogue(ABC):
     Move all the methods and code related to searching, adding and removing books to this new class
     """
 
-    def __init__(self, item_list: list) -> None:
+    def __init__(self, item_list: list[LibraryItem]) -> None:
         """
         Initialize the library with a list of books.
         :param item_list: a sequence of book objects.
