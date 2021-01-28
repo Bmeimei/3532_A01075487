@@ -48,8 +48,9 @@ class Features(ABC):
         """
         pass
 
+    @staticmethod
     @abstractmethod
-    def _showing_menu(self) -> None:
+    def _showing_menu() -> None:
         """
         Once the user account is set up and the budgets have been created,
         the system should prompt the user with the following menu options(or a variation of the following menu).

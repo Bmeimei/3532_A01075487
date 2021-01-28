@@ -89,7 +89,8 @@ class FAM(ViewMenu, Features):
         miscellaneous = float(input("Please input a positive budget for miscellaneous:"))
         self.__user.budgets = Budgets(games_entertainment, clothing_accessories, eating_out, miscellaneous)
 
-    def _showing_menu(self) -> None:
+    @staticmethod
+    def _showing_menu() -> None:
         """
         Prints the menu.
         """
