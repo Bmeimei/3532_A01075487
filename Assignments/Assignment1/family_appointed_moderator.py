@@ -139,8 +139,8 @@ class FAM(ViewMenu, Features):
                 option = input("Please type the menu command:")
                 self._processing_menu_option(option)
                 print()
-        except TypeError:
-            print("Invalid Type!")
+        # except TypeError:
+        #     print("Invalid Type!")
         except ValueError:
             print("Invalid Input Value!")
 
