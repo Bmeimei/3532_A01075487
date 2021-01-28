@@ -35,7 +35,7 @@ class Rebel(LockableUserType):
         Tells users their account has been banned.
         :return: a string that tells user their account has been banned.
         """
-        return "Your Account has been banned!"
+        return "Your Account has been banned!".upper()
 
     @staticmethod
     def notified(category: Categories) -> str:
