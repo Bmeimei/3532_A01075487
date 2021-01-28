@@ -8,7 +8,6 @@ from features import Features
 from user import User
 from user_types import UserTypes
 from budget import Budgets
-from transaction import Transaction
 from categories import Categories
 
 
@@ -50,7 +49,6 @@ class FAM(ViewMenu, Features):
         Instantiates the default user, and the transaction record is an empty list for containing transactions.
         """
         self.__user = User()
-        self.__transaction_record = []
 
     def _registering_user(self) -> None:
         """
@@ -162,9 +160,7 @@ class FAM(ViewMenu, Features):
         amount = float(input("Please type the positive amount for the purchase:"))
         category = self.__input_category()
         name = input("Please type the name of the shop/website where the purchase took place:")
-        transaction = Transaction(amount, self.__user, category, name)
-        if transaction.get_process_status():
-            self.__transaction_record.append(transaction)
+        self.__user.process_and_record_transaction(amount, category, name)
 
     def view_transactions_by_budget(self) -> None:
         """
@@ -180,7 +176,8 @@ class FAM(ViewMenu, Features):
             print("Invalid Categories Command!")
             return None
         category = self.__categories_dict[select]
-        transaction_sublist = filter(lambda x: x.get_category_type() == category, self.__transaction_record)
+        transaction_record = self.__user.budgets.get_transaction_history()
+        transaction_sublist = filter(lambda x: x.get_category_type() == category, transaction_record)
         transaction_sublist = sorted(transaction_sublist, key=lambda x: x.get_timestamp())
         if len(transaction_sublist) == 0:
             print("Currently no transactions in this Category: %s." % category)
@@ -193,7 +190,8 @@ class FAM(ViewMenu, Features):
         conducted to date alongside the closing balance.
         """
         print(self.__user)
-        transaction_sorted_list = sorted(self.__transaction_record, key=lambda x: x.get_timestamp())
+        transaction_record = self.__user.budgets.get_transaction_history()
+        transaction_sorted_list = sorted(transaction_record, key=lambda x: x.get_timestamp())
         if len(transaction_sorted_list) == 0:
             print("Currently no transactions in this account.")
         for key, transaction in enumerate(transaction_sorted_list):

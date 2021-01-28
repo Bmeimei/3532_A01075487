@@ -9,7 +9,9 @@ from user_lockable_type import LockableUserType
 from troublemaker import Troublemaker
 from angel import Angel
 from rebel import Rebel
+from categories import Categories
 from budget import Budgets
+from transaction import Transaction
 from exception import check_type, check_string_is_empty, check_all_input_type, check_all_input_value
 
 
@@ -55,7 +57,8 @@ class User:
     Default account Balance is 0.
     """
 
-    def __init__(self, name: str = _BANK_NAME, age: int = _DEFAULT_AGE, user_type: UserTypes = _DEFAULT_USER_TYPE,
+    def __init__(self, name: str = _BANK_NAME, age: int = _DEFAULT_AGE,
+                 user_type: UserTypes = _DEFAULT_USER_TYPE,
                  budgets: Budgets = _DEFAULT_BUDGET, bank_balance: float = _INITIAL_BALANCE,
                  bank_name: str = _BANK_NAME) -> None:
         """
@@ -102,7 +105,7 @@ class User:
         check_all_input_value([age, bank_balance], self._INITIAL_BALANCE)
 
     @staticmethod
-    def select_account_type(user_type: UserTypes) -> UserType:
+    def select_account_type(user_type: UserTypes) -> UserType or LockableUserType:
         """
         Returns a specific user type and passing the current budgets based on the input UserTypes.
 
@@ -147,6 +150,63 @@ class User:
         :return: bank name as a string
         """
         return self._bank_name
+
+    def get_categories_status(self, categories: Categories) -> bool:
+        """
+        Gets the categories status. True if it is active, False if it is locked.
+
+        :return: categories status as a boolean
+        """
+        return self._budgets.get_status(categories)
+
+    def get_account_status(self) -> bool:
+        """
+        Gets the boolean of the status of the account.
+        True means not locked, False means banned.
+
+        :return: A boolean that represents the account status
+        """
+        return self._budgets.get_account_status()
+
+    def create_transaction(self, amount: float, category: Categories, name: str) -> Transaction or None:
+        """
+        Creates a transaction for budgets.
+
+        :param amount: shopping amount as a float
+        :param category: a specific category
+        :param name: The name of the shop/website where the purchase took place.
+        :return: if transaction success, return a Transaction instance. Otherwise return None.
+        """
+        if not self._verify_account(amount, category):
+            return None
+        return Transaction(amount, category, name)
+
+    def process_and_record_transaction(self, amount: float, category: Categories, name: str) -> None:
+        """
+        Process a transaction. Record it into transaction list if it is not None.
+        """
+        transaction = self.create_transaction(amount, category, name)
+        if transaction is not None:
+            print("Your transaction has been processed successfully!\n")
+            print(transaction)
+            self.budgets.process_transaction(transaction, self._user_type)
+
+    def _verify_account(self, amount: float, category: Categories) -> bool:
+        """
+        Helper function to verify the account status.
+
+        :return: True if the account is valid to process transaction. False otherwise.
+        """
+        if not self.get_categories_status(category):
+            print(self.get_user_type().lock_category_message(category) + " Transaction has been REJECTED!")
+            return False
+        if not self.get_account_status():
+            print(self.get_user_type().ban_account_message() + " Transaction has been REJECTED!")
+            return False
+        if self._bank_balance < amount:
+            print("Your bank balance is insufficient to afford this purchase!")
+            return False
+        return True
 
     @property
     def budgets(self) -> Budgets:

@@ -5,6 +5,10 @@
 
 from exception import check_all_input_type, check_all_input_value
 from categories import Categories
+from rebel import Rebel
+from user_type import UserType
+from user_lockable_type import LockableUserType
+from transaction import Transaction
 
 
 class Budgets:
@@ -57,6 +61,7 @@ class Budgets:
                             Categories.EATING_OUT: eating_out,
                             Categories.MISCELLANEOUS: miscellaneous
         }
+
         self.__account_status = True
         self.__status = {
                         Categories.GAMES_ENTERTAINMENT: True,
@@ -64,55 +69,26 @@ class Budgets:
                         Categories.EATING_OUT: True,
                         Categories.MISCELLANEOUS: True
         }
+        self.__transaction_history = []
 
-    def get_origin_category(self, category: Categories) -> float:
+    def process_transaction(self, transaction: Transaction, user_type: UserType) -> None:
         """
-        Gets the original specific category amount from the category list.
+        Process a transaction, and push it into transaction history.
+        This method might lock the category or account depends on the user type.
+        """
+        amount = transaction.get_amount()
+        category = transaction.get_category_type()
+        self._deduct_category_budget(category, amount)
+        self.__process_exceed_budgets(user_type, category)
+        self.__transaction_history.append(transaction)
 
-        :param category: a category which would be searched for
-        :return: A float that represents the specific category cost
+    def get_transaction_history(self) -> list[Transaction]:
         """
-        return self.__categories[category]
+        Returns the transaction history.
 
-    def _get_current_category_dict(self) -> dict:
+        :return: the transaction history as a list
         """
-        Gets the current specific category dict.
-
-        :return: current category dict
-        """
-        category_dict = {
-            Categories.GAMES_ENTERTAINMENT: self.games_entertainment,
-            Categories.CLOTHING_ACCESSORISE: self.clothing_accessorise,
-            Categories.EATING_OUT: self.eating_out,
-            Categories.MISCELLANEOUS: self.miscellaneous
-        }
-        return category_dict
-
-    def get_current_category(self, category: Categories) -> float:
-        """
-        Gets the current specific category amount.
-        :param category: a category which would be searched for
-        :return: A float that represents the specific category cost
-        """
-        category_dict = self._get_current_category_dict()
-        return category_dict[category]
-
-    def deduct_category_budget(self, category: Categories, amount: float) -> None:
-        """
-        Sets the specific category.
-        The category would deduct amount.
-
-        :param category: the specific category that would be changed
-        :param amount: the process amount
-        """
-        if category == Categories.GAMES_ENTERTAINMENT:
-            self.games_entertainment -= amount
-        elif category == Categories.CLOTHING_ACCESSORISE:
-            self.clothing_accessorise -= amount
-        elif category == Categories.EATING_OUT:
-            self.eating_out -= amount
-        else:
-            self.miscellaneous -= amount
+        return self.__transaction_history
 
     def get_account_status(self) -> bool:
         """
@@ -133,6 +109,24 @@ class Budgets:
         """
         return self.__status[category]
 
+    def is_category_exceed(self, category: Categories) -> bool:
+        """
+        Checks if a specific category exceed the budget.
+        :param category: the specific category
+        :return: True if the category budget is under 0
+        """
+        category_dict = self._get_current_category_dict()
+        return category_dict[category] < self._INITIAL_BALANCE
+
+    def numbers_of_exceed_category(self) -> int:
+        """
+        Returns the number of exceed category.
+
+        :return: the number of exceed category as an int
+        """
+        category_dict = self._get_current_category_dict()
+        return len(list(filter(lambda x: x < self._INITIAL_BALANCE, category_dict.values())))
+
     def lock_category(self, category: Categories) -> None:
         """
         Locks a single category to prevent future transaction.
@@ -151,6 +145,72 @@ class Budgets:
         for category in categories:
             self.lock_category(category)
 
+    def _deduct_category_budget(self, category: Categories, amount: float) -> None:
+        """
+        Sets the specific category.
+        The category would deduct amount.
+
+        :param category: the specific category that would be changed
+        :param amount: the process amount
+        """
+        if category == Categories.GAMES_ENTERTAINMENT:
+            self.games_entertainment -= amount
+        elif category == Categories.CLOTHING_ACCESSORISE:
+            self.clothing_accessorise -= amount
+        elif category == Categories.EATING_OUT:
+            self.eating_out -= amount
+        else:
+            self.miscellaneous -= amount
+
+    def __process_exceed_budgets(self, user_type: UserType, category: Categories) -> None:
+        """
+        Helper function to process exceed budgets. Including:
+
+        - Show notified
+        - Show warning
+        - Lock Category
+        - Ban account
+        """
+        self.__show_notify_if_need(user_type, category)
+        self.__show_warning_if_need(user_type, category)
+        if isinstance(user_type, LockableUserType):
+            self.__lock_category_if_need(user_type, category)
+            self.__ban_account_if_need(user_type)
+
+    def __lock_category_if_need(self, user_type: LockableUserType, category: Categories) -> None:
+        """
+        Locks the category after transaction if the remaining budgets below the lock threshold.
+        """
+        threshold = user_type.get_lock_threshold()
+        if self.get_current_category(category) < self.get_origin_category(category) * (1 - threshold):
+            self.lock_category(category)
+            print(user_type.lock_category_message(category))
+
+    def __ban_account_if_need(self, user_type: LockableUserType) -> None:
+        """
+        Bans the account. Only works for Rebel class which has over 1 locked categories.
+        """
+        if isinstance(user_type, Rebel) and self.numbers_of_exceed_category() > 1:
+            self.ban_account()
+            print(user_type.ban_account_message())
+
+    def __show_warning_if_need(self, user_type: UserType, category: Categories) -> None:
+        """
+        The user would receive a warning that they are getting close
+        to exceeding their assigned budget for the category in question.
+        """
+        threshold = user_type.get_threshold()
+        if self.get_current_category(category) < self.get_origin_category(category) * (1 - threshold)\
+                and not self.is_category_exceed(category):
+            print(user_type.warning_message(category))
+
+    def __show_notify_if_need(self, user_type: UserType, category: Categories) -> None:
+        """
+        The user receives a notification that they have exceeded their assigned budget for the category in question.
+        """
+        if self.is_category_exceed(category):
+            print(user_type.notified(category))
+
     def get_category_status(self, category: Categories) -> str:
         """
         Gets a formatted string that represents the total status of single category.
@@ -164,23 +224,37 @@ class Budgets:
         return "Status: {0}, Amount Spent: {1}, Amount Left: {2}, Total Amount: {3}".format(
             status, origin - current, current, origin)
 
-    def is_category_exceed(self, category: Categories) -> bool:
+    def get_origin_category(self, category: Categories) -> float:
         """
-        Checks if a specific category exceed the budget.
-        :param category: the specific category
-        :return: True if the category budget is under 0
+        Gets the original specific category amount from the category list.
+
+        :param category: a category which would be searched for
+        :return: A float that represents the specific category cost
+        """
+        return self.__categories[category]
+
+    def get_current_category(self, category: Categories) -> float:
+        """
+        Gets the current specific category amount.
+        :param category: a category which would be searched for
+        :return: A float that represents the specific category cost
         """
         category_dict = self._get_current_category_dict()
-        return category_dict[category] < self._INITIAL_BALANCE
+        return category_dict[category]
 
-    def numbers_of_exceed_category(self) -> int:
+    def _get_current_category_dict(self) -> dict:
         """
-        Returns the number of exceed category.
+        Gets the current specific category dict.
 
-        :return: the number of exceed category as an int
+        :return: current category dict
         """
-        category_dict = self._get_current_category_dict()
-        return len(list(filter(lambda x: x < self._INITIAL_BALANCE, category_dict.values())))
+        category_dict = {
+            Categories.GAMES_ENTERTAINMENT: self.games_entertainment,
+            Categories.CLOTHING_ACCESSORISE: self.clothing_accessorise,
+            Categories.EATING_OUT: self.eating_out,
+            Categories.MISCELLANEOUS: self.miscellaneous
+        }
+        return category_dict
 
     @property
     def games_entertainment(self) -> float:
