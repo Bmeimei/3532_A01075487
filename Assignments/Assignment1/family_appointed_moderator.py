@@ -104,8 +104,8 @@ class FAM(ViewMenu, Features):
         """
         option_dict = {
             '1': self._view_budgets,
-            '2': self.record_transaction,
-            '3': self.view_transactions_by_budget,
+            '2': self._record_transaction,
+            '3': self._view_transactions_by_budget,
             '4': self._view_bank_account_details,
             "5": self._exit_and_show_users_status
         }
@@ -151,7 +151,7 @@ class FAM(ViewMenu, Features):
         """
         print(self.__user.budgets)
 
-    def record_transaction(self) -> None:
+    def _record_transaction(self) -> None:
         """
         Takes the user to a sub-menu where they are prompted to enter the transaction details.
 
@@ -162,7 +162,7 @@ class FAM(ViewMenu, Features):
         name = input("Please type the name of the shop/website where the purchase took place:")
         self.__user.process_and_record_transaction(amount, category, name)
 
-    def view_transactions_by_budget(self) -> None:
+    def _view_transactions_by_budget(self) -> None:
         """
         Takes the user to a sub-menu where they select their budget category
         and view all the transactions to date in that category.

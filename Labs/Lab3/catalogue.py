@@ -61,6 +61,49 @@ class Catalogue(ABC):
         else:
             print(f"book with call number: {call_number} not found.")
 
+    def reduce_item_count(self, call_number) -> bool:
+        """
+        Decrement the book count for an book with the given call number
+        in the library.
+        :param call_number: a string
+        :precondition call_number: a unique identifier
+        :return: True if the book was found and count decremented, false
+        otherwise.
+        """
+        library_book = self._retrieve_item_by_call_number(call_number)
+        if library_book:
+            library_book.decrement_number_of_copies()
+            return True
+        return False
+
+    def increment_item_count(self, call_number) -> bool:
+        """
+        Increment the book count for an book with the given call number
+        in the library.
+        :param call_number: a string
+        :precondition call_number: a unique identifier
+        :return: True if the book was found and count incremented, false
+        otherwise.
+        """
+        library_book = self._retrieve_item_by_call_number(call_number)
+        if library_book:
+            library_book.increment_number_of_copies()
+            return True
+        return False
+
+    def return_item(self, call_number) -> None:
+        """
+        Return an book with the given call number from the library.
+        :param call_number: a string
+        :precondition call_number: a unique identifier
+        """
+        status = self.increment_item_count(call_number)
+        if status:
+            print("book returned successfully!")
+        else:
+            print(f"Could not find book with call number {call_number}"
+                  f". Return failed.")
+
     def _retrieve_item_by_call_number(self, call_number: str) -> LibraryItem or None:
         """
         A private method that encapsulates the retrieval of an book with

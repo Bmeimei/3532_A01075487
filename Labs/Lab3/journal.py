@@ -27,6 +27,6 @@ class Journal(LibraryItem):
         """
         return f"---- Journal: {self.get_title()} ----\n" \
                f"Call Number: {self.call_number}\n" \
-               f"Number Of Copy: {self._num_copies}" \
+               f"Number Of Copy: {self._num_copies}\n" \
                f"Issue Number: {self._issue_number}\n" \
                f"Publisher: {self._author}"

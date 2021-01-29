@@ -25,6 +25,10 @@ class Library(Catalogue):
         :precondition call_number: a unique identifier
         """
         library_book = self._retrieve_item_by_call_number(call_number)
+        if library_book is None:
+            print(f"Could not find book with call number {call_number}"
+                  f". Checkout failed.")
+            return None
         if library_book.check_availability():
             status = self.reduce_item_count(call_number)
             if status:
@@ -35,19 +39,6 @@ class Library(Catalogue):
         else:
             print(f"No copies left for call number {call_number}"
                   f". Checkout failed.")
-
-    def return_item(self, call_number) -> None:
-        """
-        Return an book with the given call number from the library.
-        :param call_number: a string
-        :precondition call_number: a unique identifier
-        """
-        status = self.increment_item_count(call_number)
-        if status:
-            print("book returned successfully!")
-        else:
-            print(f"Could not find book with call number {call_number}"
-                  f". Return failed.")
 
     def display_library_menu(self) -> None:
         """
@@ -117,36 +108,6 @@ class Library(Catalogue):
         print("--------------", end="\n\n")
         for index, library_book in enumerate(self._item_list):
             print(index + 1, ": ", library_book)
-
-    def reduce_item_count(self, call_number) -> bool:
-        """
-        Decrement the book count for an book with the given call number
-        in the library.
-        :param call_number: a string
-        :precondition call_number: a unique identifier
-        :return: True if the book was found and count decremented, false
-        otherwise.
-        """
-        library_book = self._retrieve_item_by_call_number(call_number)
-        if library_book:
-            library_book.decrement_number_of_copies()
-            return True
-        return False
-
-    def increment_item_count(self, call_number) -> bool:
-        """
-        Increment the book count for an book with the given call number
-        in the library.
-        :param call_number: a string
-        :precondition call_number: a unique identifier
-        :return: True if the book was found and count incremented, false
-        otherwise.
-        """
-        library_book = self._retrieve_item_by_call_number(call_number)
-        if library_book:
-            library_book.increment_number_of_copies()
-            return True
-        return False
 
 
 def generate_test_books() -> list:

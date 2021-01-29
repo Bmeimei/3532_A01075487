@@ -26,7 +26,7 @@ class ViewMenu(ABC):
         pass
 
     @abstractmethod
-    def record_transaction(self) -> None:
+    def _record_transaction(self) -> None:
         """
         Takes the user to a sub-menu where they are prompted to enter the transaction details.
 
@@ -35,7 +35,7 @@ class ViewMenu(ABC):
         pass
 
     @abstractmethod
-    def view_transactions_by_budget(self) -> None:
+    def _view_transactions_by_budget(self) -> None:
         """
         Takes the user to a sub-menu where they select their budget category
         and view all the transactions to date in that category.
