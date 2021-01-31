@@ -3,20 +3,28 @@ from book import Book
 from dvd import DVD
 from journal import Journal
 from catalogue import Catalogue
+from library_item import LibraryItem
 
 
-class Library(Catalogue):
+class Library:
     """
     The Library consists of a list of books and provides an
     interface for users to check out, return and find books.
     """
 
-    def __init__(self, item_list: list) -> None:
+    def __init__(self, item_list: list[LibraryItem]) -> None:
         """
         Initialize the library with a list of books.
         :param item_list: a sequence of book objects.
         """
-        super().__init__(item_list)
+        self._catalogue = Catalogue(item_list)
+
+    @property
+    def catalogue(self) -> Catalogue:
+        """
+        Creates the property for getting the catalogue.
+        """
+        return self._catalogue
 
     def check_out(self, call_number) -> None:
         """
@@ -24,13 +32,13 @@ class Library(Catalogue):
         :param call_number: a string
         :precondition call_number: a unique identifier
         """
-        library_book = self._retrieve_item_by_call_number(call_number)
+        library_book = self.catalogue.retrieve_item_by_call_number(call_number)
         if library_book is None:
             print(f"Could not find book with call number {call_number}"
                   f". Checkout failed.")
             return None
         if library_book.check_availability():
-            status = self.reduce_item_count(call_number)
+            status = self.catalogue.reduce_item_count(call_number)
             if status:
                 print("Checkout complete!")
             else:
@@ -74,10 +82,10 @@ class Library(Catalogue):
             elif user_input == 3:
                 call_number = input("Enter the call number of the book"
                                     " you wish to return.")
-                self.return_item(call_number)
+                self.catalogue.return_item(call_number)
             elif user_input == 4:
                 input_title = input("Enter the title of the book:")
-                found_titles = set(self.find_items(input_title))
+                found_titles = set(self.catalogue.find_items(input_title))
                 print("We found the following:")
                 if len(found_titles) > 0:
                     for title in found_titles:
@@ -86,11 +94,11 @@ class Library(Catalogue):
                     print("Sorry! We found nothing with that title")
 
             elif user_input == 5:
-                self.add_item()
+                self.catalogue.add_item()
 
             elif user_input == 6:
                 call_number = input("Enter the call number of the book")
-                self.remove_item(call_number)
+                self.catalogue.remove_item(call_number)
 
             elif user_input == 7:
                 pass
@@ -106,7 +114,7 @@ class Library(Catalogue):
         """
         print("Books List")
         print("--------------", end="\n\n")
-        for index, library_book in enumerate(self._item_list):
+        for index, library_book in enumerate(self.catalogue.item_list):
             print(index + 1, ": ", library_book)
 
 
@@ -121,7 +129,7 @@ def generate_test_books() -> list:
         Book("631.495.302", "Harry Potter 3", 4, "J K Rowling"),
         Book("123.02.204", "The Cat in the Hat", 1, "Dr. Seuss"),
         Journal("100.132.126", "My Travel", 5, "123.1231.614a", "Luke"),
-        DVD("123.456.123", "My Dream", 10, "Mike", "2020-03-10", "123")
+        DVD("123.456.123", "My Dream", 10, "2020-03-10", "123")
     ]
     return book_list
 

@@ -35,10 +35,9 @@ class LibraryItemGenerator:
         title = input("Enter title: ")
         num_copies = int(input("Enter number of copies "
                                "(positive number): "))
-        author = input("Enter Author Name: ")
         release_day = input("Enter Release Day:")
         region_code = input("Enter Region Code:")
-        return DVD(call_number, title, num_copies, author, release_day, region_code)
+        return DVD(call_number, title, num_copies, release_day, region_code)
 
     @staticmethod
     def create_journal() -> Journal:
@@ -49,8 +48,8 @@ class LibraryItemGenerator:
         title = input("Enter Journal Name: ")
         num_copies = int(input("Enter Number of Copies: "))
         issue_number = input("Enter Issue Number: ")
-        author = input("Enter Publisher Name: ")
-        return Journal(call_number, title, num_copies, issue_number, author)
+        publisher = input("Enter Publisher Name: ")
+        return Journal(call_number, title, num_copies, issue_number, publisher)
 
     @staticmethod
     def create_library_item() -> LibraryItem:

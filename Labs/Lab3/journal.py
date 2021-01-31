@@ -18,7 +18,8 @@ class Journal(LibraryItem):
         :param issue_number: Issue Number as a string.
         :param publisher: Publisher as a string.
         """
-        super().__init__(call_num, names, number_of_copy, publisher)
+        super().__init__(call_num, names, number_of_copy)
+        self._publisher = publisher
         self._issue_number = issue_number
 
     def __str__(self) -> str:
@@ -29,4 +30,4 @@ class Journal(LibraryItem):
                f"Call Number: {self.call_number}\n" \
                f"Number Of Copy: {self._num_copies}\n" \
                f"Issue Number: {self._issue_number}\n" \
-               f"Publisher: {self._author}"
+               f"Publisher: {self._publisher}"

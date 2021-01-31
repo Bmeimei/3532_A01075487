@@ -11,8 +11,8 @@ class DVD(LibraryItem):
     DVD has a release date, and a region code.
     """
 
-    def __init__(self, call_num: str, title: str, num_copies: int, author: str, release_date: str, region_code: str):
-        super().__init__(call_num, title, num_copies, author)
+    def __init__(self, call_num: str, title: str, num_copies: int, release_date: str, region_code: str):
+        super().__init__(call_num, title, num_copies)
         self._release_date = release_date
         self._region_code = region_code
 
@@ -35,5 +35,4 @@ class DVD(LibraryItem):
         return f"---- DVD: {self.get_title()} ----\n" \
                f"Call Number: {self.call_number}\n" \
                f"Number of Copies: {self._num_copies}\n" \
-               f"Author: {self._author}\n" \
                f"Release Date: {self._release_date}"
