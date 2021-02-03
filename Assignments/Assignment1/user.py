@@ -146,11 +146,11 @@ class User(UserTransaction):
                                              self.budgets.__repr__(), self._bank_balance, self._bank_name)
 
 
-def main():
+def load_test_user():
     budget = Budgets(500, 500, 500, 500)
     user = User("Luke", 20, UserTypes.ANGEL, budget, 1000)
     print(user)
 
 
 if __name__ == '__main__':
-    main()
+    load_test_user()
