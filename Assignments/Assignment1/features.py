@@ -39,7 +39,8 @@ class Features(ABC):
         Constructs a family appointed moderator.
         Instantiates the default user, and the transaction record is an empty list for containing transactions.
         """
-        self._user = User()
+        self._user = None
+        self._user_list = []
 
     def _registering_user(self) -> None:
         """
@@ -61,6 +62,7 @@ class Features(ABC):
         bank_balance = float(input("Please input a positive bank balance:"))
         bank_name = input("Please input the bank name (Optional):")
         self._user = User(user_name, age, user_type, budgets, bank_balance, bank_name)
+        self._user_list.append(self._user)
 
     def _assigning_budget_categories(self) -> None:
         """
@@ -78,23 +80,27 @@ class Features(ABC):
         miscellaneous = float(input("Please input a positive budget for miscellaneous:"))
         self._user.budgets = Budgets(games_entertainment, clothing_accessories, eating_out, miscellaneous)
 
-    @staticmethod
-    def _showing_menu() -> None:
+    def _registering_user_and_assigning_budget_categories(self) -> None:
         """
-        Prints the menu.
+        Registering a new user and assigning budgets.
         """
-        print("1. View Budgets\n"
-              "2. Record a Transaction\n"
-              "3. View Transaction by Budget\n"
-              "4. View Bank Account Details\n"
-              "5. Exit")
+        print("\nRegistering User:\n"
+              "-----------------")
+        self._registering_user()
 
-    @abstractmethod
-    def _processing_menu_option(self, option: str) -> None:
+        print("Assigning Budgets Categories:\n"
+              "-----------------")
+        self._assigning_budget_categories()
+        print("-----------------\n"
+              "Successfully Registered!\n"
+              "-----------------\n")
+
+    def _switch_user(self, option: int) -> None:
         """
-        Processing a specific command based on what menu option does User choose.
+        Switch to a specific user.
         """
-        pass
+        self._user = self._user_list[option]
+        print("\nYou Successfully switch to", self._user.name, "'s account\n")
 
     @abstractmethod
     def execute_features(self) -> None:
@@ -113,5 +119,5 @@ class Features(ABC):
             select = input("User Type: 1: Angel  2: Troublemaker  3: Rebel:")
             if select in user_type_dict:
                 return user_type_dict[select]
-            print("Invalid Command! Please Type again\n"
-                  "----------------------------------")
+            print("\nInvalid Command! Please Type again\n"
+                  "----------------------------------\n")

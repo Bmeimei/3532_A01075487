@@ -61,8 +61,8 @@ class Controller:
             for asteroid in self.asteroids_list:
                 print("Asteroid %d Moved! Old Pos: %s -> New Pos: %s" %
                       (asteroid.get_id(),
-                       self.string_of_element_in_tuple_without_parentheses(asteroid.get_position()),
-                       self.string_of_element_in_tuple_without_parentheses(asteroid.move())))
+                       Controller.string_of_element_in_tuple_without_parentheses(asteroid.get_position()),
+                       Controller.string_of_element_in_tuple_without_parentheses(asteroid.move())))
                 print("Asteroid %d is currently at %s and moving at %s metres per second. "
                       "It has a circumference of %s" %
                       (asteroid.get_id(),

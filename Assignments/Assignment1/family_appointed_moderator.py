@@ -29,18 +29,63 @@ class FAM(ViewMenu, Features):
 
     """
 
-    @staticmethod
-    def _showing_menu() -> None:
+    def _showing_login_menu(self) -> None:
         """
-        Prints the menu.
+        Prints the login menu for user.
         """
-        print("1. View Budgets\n"
-              "2. Record a Transaction\n"
-              "3. View Transaction by Budget\n"
-              "4. View Bank Account Details\n"
-              "5. Exit")
+        print("---------Login Menu---------")
+        index = 0
+        for index in range(0, len(self._user_list)):
+            print(f"{index + 1}. {self._user_list[index].name} - {self._user_list[index].user_type}")
+        print(f"{index + 2}. Back to Main Menu")
 
-    def _processing_menu_option(self, option: str) -> None:
+    def _login(self, number: int) -> None:
+        """
+        Login to the user.
+        """
+        self._showing_login_menu()
+        return self._switch_user(number)
+
+    def _logout(self) -> None:
+        """
+        Log out from the current user.
+        """
+        print("\nYou have been logged out from", self._user.name)
+        self._user = None
+
+    def _processing_main_menu_option(self, option: str) -> None:
+        """
+        Processing a specific command in main menu.
+        """
+        option_dict = {
+            "1": self._registering_user_and_assigning_budget_categories,
+            "3": self._exit_program
+        }
+        if option == "2":
+            return None
+        if option not in option_dict:
+            print("\n----------------\n"
+                  "Invalid Command!\n"
+                  "----------------\n")
+        else:
+            option_dict[option]()
+
+    def _processing_login_menu_option(self) -> bool:
+        """
+        Processing a specific command in login menu.
+        """
+        option = None
+        main_menu_command = len(self._user_list) + 1
+        while option != main_menu_command:
+            option = int(input("Please type the number of the user you want to log in:"))
+            if option in range(1, len(self._user_list) + 1):
+                self._login(option - 1)
+                return True
+            if option != len(self._user_list) + 1:
+                print("Invalid Command!")
+        return False
+
+    def _processing_user_menu_option(self, option: str) -> None:
         """
         Processing based on the menu option.
         """
@@ -49,7 +94,7 @@ class FAM(ViewMenu, Features):
             '2': self._record_transaction,
             '3': self._view_transactions_by_budget,
             '4': self._view_bank_account_details,
-            "5": self._exit_and_show_users_status
+            "5": self._logout
         }
         if option not in option_dict:
             print("Invalid Command!")
@@ -64,23 +109,29 @@ class FAM(ViewMenu, Features):
         :raise ValueError: If user inputs wrong values.
         """
         try:
-            print("Registering User:\n"
-                  "-----------------")
-            self._registering_user()
+            while True:
+                main_option = None
+                login_command = "2"
+                while main_option != login_command:
+                    self._showing_main_menu()
+                    main_option = input("Please type the menu command:")
+                    self._processing_main_menu_option(main_option)
+                    if main_option == "3":
+                        # Exit the program
+                        return None
+                if len(self._user_list) == 0:
+                    print("Currently No Registered User!\n")
+                    continue
 
-            print("Assigning Budgets Categories:\n"
-                  "-----------------")
-            self._assigning_budget_categories()
-
-            option = None
-            exit_command = "5"
-            while option != exit_command:
-                print("Menu:\n"
-                      "-----------------")
-                self._showing_menu()
-                option = input("Please type the menu command:")
-                self._processing_menu_option(option)
-                print()
+                self._showing_login_menu()
+                if self._processing_login_menu_option():
+                    user_option = None
+                    logout_command = "5"
+                    while user_option != logout_command:
+                        self._showing_user_menu()
+                        user_option = input("Please type the menu command:")
+                        self._processing_user_menu_option(user_option)
+                        print()
         except TypeError:
             print("Invalid Type!")
         except ValueError:
@@ -139,11 +190,10 @@ class FAM(ViewMenu, Features):
         for key, transaction in enumerate(transaction_sorted_list):
             print(key + 1, ":", transaction)
 
-    def _exit_and_show_users_status(self) -> None:
+    def _exit_program(self) -> None:
         """
         Exits the program and shows the user status.
         """
-        print(self._user)
         print("-------------------------------\n"
               "THANKS FOR USING F.A.M. ^ ^")
 
