@@ -17,6 +17,36 @@ class ViewMenu(ABC):
     - view_bank_account_details
     """
 
+    @staticmethod
+    def _showing_user_menu() -> None:
+        """
+        Prints the user menu.
+        """
+        print("Menu:\n"
+              "-----------------\n"
+              "1. View Budgets\n"
+              "2. Record a Transaction\n"
+              "3. View Transaction by Budget\n"
+              "4. View Bank Account Details\n"
+              "5. Log Out")
+
+    @staticmethod
+    def _showing_main_menu() -> None:
+        """
+        Prints the main menu.
+        """
+        print("---------Main Menu---------\n"
+              "1. Register New User\n"
+              "2. Login\n"
+              "3. Exit")
+
+    @abstractmethod
+    def _showing_login_menu(self) -> None:
+        """
+        Prints the login menu for user.
+        """
+        pass
+
     @abstractmethod
     def _view_budgets(self) -> None:
         """
@@ -51,7 +81,35 @@ class ViewMenu(ABC):
         pass
 
     @abstractmethod
-    def _exit_and_show_users_status(self) -> None:
+    def _logout(self) -> None:
+        """
+        Log out from the current user.
+        """
+        pass
+
+    @abstractmethod
+    def _exit_program(self) -> None:
         """
         Terminates the process and prints the final status of users.
         """
+
+    @abstractmethod
+    def _processing_main_menu_option(self, option: str) -> None:
+        """
+        Processing a specific command in main menu.
+        """
+        pass
+
+    @abstractmethod
+    def _processing_login_menu_option(self) -> bool:
+        """
+        Processing a specific command in login menu.
+        """
+        pass
+
+    @abstractmethod
+    def _processing_user_menu_option(self, option: str) -> None:
+        """
+        Processing a specific command based on what menu option does User choose.
+        """
+        pass

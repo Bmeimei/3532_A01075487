@@ -7,6 +7,7 @@ from user_types import UserTypes
 from budget import Budgets
 from exception import check_type, check_string_is_empty, check_all_input_type, check_all_input_value
 from user_transaction import UserTransaction
+from random import randint
 
 
 class User(UserTransaction):
@@ -146,11 +147,17 @@ class User(UserTransaction):
                                              self.budgets.__repr__(), self._bank_balance, self._bank_name)
 
 
-def load_test_user():
-    budget = Budgets(500, 500, 500, 500)
-    user = User("Luke", 20, UserTypes.ANGEL, budget, 1000)
-    print(user)
+def load_test_user() -> list[User]:
+    return [User("Luke", 20, UserTypes.ANGEL, Budgets(randint(100, 500), randint(100, 500), randint(100, 500),
+                                                      randint(100, 500)), randint(1000, 2000)),
+            User("Mike", 13, UserTypes.REBEL, Budgets(randint(100, 500), randint(100, 500), randint(100, 500),
+                                                      randint(100, 500)), randint(1000, 2000)),
+            User("Tommy", 15, UserTypes.TROUBLEMAKER, Budgets(randint(100, 500), randint(100, 500), randint(100, 500),
+                                                              randint(100, 500)), randint(1000, 2000)),
+            ]
 
 
 if __name__ == '__main__':
-    load_test_user()
+    for user in load_test_user():
+        print(user)
+        print()

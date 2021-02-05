@@ -121,17 +121,16 @@ class FAM(ViewMenu, Features):
                         return None
                 if len(self._user_list) == 0:
                     print("Currently No Registered User!\n")
-                    continue
-
-                self._showing_login_menu()
-                if self._processing_login_menu_option():
-                    user_option = None
-                    logout_command = "5"
-                    while user_option != logout_command:
-                        self._showing_user_menu()
-                        user_option = input("Please type the menu command:")
-                        self._processing_user_menu_option(user_option)
-                        print()
+                else:
+                    self._showing_login_menu()
+                    if self._processing_login_menu_option():
+                        user_option = None
+                        logout_command = "5"
+                        while user_option != logout_command:
+                            self._showing_user_menu()
+                            user_option = input("Please type the menu command:")
+                            self._processing_user_menu_option(user_option)
+                            print()
         except TypeError:
             print("Invalid Type!")
         except ValueError:

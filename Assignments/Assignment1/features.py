@@ -4,7 +4,7 @@
 # File Name:        features.py
 
 from abc import ABC, abstractmethod
-from user import User
+from user import User, load_test_user
 from user_types import UserTypes
 from categories import Categories
 from budget import Budgets
@@ -41,6 +41,7 @@ class Features(ABC):
         """
         self._user = None
         self._user_list = []
+        self._user_list.extend(load_test_user())
 
     def _registering_user(self) -> None:
         """

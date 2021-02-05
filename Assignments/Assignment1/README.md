@@ -9,4 +9,4 @@ Run the main function.
 
 UML:
 
-![image](https://github.com/Bmeimei/3532_A01075487/blob/master/Assignments/Assignment1/F.A.M_uml.png)
+![image](https://github.com/Bmeimei/3532_A01075487/blob/master/Assignments/Assignment1/F.A.M._uml.png)
