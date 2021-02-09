@@ -90,10 +90,10 @@ class TestDictionary(TestCase):
 
     def test_load_data_after_saving_queries(self):
         """Test loading data with a not existed path."""
-        dictionary = Dictionary()
-        dictionary.load_dictionary()
         queries = {"hello": ["Expression of greeting used by two or more people who meet each other."]}
         path = "saved_queries.txt"
+        dictionary = Dictionary()
+        dictionary.load_dictionary()
         dictionary.save_queries(queries)
         expected = FileHandler.load_data(path, FileExtensions.TXT)
         self.assertTrue("hello" in expected)
@@ -106,15 +106,15 @@ class TestDictionary(TestCase):
 
     def test_save_queries(self):
         """Test saving queries into a file after clearing the file."""
+        queries = {"hello": ["Expression of greeting used by two or more people who meet each other."]}
+        path = "unittest.txt"
         dictionary = Dictionary()
         dictionary.load_dictionary()
-        queries = {"hello": ["Expression of greeting used by two or more people who meet each other."]}
-        path = "saved_queries.txt"
         with open(path, "w") as write_file:
             write_file.write("")
         with open(path, "r") as first_file:
             before_save = first_file.read().split()
-        dictionary.save_queries(queries)
+        dictionary.save_queries(queries, path)
         with open(path, "r") as second_file:
             after_save = second_file.read().split()
         differ = Differ()
