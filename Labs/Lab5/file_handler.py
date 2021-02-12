@@ -48,6 +48,25 @@ class FileHandler:
             target = dumps(lines)
             file_object.write(target + "\n")
 
+    @staticmethod
+    def choose_extension_of_string(file_name: str) -> FileExtensions:
+        """
+        Returns the file extension base on the suffix of the file name.
+        """
+        if file_name.strip() == "":
+            return FileExtensions.JSON
+        if len(file_name) < 4:
+            raise InvalidFileTypeError(file_name)
+        if len(file_name) < 5:
+            if file_name[-4::] == ".txt":
+                return FileExtensions.TXT
+            raise InvalidFileTypeError(file_name)
+        if file_name[-4::] == ".txt":
+            return FileExtensions.TXT
+        if file_name[-5::] == ".json":
+            return FileExtensions.JSON
+        raise InvalidFileTypeError(file_name)
+
 
 class InvalidFileTypeError(Exception):
     """
@@ -59,6 +78,6 @@ class InvalidFileTypeError(Exception):
         """
         Initialize the Error.
         """
-        self.invalid_extensions = type(invalid_type)
+        self.invalid_extensions = invalid_type
         super().__init__("Invalid File Extensions! %s is not belongs to .json or .txt file type!"
                          % self.invalid_extensions)

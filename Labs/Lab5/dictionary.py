@@ -3,7 +3,7 @@
 # Created time :    2021/2/8 10:36 
 # File Name:        dictionary.py
 
-from file_handler import FileHandler
+from file_handler import FileHandler, InvalidFileTypeError
 from difflib import get_close_matches
 from file_extensions import FileExtensions
 
@@ -37,6 +37,8 @@ class Dictionary:
         :param file_extensions: The file extensions as a FileExtensions
         :param filepath: The file path as a string.
         """
+        if filepath.strip() == "":
+            filepath = "data.json"
         self.dictionary = FileHandler.load_data(filepath, file_extensions)
 
     def query_definition(self, word: str) -> list:
@@ -73,35 +75,39 @@ class Dictionary:
         FileHandler.write_lines(file_name, queries)
 
     @staticmethod
-    def querying_words_from_dictionary(load_file: str = "data.json", output_file: str = "saved_queries.txt") -> None:
+    def querying_words_from_dictionary(output_file: str = "saved_queries.txt") -> None:
         """
         Execute the querying dictionary program for user.
         """
+        try:
+            file_name = input("Please type the dictionary file you want to load(Optional, Default file is 'data.json'):")
+            extension = FileHandler.choose_extension_of_string(file_name)
+            dictionary = Dictionary()
+            dictionary.load_dictionary(file_name, extension)
+            queries = dict()
+            print("Welcome To Luke's Dictionary Querying Program!\n"
+                  "----------------------------------------------")
+            while True:
+                try:
+                    user_input = input("----------------------------------------------\n"
+                                       "Please type the word you want to query(or exitprogram to quit):")
+                    if user_input == "exitprogram":
+                        print("\nThanks for using my dictionary! ^ ^\n"
+                              "Your queries has been saved in ")
+                        Dictionary.save_queries(queries, file_name=output_file)
+                        return None
 
-        dictionary = Dictionary()
-        dictionary.load_dictionary(load_file)
-        queries = dict()
-        print("Welcome To Luke's Dictionary Querying Program!\n"
-              "----------------------------------------------")
-        while True:
-            try:
-                user_input = input("----------------------------------------------\n"
-                                   "Please type the word you want to query(or exitprogram to quit):")
-                if user_input == "exitprogram":
-                    print("\nThanks for using my dictionary! ^ ^\n"
-                          "Your queries has been saved in ")
-                    Dictionary.save_queries(queries, file_name=output_file)
-                    return None
-
-                definition = dictionary.query_definition(user_input)
-                for index, mean in enumerate(definition):
-                    print(f"{index + 1}: {mean}")
-                queries[user_input] = definition
-            except NoSuchWordError as error:
-                print(error)
-                print("We can't find a word to match %s in our match system!" % error.word)
-            except KeyError as error:
-                print(error, "from the match word is not existed in the dictionary!")
+                    definition = dictionary.query_definition(user_input)
+                    for index, mean in enumerate(definition):
+                        print(f"{index + 1}: {mean}")
+                    queries[user_input] = definition
+                except NoSuchWordError as error:
+                    print(error)
+                    print("We can't find a word to match %s in our match system!" % error.word)
+                except KeyError as error:
+                    print(error, "from the match word is not existed in the dictionary!")
+        except InvalidFileTypeError as error:
+            print("This file extension %s is not belonging to .json or .txt" % error)
 
 
 class UnInitializationError(Exception):
