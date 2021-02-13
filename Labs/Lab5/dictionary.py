@@ -80,7 +80,8 @@ class Dictionary:
         Execute the querying dictionary program for user.
         """
         try:
-            file_name = input("Please type the dictionary file you want to load(Optional, Default file is 'data.json'):")
+            file_name = input("Please type the dictionary file you want to load(Optional, Default file is"
+                              " 'data.json'):")
             extension = FileHandler.choose_extension_of_string(file_name)
             dictionary = Dictionary()
             dictionary.load_dictionary(file_name, extension)
