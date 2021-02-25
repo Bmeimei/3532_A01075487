@@ -1,7 +1,7 @@
 # Author:           Luke Mei
 # Student Number :  A01075487
 # Created time :    2021/2/23 22:42 
-# File Name:        exceptions.py
+# File Name:        check_input.py
 
 
 class CheckInput:

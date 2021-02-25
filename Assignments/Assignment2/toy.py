@@ -3,10 +3,14 @@
 # Created time :    2021/2/23 21:10 
 # File Name:        toy.py
 
-from abc import ABC, abstractmethod
+from abc import abstractmethod
+
+from enums_class import InventoryEnum
+from item import Item
+from item_constructor import ItemConstructor
 
 
-class Toy(ABC):
+class Toy(Item, ItemConstructor):
     """
     Despite that, there are some properties of each toy that all toys have in common.
     These are:
@@ -18,12 +22,18 @@ class Toy(ABC):
     • Product ID (A unique combination of letters and numbers)
     """
 
-    @abstractmethod
-    def _check_input(self, *inputs) -> None:
+    @property
+    def inventory_type(self) -> InventoryEnum:
         """
-        Checks the all inputs value and types in the constructor.
+        Inventory Type is Toys.
         """
-        pass
+        return InventoryEnum.TOYS
+
+    def generate_item(self) -> "ItemConstructor":
+        """
+        Generates a toy.
+        """
+        return self.generate_random_toy()
 
     @staticmethod
     @abstractmethod
@@ -46,29 +56,5 @@ class Toy(ABC):
     def minimum_recommended_safe_age(self) -> int:
         """
         Returns an int that represents the minimum recommended age of the child that the toy is safe for.
-        """
-        pass
-
-    @property
-    @abstractmethod
-    def name(self) -> str:
-        """
-        Returns the name of the toy as a string.
-        """
-        pass
-
-    @property
-    @abstractmethod
-    def description(self) -> str:
-        """
-        Returns the description as a string.
-        """
-        pass
-
-    @property
-    @abstractmethod
-    def product_id(self) -> str:
-        """
-        Returns an unique id as a string.
         """
         pass

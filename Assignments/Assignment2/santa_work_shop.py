@@ -2,9 +2,9 @@
 # Student Number :  A01075487
 # Created time :    2021/2/23 22:27 
 # File Name:        santa_work_shop.py
-
+from enums_class import Holiday
 from toy import Toy
-from exceptions import CheckInput
+from check_input import CheckInput
 from random import uniform, randint
 
 
@@ -75,32 +75,52 @@ class SantaWorkShop(Toy):
     """
     A Number that would represents the product id.
     """
-    __generate_id = 0
+    _generate_id = 0
 
-    def __init__(self, dimension: Dimensions, rooms_number: int) -> None:
-        self._check_input(dimension, rooms_number)
-        self.__generate_id += 1
-        self._dimension = dimension
+    def __init__(self, width: float, height: float, rooms_number: int) -> None:
+        """
+        Constructs a Santa's Work Shop.
+
+        :param width: width as a number
+        :param height: height as a number
+        :param rooms_number: rooms number as an int
+        """
+        self._check_input(rooms_number)
+        self._increment_id()
+        self._dimension = Dimensions(width, height)
         self._rooms_number = rooms_number
 
-    def _check_input(self, dimension: Dimensions, rooms_number: int) -> None:
-        CheckInput.check_type(dimension, Dimensions)
+    @property
+    def holiday_type(self) -> Holiday:
+        """
+        Holiday Type is Christmas.
+        """
+        return Holiday.CHRISTMAS
+
+    def _check_input(self, rooms_number: int) -> None:
+        """
+        Checks input.
+        """
         CheckInput.check_type(rooms_number, int)
 
     @staticmethod
-    def generate_random_toy() -> "Toy":
+    def generate_random_toy() -> Toy:
         """
         Returns a santa's work shop with random dimensions and rooms number.
-
         Dimensions width and height are range from (1, 10)
         Rooms number are range from (1, 5)
         """
         dimensions = Dimensions.random_dimension()
+        width = dimensions.get_dimension()[0]
+        height = dimensions.get_dimension()[1]
         rooms_number = randint(1, 5)
-        return SantaWorkShop(dimensions, rooms_number)
+        return SantaWorkShop(width, height, rooms_number)
 
     @property
     def is_battery_operated(self) -> bool:
+        """
+        Santa Work Shop is not a battery operated toy.
+        """
         return False
 
     @property
@@ -117,7 +137,7 @@ class SantaWorkShop(Toy):
 
     @property
     def product_id(self) -> str:
-        return "T%04dS" % self.__generate_id
+        return "T%04dC" % self._generate_id
 
     @property
     def dimension(self) -> Dimensions:

@@ -11,8 +11,8 @@ from candy import Candy
 
 class FestiveSeasonFactory(ABC):
 
-    @abstractmethod
     @property
+    @abstractmethod
     def toys(self) -> Toy:
         """
         Toys.
@@ -31,8 +31,8 @@ class FestiveSeasonFactory(ABC):
         """
         pass
 
-    @abstractmethod
     @property
+    @abstractmethod
     def stuffed_animals(self) -> StuffedAnimal:
         """
         Stuffed animals.
@@ -50,8 +50,8 @@ class FestiveSeasonFactory(ABC):
         """
         pass
 
-    @abstractmethod
     @property
+    @abstractmethod
     def candy(self) -> Candy:
         """
         Candy.
