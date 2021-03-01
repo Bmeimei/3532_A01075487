@@ -22,18 +22,19 @@ class Toy(Item, ItemConstructor):
     • Product ID (A unique combination of letters and numbers)
     """
 
-    @property
-    def inventory_type(self) -> InventoryEnum:
+    @staticmethod
+    def inventory_type() -> InventoryEnum:
         """
         Inventory Type is Toys.
         """
         return InventoryEnum.TOYS
 
-    def generate_item(self) -> "ItemConstructor":
+    @classmethod
+    def generate_item(cls) -> ItemConstructor:
         """
         Generates a toy.
         """
-        return self.generate_random_toy()
+        return cls.generate_random_toy()
 
     @staticmethod
     @abstractmethod

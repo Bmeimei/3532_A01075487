@@ -52,9 +52,9 @@ class Item(ABC):
         """
         pass
 
-    @property
+    @staticmethod
     @abstractmethod
-    def holiday_type(self) -> Holiday:
+    def holiday_type() -> Holiday:
         """
         Returns the Holiday type.
 
@@ -64,9 +64,9 @@ class Item(ABC):
         """
         pass
 
-    @property
+    @staticmethod
     @abstractmethod
-    def inventory_type(self) -> InventoryEnum:
+    def inventory_type() -> InventoryEnum:
         """
         Returns the Inventory type.
 

@@ -28,8 +28,8 @@ class DancingSkeleton(StuffedAnimal, GrowsInDark):
     def _check_input(self, size: Size) -> None:
         CheckInput.check_type(size, Size)
 
-    @property
-    def holiday_type(self) -> Holiday:
+    @staticmethod
+    def holiday_type() -> Holiday:
         """
         Holiday Type is Halloween.
         :return:

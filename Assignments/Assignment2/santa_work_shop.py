@@ -90,8 +90,8 @@ class SantaWorkShop(Toy):
         self._dimension = Dimensions(width, height)
         self._rooms_number = rooms_number
 
-    @property
-    def holiday_type(self) -> Holiday:
+    @staticmethod
+    def holiday_type() -> Holiday:
         """
         Holiday Type is Christmas.
         """

@@ -2,67 +2,103 @@
 # Student Number :  A01075487
 # Created time :    2021/2/23 20:54 
 # File Name:        festive_season_factory.py
-from abc import ABC, abstractmethod
-
-from toy import Toy
 from stuffed_animal import StuffedAnimal
 from candy import Candy
+from santa_work_shop import SantaWorkShop
+from remote_controller_spider import RemoteControllerSpider
+from robot_bunny import RobotBunny
+from dancing_skeleton import DancingSkeleton
+from reindeer import Reindeer
+from easter_bunny import EasterBunny
+from pumpkin_caramel_toffee import PumpkinCaramelToffee
+from candy_canes import CandyCanes
+from creme_eggs import CremeEggs
+from enums_class import Holiday, InventoryEnum
+from check_input import CheckInput
+from item_constructor import ItemConstructor
 
 
-class FestiveSeasonFactory(ABC):
+class FestiveSeasonFactory:
+    """
+    This class would generates items based on the input festive season and numbers of items.
+    """
 
-    @property
-    @abstractmethod
-    def toys(self) -> Toy:
+    __toy_list = [SantaWorkShop, RemoteControllerSpider, RobotBunny]
+    """
+    Toy List.
+    """
+
+    __stuffed_animals_list = [DancingSkeleton, Reindeer, EasterBunny]
+    """
+    Stuffed Animals List.
+    """
+
+    __candy_list = [PumpkinCaramelToffee, CandyCanes, CremeEggs]
+    """
+    Candy List.
+    """
+
+    @classmethod
+    def generate_items(cls, inventory_type: InventoryEnum, holiday: Holiday, number: int = 1) -> list[ItemConstructor]:
         """
-        Toys.
+        Generates a bunch of same items.
 
-        For each festive season, the store stocks a unique toy.
-        Despite that, there are some properties of each toy that all toys have in common.
-        These are:
-
-        • Whether the toy is battery operated or not.
-        • The minimum recommended age of the child that the toy is safe for.
-        • A name
-        • A description
-        • Product ID (A unique combination of letters and numbers)
-
-        :return: Toys
+        :param inventory_type: A specific inventory type
+        :param holiday: A specific holiday
+        :param number: number of items
+        :return: a list of items
         """
-        pass
+        CheckInput.check_type(inventory_type, InventoryEnum)
+        if inventory_type == InventoryEnum.TOYS:
+            return cls.generate_toys(holiday, number)
+        if inventory_type == InventoryEnum.STUFFED_ANIMALS:
+            return cls.generate_stuffed_animals(holiday, number)
+        return cls.generate_candy(holiday, number)
 
-    @property
-    @abstractmethod
-    def stuffed_animals(self) -> StuffedAnimal:
+    @classmethod
+    def generate_toys(cls, holiday: Holiday, number: int = 1) -> list[ItemConstructor]:
         """
-        Stuffed animals.
+        Generates toys.
 
-        All stuffed animals have the following attributes:
-
-        • Stuffing - This can either be Polyester Fiberfill or Wool
-        • Size - This can either be Small, Medium or Large
-        • Fabric - This can either be Linen, Cotton or Acrylic
-        • Name
-        • Description
-        • Product ID
-
-        :return: Stuffed Animals
+        :param holiday: A specific holiday
+        :param number: number of toys
+        :return: a list of toys
         """
-        pass
+        CheckInput.check_type(holiday, Holiday)
+        CheckInput.check_type(number, int)
+        CheckInput.check_value_is_lower_equal_than_threshold(number, 0)
+        for toy in cls.__toy_list:
+            if toy.holiday_type == holiday:
+                return [toy.generate_item() for _ in range(0, number)]
 
-    @property
-    @abstractmethod
-    def candy(self) -> Candy:
+    @classmethod
+    def generate_stuffed_animals(cls, holiday: Holiday, number: int = 1) -> list[ItemConstructor]:
         """
-        Candy.
+        Generates stuffed animals.
 
-        All candies have the following properties:
-
-        • A flag to check if it contains any nuts
-        • A flag to check if it is lactose free.
-        • Name • Description
-        • Product ID
-
-        :return: Candy
+        :param holiday: A specific holiday
+        :param number: number of stuffed animals
+        :return: a list of animals
         """
-        pass
+        CheckInput.check_type(holiday, Holiday)
+        CheckInput.check_type(number, int)
+        CheckInput.check_value_is_lower_equal_than_threshold(number, 0)
+        for animal in cls.__stuffed_animals_list:
+            if animal.holiday_type == holiday:
+                return [animal.generate_item() for _ in range(0, number)]
+
+    @classmethod
+    def generate_candy(cls, holiday: Holiday, number: int = 1) -> list[ItemConstructor]:
+        """
+        Generates candy.
+
+        :param holiday: A specific holiday
+        :param number: number of stuffed animals
+        :return: a list of candy
+        """
+        CheckInput.check_type(holiday, Holiday)
+        CheckInput.check_type(number, int)
+        CheckInput.check_value_is_lower_equal_than_threshold(number, 0)
+        for candy in cls.__candy_list:
+            if candy.holiday_type == holiday:
+                return [candy.generate_item() for _ in range(0, number)]

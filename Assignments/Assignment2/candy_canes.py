@@ -69,8 +69,8 @@ class CandyCanes(Candy, Colourful):
     def product_id(self) -> str:
         return "C%04dC" % self._generate_id
 
-    @property
-    def holiday_type(self) -> Holiday:
+    @staticmethod
+    def holiday_type() -> Holiday:
         """
         Candy Cane is Christmas type.
         """

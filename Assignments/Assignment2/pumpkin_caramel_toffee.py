@@ -68,8 +68,8 @@ class PumpkinCaramelToffee(Candy):
     def product_id(self) -> str:
         return "C%04dH" % self._generate_id
 
-    @property
-    def holiday_type(self) -> Holiday:
+    @staticmethod
+    def holiday_type() -> Holiday:
         """
         Pumpkin Caramel Toffee is Halloween themed.
         """

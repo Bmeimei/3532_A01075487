@@ -37,8 +37,9 @@ class ItemConstructor(ABC):
         """
         cls._generate_id += 1
 
+    @classmethod
     @abstractmethod
-    def generate_item(self) -> "ItemConstructor":
+    def generate_item(cls) -> "ItemConstructor":
         """
         Generates an item.
 

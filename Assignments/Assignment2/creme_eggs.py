@@ -22,6 +22,7 @@ class CremeEggs(Candy):
         Constructs a Creme Eggs.
 
         :param pack_size: containing a different number of creme eggs as an int
+        :param contains_nuts: true if it contains nuts, false if not
 
         :precondition: pack_size must be a positive int
         """
@@ -76,8 +77,8 @@ class CremeEggs(Candy):
     def product_id(self) -> str:
         return "C%04dE" % self._generate_id
 
-    @property
-    def holiday_type(self) -> Holiday:
+    @staticmethod
+    def holiday_type() -> Holiday:
         """
         Creme Eggs are Easter themed.
         """

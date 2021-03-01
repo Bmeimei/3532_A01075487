@@ -10,62 +10,6 @@ from random import sample
 This file contains all the enum class in this assignment.
 """
 
-
-class Holiday(Enum):
-    """
-    • Easter
-    • Christmas
-    • Halloween
-    """
-    EASTER = auto()
-    CHRISTMAS = auto()
-    HALLOWEEN = auto()
-
-
-class InventoryEnum(Enum):
-    """
-    • Toys
-    • Stuffed Animals
-    • Candy
-    """
-    TOYS = auto()
-    STUFFED_ANIMALS = auto()
-    CANDY = auto()
-
-
-class ToyEnum(Enum):
-    """
-    • Santa's Workshop
-    • RC (Remote Controlled) Spider
-    • Robot Bunny
-    """
-    SANTA_WORKSHOP = auto()
-    REMOTE_CONTROLLER_SPIDER = auto()
-    ROBOT_BUNNY = auto()
-
-
-class StuffedAnimalEnum(Enum):
-    """
-    • Dancing Skeleton
-    • Reindeer
-    • Easter Bunny
-    """
-    DANCING_SKELETON = auto()
-    REINDEER = auto()
-    EASTER_BUNNY = auto()
-
-
-class CandyEnum(Enum):
-    """
-    • Pumpkin Caramel Toffee
-    • Candy Canes
-    • Creme Eggs
-    """
-    PUMPKIN_CARAMEL_TOFFEE = auto()
-    CANDY_CANES = auto()
-    CREME_EGGS = auto()
-
-
 class Enums(Enum):
     """
     An interface enum class that would be implemented by all child enum class.
@@ -83,6 +27,91 @@ class Enums(Enum):
         Returns a string that represents the current enum value.
         """
         return self.name.title()
+
+
+class Holiday(Enums):
+    """
+    • Easter
+    • Christmas
+    • Halloween
+    """
+    EASTER = auto()
+    CHRISTMAS = auto()
+    HALLOWEEN = auto()
+
+
+class InventoryEnum(Enums):
+    """
+    • Toys
+    • Stuffed Animals
+    • Candy
+    """
+    TOYS = auto()
+    STUFFED_ANIMALS = auto()
+    CANDY = auto()
+
+
+class ToyEnum(Enums):
+    """
+    • Santa's Workshop
+    • RC (Remote Controlled) Spider
+    • Robot Bunny
+    """
+    SANTA_WORKSHOP = auto()
+    REMOTE_CONTROLLER_SPIDER = auto()
+    ROBOT_BUNNY = auto()
+
+    def __str__(self) -> str:
+        """
+        Returns a string that represents the current enum value.
+        """
+        if self is ToyEnum.SANTA_WORKSHOP:
+            return "Santa Workshop"
+        if self is ToyEnum.REMOTE_CONTROLLER_SPIDER:
+            return "Remote Controller Spider"
+        return "Robot Bunny"
+
+
+class StuffedAnimalEnum(Enums):
+    """
+    • Dancing Skeleton
+    • Reindeer
+    • Easter Bunny
+    """
+    DANCING_SKELETON = auto()
+    REINDEER = auto()
+    EASTER_BUNNY = auto()
+
+    def __str__(self) -> str:
+        """
+        Returns a string that represents the current enum value.
+        """
+        if self is StuffedAnimalEnum.DANCING_SKELETON:
+            return "Dancing Skeleton"
+        if self is ToyEnum.REMOTE_CONTROLLER_SPIDER:
+            return "Reindeer"
+        return "Easter Bunny"
+
+
+class CandyEnum(Enums):
+    """
+    • Pumpkin Caramel Toffee
+    • Candy Canes
+    • Creme Eggs
+    """
+    PUMPKIN_CARAMEL_TOFFEE = auto()
+    CANDY_CANES = auto()
+    CREME_EGGS = auto()
+
+    def __str__(self) -> str:
+        """
+        Returns a string that represents the current enum value.
+        """
+        if self is CandyEnum.PUMPKIN_CARAMEL_TOFFEE:
+            return "Pumpkin Caramel Toffee"
+        if self is ToyEnum.REMOTE_CONTROLLER_SPIDER:
+            return "Candy Canes"
+        return "Creme Eggs"
 
 
 class SpiderType(Enums):

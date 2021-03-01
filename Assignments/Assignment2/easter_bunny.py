@@ -66,8 +66,8 @@ class EasterBunny(StuffedAnimal, Colourful):
     def product_id(self) -> str:
         return "S%04dE" % self._generate_id
 
-    @property
-    def holiday_type(self) -> Holiday:
+    @staticmethod
+    def holiday_type() -> Holiday:
         """
         Holiday type is Easter
         """

@@ -22,18 +22,19 @@ class StuffedAnimal(Item, ItemConstructor):
     • Product ID
     """
 
-    @property
-    def inventory_type(self) -> InventoryEnum:
+    @staticmethod
+    def inventory_type() -> InventoryEnum:
         """
         Inventory Type is Stuffed Animals.
         """
         return InventoryEnum.STUFFED_ANIMALS
 
-    def generate_item(self) -> "ItemConstructor":
+    @classmethod
+    def generate_item(cls) -> ItemConstructor:
         """
         Generates an animal.
         """
-        return self.generate_random_animal()
+        return cls.generate_random_animal()
 
     @staticmethod
     @abstractmethod

@@ -35,8 +35,8 @@ class RobotBunny(Toy, Colourful):
         CheckInput.check_type(colour, RobotBunnyColor)
         CheckInput.check_value_is_lower_equal_than_threshold(sound_effects_number, 0)
 
-    @property
-    def holiday_type(self) -> Holiday:
+    @staticmethod
+    def holiday_type() -> Holiday:
         """
         Holiday type is Easter.
         """

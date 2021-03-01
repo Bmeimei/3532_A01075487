@@ -33,8 +33,8 @@ class Reindeer(StuffedAnimal):
         size = Size.generate_random_child()
         return Reindeer(size)
 
-    @property
-    def holiday_type(self) -> Holiday:
+    @staticmethod
+    def holiday_type() -> Holiday:
         """
         Holiday type is Christmas.
         """

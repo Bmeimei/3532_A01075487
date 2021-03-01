@@ -20,18 +20,19 @@ class Candy(Item, ItemConstructor):
     • Product ID
     """
 
-    @property
-    def inventory_type(self) -> InventoryEnum:
+    @staticmethod
+    def inventory_type() -> InventoryEnum:
         """
         Inventory Type is Candy.
         """
         return InventoryEnum.CANDY
 
-    def generate_item(self) -> "ItemConstructor":
+    @classmethod
+    def generate_item(cls) -> ItemConstructor:
         """
         Generates a Candy. Only implemented in Candy class.
         """
-        return self.generate_random_candy()
+        return cls.generate_random_candy()
 
     @staticmethod
     @abstractmethod

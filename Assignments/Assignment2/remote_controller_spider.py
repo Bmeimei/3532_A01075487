@@ -41,8 +41,8 @@ class RemoteControllerSpider(Toy, GrowsInDark):
         self._is_grow_in_dark = is_grow_in_dark
         self._spider_type = spider_type
 
-    @property
-    def holiday_type(self) -> Holiday:
+    @staticmethod
+    def holiday_type() -> Holiday:
         """
         Holiday type is Halloween.
         """
