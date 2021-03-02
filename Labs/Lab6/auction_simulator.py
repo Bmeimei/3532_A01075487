@@ -45,7 +45,7 @@ class Auctioneer:
         for bidder in self.bidders:
             bidder.__call__(self)
 
-    def accept_bid(self, bid, bidder="Starting Bid"):
+    def accept_bid(self, bid, bidder):
         """
         Accepts a new bid and updates the highest bid. This notifies all
         the bidders via their callbacks.
@@ -54,7 +54,7 @@ class Auctioneer:
         :param bidder: The object with __call__(auctioneer) that placed
         the bid.
         """
-        if bidder != "Starting Bid":
+        if str(bidder) != "Starting Bid":
             print("%s bidded %f in response to %s's bid of %f" %
                   (str(bidder), bid, self._highest_bidder, self._highest_bid))
             bidder.highest_bid = bid
@@ -64,8 +64,9 @@ class Auctioneer:
 
     def print_highest_bid(self) -> None:
         print("Highest Bids Per Bidder")
-        for bidder in self.bidders:
-            print("Bidder: %s   Highest Bid: %f" % (str(bidder), bidder.highest_bid))
+        bidder_dict = {bidder: bidder.highest_bid for bidder in self.bidders}
+        for bidder, highest in sorted(bidder_dict.items(), key=lambda x: x[1], reverse=True):
+            print("Bidder: %s   Highest Bid: %f" % (str(bidder), highest))
 
     @property
     def highest_bid(self):
@@ -91,13 +92,13 @@ class Auctioneer:
 
 class Bidder:
 
-    def __init__(self, name: str, budget=100, bid_probability=0.35, bid_increase_perc=1.1):
+    def __init__(self, name: str, budget=0, bid_probability=0.35, bid_increase_perc=1.1):
         if not 0 < bid_probability < 1:
             bid_probability = 0.35
         if not bid_increase_perc <= 1:
             bid_increase_perc = 1.1
-        if budget <= 0:
-            budget = 100
+        if budget < 0:
+            budget = 0
         self.name = name
         self.bid_probability = bid_probability
         self.budget = budget
@@ -143,7 +144,8 @@ class Auction:
         :param start_price: float
         """
         print("Auctioning %s starting at %f" % (item, start_price))
-        self._auctioneer.accept_bid(start_price)
+        start_bidder = Bidder("Starting Bid")
+        self._auctioneer.accept_bid(start_price, start_bidder)
         print("\n"
               "------------------------------------------------\n"
               "The winner of the auction is: %s at %f" %
