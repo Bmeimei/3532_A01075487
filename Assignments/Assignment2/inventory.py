@@ -13,6 +13,9 @@ from pumpkin_caramel_toffee import PumpkinCaramelToffee
 from candy_canes import CandyCanes
 from creme_eggs import CremeEggs
 from enums_class import CandyEnum, ToyEnum, StuffedAnimalEnum
+from candy import Candy
+from stuffed_animal import StuffedAnimal
+from toy import Toy
 
 
 class Inventory:
@@ -26,3 +29,6 @@ class Inventory:
 
         All the item is out of stock at the beginning.
         """
+        self._toy = []
+        self._stuffed_animal = []
+        self._candy = []

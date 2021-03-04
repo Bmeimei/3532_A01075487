@@ -2,8 +2,6 @@
 # Student Number :  A01075487
 # Created time :    2021/2/23 20:54 
 # File Name:        festive_season_factory.py
-from stuffed_animal import StuffedAnimal
-from candy import Candy
 from santa_work_shop import SantaWorkShop
 from remote_controller_spider import RemoteControllerSpider
 from robot_bunny import RobotBunny

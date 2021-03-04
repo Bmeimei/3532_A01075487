@@ -10,6 +10,7 @@ from random import sample
 This file contains all the enum class in this assignment.
 """
 
+
 class Enums(Enum):
     """
     An interface enum class that would be implemented by all child enum class.

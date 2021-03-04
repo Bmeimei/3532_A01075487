@@ -6,7 +6,7 @@
 from abc import ABC, abstractmethod
 
 
-class Menu(ABC):
+class MenuInterface(ABC):
     """
     The User Menu interface
     When the program runs, it should provide a terminal menu that the store owner would have access to.

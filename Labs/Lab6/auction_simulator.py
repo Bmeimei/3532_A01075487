@@ -92,7 +92,7 @@ class Auctioneer:
 
 class Bidder:
 
-    def __init__(self, name: str, budget=0, bid_probability=0.35, bid_increase_perc=1.1):
+    def __init__(self, name: str, budget: float = 0, bid_probability=0.35, bid_increase_perc=1.1):
         if not 0 < bid_probability < 1:
             bid_probability = 0.35
         if not bid_increase_perc <= 1:
@@ -126,13 +126,13 @@ class Auction:
     the bidders.
     """
 
-    def __init__(self, bidders):
+    def __init__(self, bidders, auctioneer: Auctioneer = Auctioneer()):
         """
         Initialize an auction. Requires a list of bidders that are
         attending the auction and can bid.
         :param bidders: sequence type of objects of type Bidder
         """
-        self._auctioneer = Auctioneer()
+        self._auctioneer = auctioneer
         for bidder in bidders:
             self._auctioneer.register_bidder(bidder)
 
@@ -154,16 +154,58 @@ class Auction:
 
 
 def main():
-    bidders = [Bidder("Jojo", 3000, random.random(), 1.2), Bidder("Melissa", 7000, random.random(), 1.5),
-               Bidder("Priya", 15000, random.random(), 1.1), Bidder("Kewei", 800, random.random(), 1.9),
-               Bidder("Scott", 4000, random.random(), 2)]
+    try:
 
-    # Hardcoding the bidders.
+        bid_item = input("Enter Bit Item: ")
+        price = input("Enter Starting Price: ")
+        while float(price) <= 0:
 
-    print("\n\nStarting Auction!!")
-    print("------------------")
-    my_auction = Auction(bidders)
-    my_auction.simulate_auction("Antique Vase", 100)
+            print("Not a valid price, please input a positive number.")
+            price = input("Enter Starting Price: ")
+        select = input("Do you want to use hardcoded bidders or new custom bidders?\n"
+                       "Enter 1 for hardcoded bidders\n"
+                       "Enter 2 to begin adding custom bidders")
+        if select not in ("1", "2"):
+            print("Invalid Command! Please re-run the program!")
+            return None
+        bidders = []
+        if select == "1":
+            bidders = [Bidder("Jojo", 3000, random.random(), 1.2), Bidder("Melissa", 7000, random.random(), 1.5),
+                       Bidder("Priya", 15000, random.random(), 1.1), Bidder("Kewei", 800, random.random(), 1.9),
+                       Bidder("Scott", 4000, random.random(), 2)]
+        else:
+
+            quit_command = input("Enter anything to add custom bidder. Type 'q' to stop adding.")
+            while quit_command != "q":
+
+                name = input("Enter bidder's name: ")
+
+                budget = input("Enter bidder's budget: ")
+                while float(budget) <= 0:
+                    print("Invalid Budget Type!")
+                    budget = input("Enter bidder's budget: ")
+                bid_probability = input("Enter bidder's probability (From 0 to 1): ")
+                while not 0 < float(bid_probability) < 1:
+                    print("Invalid Bid Probability!")
+                    bid_probability = input("Enter bidder's probability (From 0 to 1): ")
+                bid_increase_percent = input("Enter bidder's increase percentage (Larger than 1): ")
+                while not float(bid_increase_percent) > 1:
+                    print("Invalid Bid Increase Percentage!")
+                    bid_increase_percent = input("Enter bidder's increase percentage (Larger than 1): ")
+                bidder = Bidder(name, float(budget), float(bid_probability), float(bid_increase_percent))
+                print("Successfully Create a Bidder!"
+                      "--------------------------------")
+                bidders.append(bidder)
+                quit_command = input("Start to add custom bidder. Type 'q' to stop adding.")
+
+        # Hard coding the bidders.
+
+        print("\n\nStarting Auction!!")
+        print("------------------")
+        my_auction = Auction(bidders)
+        my_auction.simulate_auction(bid_item, float(price))
+    except ValueError as e:
+        print("%s is Not a valid number. Please re-run the program." % e)
 
 
 if __name__ == '__main__':
