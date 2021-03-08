@@ -5,9 +5,10 @@
 from enums_class import Fabric, Size, Stuffing, Holiday
 from stuffed_animal import StuffedAnimal
 from check_input import CheckInput
+from dark import GrowsInDark
 
 
-class Reindeer(StuffedAnimal):
+class Reindeer(StuffedAnimal, GrowsInDark):
     """
     The reindeer comes with its very own personal mini sleigh and is the stuffed animal for Christmas.
     It is made out of Cotton and stuffed with Wool.
@@ -20,13 +21,23 @@ class Reindeer(StuffedAnimal):
     """
     _generate_id = 0
 
-    def __init__(self, size: Size) -> None:
+    def __init__(self,
+                 size: Size,
+                 name: str = "Reindeer.",
+                 description: str = "Reindeer is so soft and it is the best Friend of Santa.",
+                 product_id: str = ""
+                 ) -> None:
         """
         Constructs a Reindeer.
         """
-        self._check_input(size)
+        self._check_input(size, name, description, product_id)
         self._size = size
+        if len(product_id) == 0:
+            product_id = "S%04dC" % Reindeer._generate_id
         self._increment_id()
+        self._name = name
+        self._description = description
+        self._product_id = product_id
 
     @staticmethod
     def generate_random_animal() -> StuffedAnimal:
@@ -77,5 +88,15 @@ class Reindeer(StuffedAnimal):
         """
         return "Dark Cute Nose"
 
-    def _check_input(self, size: Size) -> None:
+    @property
+    def is_grow_in_dark(self) -> bool:
+        return True
+
+    def _check_input(self,
+                     size: Size,
+                     name: str,
+                     description: str,
+                     product_id: str
+                     ) -> None:
         CheckInput.check_type(size, Size)
+        CheckInput.check_all_input_type([name, description, product_id], str)

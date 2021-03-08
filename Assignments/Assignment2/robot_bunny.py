@@ -24,15 +24,36 @@ class RobotBunny(Toy, Colourful):
     """
     _generate_id = 0
 
-    def __init__(self, sound_effects_number: int, colour: RobotBunnyColor) -> None:
-        self._check_input(sound_effects_number, colour)
+    def __init__(self,
+                 sound_effects_number: int,
+                 colour: RobotBunnyColor,
+                 name: str = "Fast Rabbit",
+                 description: str = "This rabbit is super fast when the battery is full!",
+                 product_id: str = ""
+                 ) -> None:
+        """
+        Constructs a robot bunny.
+        """
+        self._check_input(sound_effects_number, colour, name, description, product_id)
+        if len(product_id) == 0:
+            product_id = "T%04dE" % RobotBunny._generate_id
         self._increment_id()
         self._sound_effects_number = sound_effects_number
         self._colour = colour
+        self._name = name
+        self._description = description
+        self._product_id = product_id
 
-    def _check_input(self, sound_effects_number: int, colour: RobotBunnyColor) -> None:
+    def _check_input(self,
+                     sound_effects_number: int,
+                     colour: RobotBunnyColor,
+                     name: str,
+                     description: str,
+                     product_id: str
+                     ) -> None:
         CheckInput.check_type(sound_effects_number, int)
         CheckInput.check_type(colour, RobotBunnyColor)
+        CheckInput.check_all_input_type([name, description, product_id], str)
         CheckInput.check_value_is_lower_equal_than_threshold(sound_effects_number, 0)
 
     @staticmethod
@@ -58,7 +79,7 @@ class RobotBunny(Toy, Colourful):
         return True
 
     @property
-    def minimum_recommended_safe_age(self) -> int:
+    def min_age(self) -> int:
         return 6
 
     @property
@@ -67,11 +88,11 @@ class RobotBunny(Toy, Colourful):
 
     @property
     def description(self) -> str:
-        return "This rabbit is super fast when the battery is full!"
+        return self._description
 
     @property
     def product_id(self) -> str:
-        return "T%04dE" % self._generate_id
+        return self._product_id
 
     @property
     def colour(self) -> RobotBunnyColor:

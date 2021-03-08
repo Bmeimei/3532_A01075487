@@ -2,7 +2,7 @@
 # Student Number :  A01075487
 # Created time :    2021/2/24 16:30 
 # File Name:        creme_eggs.py
-from Assignments.Assignment2.enums_class import Holiday
+from enums_class import Holiday
 from check_input import CheckInput
 from candy import Candy
 from random import randint
@@ -17,7 +17,14 @@ class CremeEggs(Candy):
 
     _generate_id = 0
 
-    def __init__(self, contains_nuts: bool, pack_size: int) -> None:
+    def __init__(self,
+                 contains_nuts: bool,
+                 pack_size: int,
+                 name: str = "Creme Eggs",
+                 description: str = "Creme Eggs are Easter themed and"
+                                    " are not lactose free and may contain traces of nuts.",
+                 product_id: str = ""
+                 ) -> None:
         """
         Constructs a Creme Eggs.
 
@@ -26,10 +33,15 @@ class CremeEggs(Candy):
 
         :precondition: pack_size must be a positive int
         """
-        self._check_input(contains_nuts, pack_size)
+        self._check_input(contains_nuts, pack_size, name, description, product_id)
+        if len(product_id) == 0:
+            product_id = "C%04dE" % CremeEggs._generate_id
         self._increment_id()
         self._contains_nuts = contains_nuts
         self._pack_size = pack_size
+        self._name = name
+        self._description = description
+        self._product_id = product_id
 
     @staticmethod
     def generate_random_candy() -> Candy:
@@ -67,15 +79,15 @@ class CremeEggs(Candy):
 
     @property
     def name(self) -> str:
-        return "Creme Eggs"
+        return self._name
 
     @property
     def description(self) -> str:
-        return "Creme Eggs are Easter themed and are not lactose free and may contain traces of nuts."
+        return self._description
 
     @property
     def product_id(self) -> str:
-        return "C%04dE" % self._generate_id
+        return self._product_id
 
     @staticmethod
     def holiday_type() -> Holiday:
@@ -84,7 +96,14 @@ class CremeEggs(Candy):
         """
         return Holiday.EASTER
 
-    def _check_input(self, contains_nut: bool, pack_size: int) -> None:
+    def _check_input(self,
+                     contains_nut: bool,
+                     pack_size: int,
+                     name: str,
+                     description: str,
+                     product_id: str
+                     ) -> None:
         CheckInput.check_type(pack_size, int)
         CheckInput.check_value_is_lower_equal_than_threshold(pack_size, 0)
         CheckInput.check_type(contains_nut, bool)
+        CheckInput.check_all_input_type([name, description, product_id], str)

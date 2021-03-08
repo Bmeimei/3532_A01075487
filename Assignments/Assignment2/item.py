@@ -75,3 +75,27 @@ class Item(ABC):
         • Candy
         """
         pass
+
+    def __str__(self) -> str:
+        """
+        Gets the description of this item as a string.
+        """
+        return "Item %s, Product ID %s, Name %s" % (self.inventory_type(), self.product_id, self.name)
+
+    def __eq__(self, other: "Item") -> bool:
+        """
+        Checks if two items are the same based on their product id.
+
+        :return: True if they have the same product id, False if not
+        """
+        return other and \
+            self.product_id == other.product_id and \
+            self.name == other.name and\
+            self.description == self.description and\
+            self.inventory_type() == self.inventory_type()
+
+    def __hash__(self) -> int:
+        """
+        Overrides the hash method for every item.
+        """
+        return hash((self.product_id, self.name, self.description, self.inventory_type()))

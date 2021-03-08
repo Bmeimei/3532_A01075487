@@ -3,7 +3,10 @@
 # Created time :    2021/3/3 11:43 
 # File Name:        order.py
 
-from enums_class import InventoryEnum
+from enums_class import InventoryEnum, Holiday
+from check_input import CheckInput
+from festive_season_factory import FestiveSeasonFactory, ChristmasFactory, HalloweenFactory, EasterFactory
+import pandas as pd
 
 
 class Order:
@@ -28,3 +31,47 @@ class Order:
         self._product_id = product_id
         self._item_type = item_type
         self._product_details = product_details
+
+
+class FactoryMapping:
+    """
+    FactoryMapping would map the holiday to the appropriate factory class.
+    """
+
+    @staticmethod
+    def mapToFactory(holiday: Holiday) -> FestiveSeasonFactory:
+        """
+        Returns the factory class base on the specific holiday.
+        """
+        CheckInput.check_type(holiday, Holiday)
+        if holiday == Holiday.CHRISTMAS:
+            return ChristmasFactory()
+        if holiday == Holiday.HALLOWEEN:
+            return HalloweenFactory()
+        if holiday == Holiday.EASTER:
+            return EasterFactory()
+        raise Exception("Invalid Festive!")
+
+
+class OrderProcessing:
+    """
+    Your code must contain an OrderProcessor class that is responsible for reading each row of these files and creating
+    and yielding an Order object. The OrderProcessor class contains a
+    FactoryMapping which maps the holiday to the appropriate factory class.
+    """
+
+    def __init__(self, file_name: str):
+        """
+        Reads the excel file and generates a bunch of Orders
+        :param file_name: file name must be a xlsx file.
+        """
+        self._file_name = file_name
+        pd.read_excel(file_name)
+
+
+def main():
+    a = OrderProcessing("orders.xlsx")
+
+
+if __name__ == '__main__':
+    main()

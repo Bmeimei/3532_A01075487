@@ -8,61 +8,6 @@ from check_input import CheckInput
 from random import uniform, randint
 
 
-class Dimensions:
-    """
-    dimensions (width and height)
-    """
-    def __init__(self, width: float, height: float) -> None:
-        """
-        Constructs the dimensions of this Santa's Work shop as a tuple.
-        The first value is width, second value is height.
-
-        :param width: width as an int
-        :param height: height as an int
-        """
-        CheckInput.check_all_input_type([width, height], float, int)
-        CheckInput.check_all_input_value_is_lower_equal_than_threshold([width, height], 0)
-        self._width = width
-        self._height = height
-
-    @property
-    def width(self) -> float:
-        """
-        Getter for width.
-        """
-        return self._width
-
-    @property
-    def height(self) -> float:
-        """
-        Getter for height.
-        """
-        return self._height
-
-    def get_dimension(self) -> tuple:
-        """
-        Returns the dimension of this Santa's Work shop as a tuple. The first value is width, second value is height.
-
-        :return: A tuple represents this dimension.
-        """
-        return self._width, self._height
-
-    @staticmethod
-    def random_dimension() -> "Dimensions":
-        """
-        Returns a random dimensions, the width and height are both range from (1, 10)
-        """
-        width = round(uniform(1, 10), 1)
-        height = round(uniform(1, 10), 1)
-        return Dimensions(width, height)
-
-    def __str__(self):
-        """
-        Description of this dimension.
-        """
-        return "Width: %d, Height: %d" % (self.width, self._height)
-
-
 class SantaWorkShop(Toy):
     """
     The premium Christmas present, this is not a battery operated toy.
@@ -77,18 +22,27 @@ class SantaWorkShop(Toy):
     """
     _generate_id = 0
 
-    def __init__(self, width: float, height: float, rooms_number: int) -> None:
+    def __init__(self, dimensions: float, rooms_number: int,
+                 min_age: int = 5,
+                 name: str = "Santa Workshop",
+                 description: str = "Merry Christmas!",
+                 product_id: str = ""
+                 ) -> None:
         """
         Constructs a Santa's Work Shop.
 
-        :param width: width as a number
-        :param height: height as a number
         :param rooms_number: rooms number as an int
         """
-        self._check_input(rooms_number)
+        self._check_input(rooms_number, dimensions, min_age, name, description, product_id)
+        if len(product_id) == 0:
+            product_id = "T%04dC" % SantaWorkShop._generate_id
         self._increment_id()
-        self._dimension = Dimensions(width, height)
+        self._dimensions = dimensions
         self._rooms_number = rooms_number
+        self._min_age = min_age
+        self._name = name
+        self._description = description
+        self._product_id = product_id
 
     @staticmethod
     def holiday_type() -> Holiday:
@@ -97,24 +51,31 @@ class SantaWorkShop(Toy):
         """
         return Holiday.CHRISTMAS
 
-    def _check_input(self, rooms_number: int) -> None:
+    def _check_input(self,
+                     rooms_number: int,
+                     dimensions: float,
+                     min_age: int,
+                     name: str,
+                     description: str,
+                     product_id: str) -> None:
         """
         Checks input.
         """
-        CheckInput.check_type(rooms_number, int)
+        CheckInput.check_all_input_type([rooms_number, min_age], int)
+        CheckInput.check_type(dimensions, int, float)
+        CheckInput.check_all_input_value_is_lower_equal_than_threshold([rooms_number, dimensions, min_age], 0)
+        CheckInput.check_all_input_type([description, product_id, name], str)
 
     @staticmethod
     def generate_random_toy() -> Toy:
         """
         Returns a santa's work shop with random dimensions and rooms number.
-        Dimensions width and height are range from (1, 10)
+        Dimensions width and height are range from (5, 100)
         Rooms number are range from (1, 5)
         """
-        dimensions = Dimensions.random_dimension()
-        width = dimensions.get_dimension()[0]
-        height = dimensions.get_dimension()[1]
+        dimensions = round(uniform(5, 100), 2)
         rooms_number = randint(1, 5)
-        return SantaWorkShop(width, height, rooms_number)
+        return SantaWorkShop(dimensions, rooms_number)
 
     @property
     def is_battery_operated(self) -> bool:
@@ -124,29 +85,29 @@ class SantaWorkShop(Toy):
         return False
 
     @property
-    def minimum_recommended_safe_age(self) -> int:
-        return 3
+    def min_age(self) -> int:
+        return self._min_age
 
     @property
     def name(self) -> str:
-        return "Santa Workshop"
+        return self._name
 
     @property
     def description(self) -> str:
-        return "Merry Christmas!"
+        return self._description
 
     @property
     def product_id(self) -> str:
-        return "T%04dC" % self._generate_id
+        return self._product_id
 
     @property
-    def dimension(self) -> Dimensions:
+    def dimension(self) -> float:
         """
         Returns the dimensions of this Santa's Work shop.
 
         :return: dimensions
         """
-        return self._dimension
+        return self._dimensions
 
     @property
     def rooms_number(self) -> int:

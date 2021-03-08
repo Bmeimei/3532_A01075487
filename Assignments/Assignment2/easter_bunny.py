@@ -20,14 +20,25 @@ class EasterBunny(StuffedAnimal, Colourful):
     """
     _generate_id = 0
 
-    def __init__(self, colour: EasterBunnyColor, size: Size):
+    def __init__(self,
+                 colour: EasterBunnyColor,
+                 size: Size,
+                 name: str = "Easter Bunny",
+                 description: str = "Imaginary rabbit said to bring gifts to children at Easter.",
+                 product_id: str = ""
+                 ):
         """
         Constructs a Easter Bunny.
         """
-        self._check_input(colour, size)
+        self._check_input(colour, size, name, description, product_id)
         self._colour = colour
         self._size = size
+        if len(product_id) == 0:
+            product_id = "S%04dE" % EasterBunny._generate_id
         self._increment_id()
+        self._name = name
+        self._description = description
+        self._product_id = product_id
 
     @property
     def colour(self) -> Colours:
@@ -56,15 +67,15 @@ class EasterBunny(StuffedAnimal, Colourful):
 
     @property
     def name(self) -> str:
-        return "Easter Bunny"
+        return self._name
 
     @property
     def description(self) -> str:
-        return "Imaginary rabbit said to bring gifts to children at Easter."
+        return self._description
 
     @property
     def product_id(self) -> str:
-        return "S%04dE" % self._generate_id
+        return self._product_id
 
     @staticmethod
     def holiday_type() -> Holiday:
@@ -73,6 +84,13 @@ class EasterBunny(StuffedAnimal, Colourful):
         """
         return Holiday.EASTER
 
-    def _check_input(self, colour: EasterBunnyColor, size: Size) -> None:
+    def _check_input(self,
+                     colour: EasterBunnyColor,
+                     size: Size,
+                     name: str,
+                     description: str,
+                     product_id: str
+                     ) -> None:
         CheckInput.check_type(colour, EasterBunnyColor)
         CheckInput.check_type(size, Size)
+        CheckInput.check_all_input_type([name, description, product_id], str)

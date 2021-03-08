@@ -22,15 +22,17 @@ class Toy(Item, ItemConstructor):
     • Product ID (A unique combination of letters and numbers)
     """
 
+    _inventory_type = InventoryEnum.TOYS
+
     @staticmethod
     def inventory_type() -> InventoryEnum:
         """
         Inventory Type is Toys.
         """
-        return InventoryEnum.TOYS
+        return Toy._inventory_type
 
     @classmethod
-    def generate_item(cls) -> ItemConstructor:
+    def generate_item(cls) -> Item:
         """
         Generates a toy.
         """
@@ -54,7 +56,7 @@ class Toy(Item, ItemConstructor):
 
     @property
     @abstractmethod
-    def minimum_recommended_safe_age(self) -> int:
+    def min_age(self) -> int:
         """
         Returns an int that represents the minimum recommended age of the child that the toy is safe for.
         """

@@ -17,16 +17,32 @@ class DancingSkeleton(StuffedAnimal, GrowsInDark):
 
     _generate_id = 0
 
-    def __init__(self, size: Size) -> None:
+    def __init__(self,
+                 size: Size,
+                 name: str = "Dancing Skeleton",
+                 description: str = "Actually this skeleton is not terrible, it is cute as coco.",
+                 product_id: str = ""
+                 ) -> None:
         """
         Constructs a Dancing Skeleton.
         """
-        self._check_input(size)
+        self._check_input(size, name, description, product_id)
+        if len(product_id) == 0:
+            product_id = "S%04dD" % DancingSkeleton._generate_id
         self._increment_id()
         self._size = size
+        self._name = name
+        self._description = description
+        self._product_id = product_id
 
-    def _check_input(self, size: Size) -> None:
+    def _check_input(self,
+                     size: Size,
+                     name: str,
+                     description: str,
+                     product_id: str
+                     ) -> None:
         CheckInput.check_type(size, Size)
+        CheckInput.check_all_input_type([name, description, product_id], str)
 
     @staticmethod
     def holiday_type() -> Holiday:
@@ -66,15 +82,15 @@ class DancingSkeleton(StuffedAnimal, GrowsInDark):
 
     @property
     def name(self) -> str:
-        return "Dancing Skeleton"
+        return self._name
 
     @property
     def description(self) -> str:
-        return "Actually this skeleton is not terrible, it is cute as coco."
+        return self._description
 
     @property
     def product_id(self) -> str:
-        return "S%04dD" % self._generate_id
+        return self._product_id
 
     @property
     def is_grow_in_dark(self) -> bool:

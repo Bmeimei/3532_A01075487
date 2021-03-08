@@ -2,7 +2,6 @@
 # Student Number :  A01075487
 # Created time :    2021/2/23 21:10 
 # File Name:        candy.py
-
 from abc import abstractmethod
 from enums_class import InventoryEnum
 from item import Item
@@ -20,15 +19,17 @@ class Candy(Item, ItemConstructor):
     • Product ID
     """
 
+    _inventory_type = InventoryEnum.CANDY
+
     @staticmethod
     def inventory_type() -> InventoryEnum:
         """
         Inventory Type is Candy.
         """
-        return InventoryEnum.CANDY
+        return Candy._inventory_type
 
     @classmethod
-    def generate_item(cls) -> ItemConstructor:
+    def generate_item(cls) -> Item:
         """
         Generates a Candy. Only implemented in Candy class.
         """

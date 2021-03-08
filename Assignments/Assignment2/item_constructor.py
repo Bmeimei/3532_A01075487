@@ -4,6 +4,7 @@
 # File Name:        item_constructor.py
 
 from abc import ABC, abstractmethod
+from item import Item
 
 
 class ItemConstructor(ABC):
@@ -39,7 +40,7 @@ class ItemConstructor(ABC):
 
     @classmethod
     @abstractmethod
-    def generate_item(cls) -> "ItemConstructor":
+    def generate_item(cls) -> Item:
         """
         Generates an item.
 

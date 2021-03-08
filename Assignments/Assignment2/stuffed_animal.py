@@ -22,15 +22,17 @@ class StuffedAnimal(Item, ItemConstructor):
     • Product ID
     """
 
+    _inventory_type = InventoryEnum.CANDY
+
     @staticmethod
     def inventory_type() -> InventoryEnum:
         """
         Inventory Type is Stuffed Animals.
         """
-        return InventoryEnum.STUFFED_ANIMALS
+        return StuffedAnimal._inventory_type
 
     @classmethod
-    def generate_item(cls) -> ItemConstructor:
+    def generate_item(cls) -> Item:
         """
         Generates an animal.
         """

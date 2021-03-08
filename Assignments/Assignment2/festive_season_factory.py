@@ -2,6 +2,13 @@
 # Student Number :  A01075487
 # Created time :    2021/2/23 20:54 
 # File Name:        festive_season_factory.py
+from abc import ABC, abstractmethod
+from toy import Toy
+from stuffed_animal import StuffedAnimal
+from candy import Candy
+from item import Item
+from check_input import CheckInput
+from enums_class import InventoryEnum
 from santa_work_shop import SantaWorkShop
 from remote_controller_spider import RemoteControllerSpider
 from robot_bunny import RobotBunny
@@ -11,92 +18,93 @@ from easter_bunny import EasterBunny
 from pumpkin_caramel_toffee import PumpkinCaramelToffee
 from candy_canes import CandyCanes
 from creme_eggs import CremeEggs
-from enums_class import Holiday, InventoryEnum
-from check_input import CheckInput
-from item_constructor import ItemConstructor
 
 
-class FestiveSeasonFactory:
+class FestiveSeasonFactory(ABC):
     """
-    This class would generates items based on the input festive season and numbers of items.
+    This interfaces represents the skeleton factory of all festive season factories.
+    Each factory must override these methods:
+
+    - create_toy
+    - create_stuffed_animal
+    - create_candy
+
+    It also has a default method: create_item(), which would generate an item based on the item type.
     """
 
-    __toy_list = [SantaWorkShop, RemoteControllerSpider, RobotBunny]
-    """
-    Toy List.
-    """
-
-    __stuffed_animals_list = [DancingSkeleton, Reindeer, EasterBunny]
-    """
-    Stuffed Animals List.
-    """
-
-    __candy_list = [PumpkinCaramelToffee, CandyCanes, CremeEggs]
-    """
-    Candy List.
-    """
-
-    @classmethod
-    def generate_items(cls, inventory_type: InventoryEnum, holiday: Holiday, number: int = 1) -> list[ItemConstructor]:
+    @abstractmethod
+    def create_toy(self, **product_details) -> Toy:
         """
-        Generates a bunch of same items.
+        Constructs a toy.
+        """
+        pass
 
-        :param inventory_type: A specific inventory type
-        :param holiday: A specific holiday
-        :param number: number of items
-        :return: a list of items
+    @abstractmethod
+    def create_stuffed_animal(self, **product_details) -> StuffedAnimal:
+        """
+        Constructs a stuffed animal.
+        """
+        pass
+
+    @abstractmethod
+    def create_candy(self, **product_details) -> Candy:
+        """
+        Constructs a candy.
+        """
+        pass
+
+    def create_item(self, inventory_type: InventoryEnum, **product_details) -> Item:
+        """
+        Constructs an item based on the inventory type.
         """
         CheckInput.check_type(inventory_type, InventoryEnum)
         if inventory_type == InventoryEnum.TOYS:
-            return cls.generate_toys(holiday, number)
+            return self.create_toy(**product_details)
         if inventory_type == InventoryEnum.STUFFED_ANIMALS:
-            return cls.generate_stuffed_animals(holiday, number)
-        return cls.generate_candy(holiday, number)
+            return self.create_stuffed_animal(**product_details)
+        return self.create_candy(**product_details)
 
-    @classmethod
-    def generate_toys(cls, holiday: Holiday, number: int = 1) -> list[ItemConstructor]:
-        """
-        Generates toys.
 
-        :param holiday: A specific holiday
-        :param number: number of toys
-        :return: a list of toys
-        """
-        CheckInput.check_type(holiday, Holiday)
-        CheckInput.check_type(number, int)
-        CheckInput.check_value_is_lower_equal_than_threshold(number, 0)
-        for toy in cls.__toy_list:
-            if toy.holiday_type == holiday:
-                return [toy.generate_item() for _ in range(0, number)]
+class ChristmasFactory(FestiveSeasonFactory):
+    """
+    Christmas Factory.
+    """
 
-    @classmethod
-    def generate_stuffed_animals(cls, holiday: Holiday, number: int = 1) -> list[ItemConstructor]:
-        """
-        Generates stuffed animals.
+    def create_toy(self, **product_details) -> Toy:
+        return SantaWorkShop(**product_details)
 
-        :param holiday: A specific holiday
-        :param number: number of stuffed animals
-        :return: a list of animals
-        """
-        CheckInput.check_type(holiday, Holiday)
-        CheckInput.check_type(number, int)
-        CheckInput.check_value_is_lower_equal_than_threshold(number, 0)
-        for animal in cls.__stuffed_animals_list:
-            if animal.holiday_type == holiday:
-                return [animal.generate_item() for _ in range(0, number)]
+    def create_stuffed_animal(self, **product_details) -> StuffedAnimal:
+        return Reindeer(**product_details)
 
-    @classmethod
-    def generate_candy(cls, holiday: Holiday, number: int = 1) -> list[ItemConstructor]:
-        """
-        Generates candy.
+    def create_candy(self, **product_details) -> Candy:
+        return CandyCanes(**product_details)
 
-        :param holiday: A specific holiday
-        :param number: number of stuffed animals
-        :return: a list of candy
-        """
-        CheckInput.check_type(holiday, Holiday)
-        CheckInput.check_type(number, int)
-        CheckInput.check_value_is_lower_equal_than_threshold(number, 0)
-        for candy in cls.__candy_list:
-            if candy.holiday_type == holiday:
-                return [candy.generate_item() for _ in range(0, number)]
+
+class HalloweenFactory(FestiveSeasonFactory):
+    """
+    Halloween Factory.
+    """
+
+    def create_toy(self, **product_details) -> Toy:
+        return RemoteControllerSpider(**product_details)
+
+    def create_stuffed_animal(self, **product_details) -> StuffedAnimal:
+        return DancingSkeleton(**product_details)
+
+    def create_candy(self, **product_details) -> Candy:
+        return PumpkinCaramelToffee(**product_details)
+
+
+class EasterFactory(FestiveSeasonFactory):
+    """
+    Easter Factory.
+    """
+
+    def create_toy(self, **product_details) -> Toy:
+        return RobotBunny(**product_details)
+
+    def create_stuffed_animal(self, **product_details) -> StuffedAnimal:
+        return EasterBunny(**product_details)
+
+    def create_candy(self, **product_details) -> Candy:
+        return CremeEggs(**product_details)

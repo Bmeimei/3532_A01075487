@@ -2,7 +2,6 @@
 # Student Number :  A01075487
 # Created time :    2021/2/24 16:12 
 # File Name:        candy_canes.py
-
 from check_input import CheckInput
 from candy import Candy
 from enums_class import CandyCanesColor, Holiday
@@ -18,15 +17,28 @@ class CandyCanes(Candy, Colourful):
 
     _generate_id = 0
 
-    def __init__(self, stripes_colour: CandyCanesColor) -> None:
+    def __init__(self,
+                 stripes_colour: CandyCanesColor,
+                 name: str = "Candy Canes",
+                 description: str = "A candy cane is a cane-shaped stick candy often associated with Christmastide, "
+                                    "as well as Saint Nicholas Day. It is traditionally white with red stripes and "
+                                    "flavored with peppermint, but they also come in a variety "
+                                    "of other flavors and colors.",
+                 product_id: str = ""
+                 ) -> None:
         """
         Constructs a Candy Canes.
 
         :param stripes_colour: The stripes on the candy cane can either be Red or Green
         """
-        self._check_input(stripes_colour)
+        self._check_input(stripes_colour, name, description, product_id)
+        if len(product_id) == 0:
+            product_id = "C%04dC" % CandyCanes._generate_id
         self._increment_id()
         self._stripes_colour = stripes_colour
+        self._name = name
+        self._description = description
+        self._product_id = product_id
 
     @staticmethod
     def generate_random_candy() -> Candy:
@@ -80,5 +92,11 @@ class CandyCanes(Candy, Colourful):
     def colour(self) -> CandyCanesColor:
         return self.stripes_colour
 
-    def _check_input(self, stripes_colour) -> None:
+    def _check_input(self,
+                     stripes_colour,
+                     name: str,
+                     description: str,
+                     product_id: str
+                     ) -> None:
         CheckInput.check_type(stripes_colour, CandyCanesColor)
+        CheckInput.check_all_input_type([name, description, product_id], str)
