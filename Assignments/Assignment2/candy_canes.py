@@ -19,6 +19,8 @@ class CandyCanes(Candy, Colourful):
 
     def __init__(self,
                  stripes_colour: CandyCanesColor,
+                 has_nuts: bool = False,
+                 has_lactose: bool = True,
                  name: str = "Candy Canes",
                  description: str = "A candy cane is a cane-shaped stick candy often associated with Christmastide, "
                                     "as well as Saint Nicholas Day. It is traditionally white with red stripes and "
@@ -31,14 +33,12 @@ class CandyCanes(Candy, Colourful):
 
         :param stripes_colour: The stripes on the candy cane can either be Red or Green
         """
-        self._check_input(stripes_colour, name, description, product_id)
+        self._check_input(stripes_colour, has_nuts, has_lactose, name, description, product_id)
         if len(product_id) == 0:
             product_id = "C%04dC" % CandyCanes._generate_id
         self._increment_id()
         self._stripes_colour = stripes_colour
-        self._name = name
-        self._description = description
-        self._product_id = product_id
+        super().__init__(name, description, product_id, has_nuts, has_lactose)
 
     @staticmethod
     def generate_random_candy() -> Candy:
@@ -46,40 +46,11 @@ class CandyCanes(Candy, Colourful):
         return CandyCanes(stripes_colour)
 
     @property
-    def contains_nuts(self) -> bool:
-        """
-        It does not contain nuts.
-        """
-        return False
-
-    @property
-    def lactose_free(self) -> bool:
-        """
-        It is lactose free.
-        """
-        return True
-
-    @property
     def stripes_colour(self) -> CandyCanesColor:
         """
         Gets Stripes Colour.
         """
         return self._stripes_colour
-
-    @property
-    def name(self) -> str:
-        return "Candy Canes"
-
-    @property
-    def description(self) -> str:
-        return "A candy cane is a cane-shaped stick candy often associated with Christmastide," \
-               " as well as Saint Nicholas Day." \
-               " It is traditionally white with red stripes and flavored with peppermint," \
-               " but they also come in a variety of other flavors and colors."
-
-    @property
-    def product_id(self) -> str:
-        return "C%04dC" % self._generate_id
 
     @staticmethod
     def holiday_type() -> Holiday:
@@ -94,9 +65,12 @@ class CandyCanes(Candy, Colourful):
 
     def _check_input(self,
                      stripes_colour,
+                     has_nuts: bool,
+                     has_lactose: bool,
                      name: str,
                      description: str,
                      product_id: str
                      ) -> None:
         CheckInput.check_type(stripes_colour, CandyCanesColor)
         CheckInput.check_all_input_type([name, description, product_id], str)
+        CheckInput.check_all_input_type([has_lactose, has_nuts], bool)

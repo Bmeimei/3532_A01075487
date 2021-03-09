@@ -28,29 +28,29 @@ class Item(ABC):
         • Candy
     """
 
+    def __init__(self, name: str, description: str, product_id: str):
+        """
+        Constructs an item.
+
+        :param name: Name as a string.
+        :param description: Description as a string.
+        :param product_id: Product Id as a string.
+        """
+        self._name = name
+        self._description = description
+        self._product_id = product_id
+
     @property
-    @abstractmethod
     def name(self) -> str:
-        """
-        Returns the name as a string.
-        """
-        pass
+        return self._name
 
     @property
-    @abstractmethod
     def description(self) -> str:
-        """
-        Returns the description as a string.
-        """
-        pass
+        return self._description
 
     @property
-    @abstractmethod
     def product_id(self) -> str:
-        """
-        Returns the product id as a string.
-        """
-        pass
+        return self._product_id
 
     @staticmethod
     @abstractmethod
@@ -80,7 +80,7 @@ class Item(ABC):
         """
         Gets the description of this item as a string.
         """
-        return "Item %s, Product ID %s, Name %s" % (self.inventory_type(), self.product_id, self.name)
+        return "Item: %s, Product ID: %s, Name: %s" % (self.inventory_type(), self.product_id, self.name)
 
     def __eq__(self, other: "Item") -> bool:
         """
@@ -88,14 +88,10 @@ class Item(ABC):
 
         :return: True if they have the same product id, False if not
         """
-        return other and \
-            self.product_id == other.product_id and \
-            self.name == other.name and\
-            self.description == self.description and\
-            self.inventory_type() == self.inventory_type()
+        return other and self.product_id == other.product_id
 
     def __hash__(self) -> int:
         """
         Overrides the hash method for every item.
         """
-        return hash((self.product_id, self.name, self.description, self.inventory_type()))
+        return hash(self.product_id)

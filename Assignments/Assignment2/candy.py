@@ -21,6 +21,22 @@ class Candy(Item, ItemConstructor):
 
     _inventory_type = InventoryEnum.CANDY
 
+    def __init__(self,
+                 name: str,
+                 description: str,
+                 product_id: str,
+                 has_nuts: bool,
+                 has_lactose: bool):
+        """
+        Constructs a candy.
+
+        :param has_nuts: boolean represents this candy has nuts or not
+        :param has_lactose: boolean represents this candy has lactose or not
+        """
+        super().__init__(name, description, product_id)
+        self._has_nuts = has_nuts
+        self._has_lactose = has_lactose
+
     @staticmethod
     def inventory_type() -> InventoryEnum:
         """
@@ -46,21 +62,19 @@ class Candy(Item, ItemConstructor):
         pass
 
     @property
-    @abstractmethod
-    def contains_nuts(self) -> bool:
+    def has_nuts(self) -> bool:
         """
         A flag to check if it contains any nuts.
 
         :return: True if it contains nuts, false not
         """
-        pass
+        return self._has_nuts
 
     @property
-    @abstractmethod
-    def lactose_free(self) -> bool:
+    def has_lactose(self) -> bool:
         """
         A flag to check if it is lactose free.
 
         :return: True if it is lactose free, false not
         """
-        pass
+        return self._has_lactose

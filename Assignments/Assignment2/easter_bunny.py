@@ -23,6 +23,8 @@ class EasterBunny(StuffedAnimal, Colourful):
     def __init__(self,
                  colour: EasterBunnyColor,
                  size: Size,
+                 stuffing: Stuffing = Stuffing.POLYESTER_Fiberfill,
+                 fabric: Fabric = Fabric.LINEN,
                  name: str = "Easter Bunny",
                  description: str = "Imaginary rabbit said to bring gifts to children at Easter.",
                  product_id: str = ""
@@ -30,15 +32,12 @@ class EasterBunny(StuffedAnimal, Colourful):
         """
         Constructs a Easter Bunny.
         """
-        self._check_input(colour, size, name, description, product_id)
+        self._check_input(colour, size, stuffing, fabric, name, description, product_id)
         self._colour = colour
-        self._size = size
         if len(product_id) == 0:
             product_id = "S%04dE" % EasterBunny._generate_id
         self._increment_id()
-        self._name = name
-        self._description = description
-        self._product_id = product_id
+        super().__init__(name, description, product_id, size, stuffing, fabric)
 
     @property
     def colour(self) -> Colours:
@@ -53,30 +52,6 @@ class EasterBunny(StuffedAnimal, Colourful):
         size = Size.generate_random_child()
         return EasterBunny(colour, size)
 
-    @property
-    def stuffing(self) -> Stuffing:
-        return Stuffing.POLYESTER_Fiberfill
-
-    @property
-    def size(self) -> Size:
-        return self._size
-
-    @property
-    def fabric(self) -> Fabric:
-        return Fabric.LINEN
-
-    @property
-    def name(self) -> str:
-        return self._name
-
-    @property
-    def description(self) -> str:
-        return self._description
-
-    @property
-    def product_id(self) -> str:
-        return self._product_id
-
     @staticmethod
     def holiday_type() -> Holiday:
         """
@@ -87,10 +62,14 @@ class EasterBunny(StuffedAnimal, Colourful):
     def _check_input(self,
                      colour: EasterBunnyColor,
                      size: Size,
+                     stuffing: Stuffing,
+                     fabric: Fabric,
                      name: str,
                      description: str,
                      product_id: str
                      ) -> None:
         CheckInput.check_type(colour, EasterBunnyColor)
+        CheckInput.check_type(stuffing, Stuffing)
+        CheckInput.check_type(fabric, Fabric)
         CheckInput.check_type(size, Size)
         CheckInput.check_all_input_type([name, description, product_id], str)

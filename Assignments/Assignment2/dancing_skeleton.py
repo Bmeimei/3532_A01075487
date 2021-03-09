@@ -19,6 +19,9 @@ class DancingSkeleton(StuffedAnimal, GrowsInDark):
 
     def __init__(self,
                  size: Size,
+                 stuffing: Stuffing = Stuffing.POLYESTER_Fiberfill,
+                 fabric: Fabric = Fabric.ACRYLIC,
+                 has_grow: bool = True,
                  name: str = "Dancing Skeleton",
                  description: str = "Actually this skeleton is not terrible, it is cute as coco.",
                  product_id: str = ""
@@ -26,22 +29,26 @@ class DancingSkeleton(StuffedAnimal, GrowsInDark):
         """
         Constructs a Dancing Skeleton.
         """
-        self._check_input(size, name, description, product_id)
+        self._check_input(size, stuffing, fabric, has_grow, name, description, product_id)
         if len(product_id) == 0:
             product_id = "S%04dD" % DancingSkeleton._generate_id
         self._increment_id()
-        self._size = size
-        self._name = name
-        self._description = description
-        self._product_id = product_id
+        self._has_grow = has_grow
+        super().__init__(name, description, product_id, size, stuffing, fabric)
 
     def _check_input(self,
                      size: Size,
+                     stuffing: Stuffing,
+                     fabric: Fabric,
+                     has_grow: bool,
                      name: str,
                      description: str,
                      product_id: str
                      ) -> None:
         CheckInput.check_type(size, Size)
+        CheckInput.check_type(stuffing, Stuffing)
+        CheckInput.check_type(fabric, Fabric)
+        CheckInput.check_type(has_grow)
         CheckInput.check_all_input_type([name, description, product_id], str)
 
     @staticmethod
@@ -58,43 +65,8 @@ class DancingSkeleton(StuffedAnimal, GrowsInDark):
         return DancingSkeleton(size)
 
     @property
-    def stuffing(self) -> Stuffing:
-        """
-        The dancing skeleton is made out of Polyester Fiberfill.
-        """
-        return Stuffing.POLYESTER_Fiberfill
-
-    @property
-    def size(self) -> Size:
-        """
-        Size of dancing skeleton.
-
-        Size - This can either be Small, Medium or Large
-        """
-        return self._size
-
-    @property
-    def fabric(self) -> Fabric:
-        """
-        The dancing skeleton is made out of Acrylic yarn
-        """
-        return Fabric.ACRYLIC
-
-    @property
-    def name(self) -> str:
-        return self._name
-
-    @property
-    def description(self) -> str:
-        return self._description
-
-    @property
-    def product_id(self) -> str:
-        return self._product_id
-
-    @property
-    def is_grow_in_dark(self) -> bool:
+    def has_grow(self) -> bool:
         """
         The dancing skeleton also glows in the dark.
         """
-        return True
+        return self._has_grow

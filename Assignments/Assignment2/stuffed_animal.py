@@ -24,6 +24,26 @@ class StuffedAnimal(Item, ItemConstructor):
 
     _inventory_type = InventoryEnum.CANDY
 
+    def __init__(self,
+                 name: str,
+                 description: str,
+                 product_id: str,
+                 size: Size,
+                 stuffing: Stuffing,
+                 fabric: Fabric
+                 ) -> None:
+        """
+        Constructs a stuffed animal.
+
+        :param size: Size
+        :param stuffing: Stuffing Type
+        :param fabric: Fabric Type
+        """
+        super().__init__(name, description, product_id)
+        self._size = size
+        self._stuffing = stuffing
+        self._fabric = fabric
+
     @staticmethod
     def inventory_type() -> InventoryEnum:
         """
@@ -47,7 +67,6 @@ class StuffedAnimal(Item, ItemConstructor):
         pass
 
     @property
-    @abstractmethod
     def stuffing(self) -> Stuffing:
         """
         Returns a stuffing.
@@ -55,10 +74,9 @@ class StuffedAnimal(Item, ItemConstructor):
         • Polyester Fiberfill
         • Wool
         """
-        pass
+        return self._stuffing
 
     @property
-    @abstractmethod
     def size(self) -> Size:
         """
         Size - This can either be Small, Medium or Large
@@ -67,10 +85,9 @@ class StuffedAnimal(Item, ItemConstructor):
         • Medium
         • Large
         """
-        pass
+        return self._size
 
     @property
-    @abstractmethod
     def fabric(self) -> Fabric:
         """
         Fabric - This can either be Linen, Cotton or Acrylic
@@ -79,4 +96,4 @@ class StuffedAnimal(Item, ItemConstructor):
         • Cotton
         • Acrylic
         """
-        pass
+        return self._fabric

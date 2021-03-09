@@ -6,6 +6,7 @@
 from enums_class import InventoryEnum, Holiday
 from check_input import CheckInput
 from festive_season_factory import FestiveSeasonFactory, ChristmasFactory, HalloweenFactory, EasterFactory
+from math import isnan
 import pandas as pd
 
 
@@ -39,7 +40,7 @@ class FactoryMapping:
     """
 
     @staticmethod
-    def mapToFactory(holiday: Holiday) -> FestiveSeasonFactory:
+    def map_to_factory(holiday: Holiday) -> FestiveSeasonFactory:
         """
         Returns the factory class base on the specific holiday.
         """
@@ -65,12 +66,29 @@ class OrderProcessing:
         Reads the excel file and generates a bunch of Orders
         :param file_name: file name must be a xlsx file.
         """
-        self._file_name = file_name
-        pd.read_excel(file_name)
+        self._order_list = OrderProcessing.generate_order_list(pd.read_excel(file_name).T.to_dict())
+
+    @staticmethod
+    def generate_order_list(excel_dict: dict) -> list:
+        """
+        Generates the order list from an excel dict by pandas.
+        """
+        result = []
+        for key, value in excel_dict.items():
+            result.append({k: v for k, v in value.items() if isinstance(v, str) or not isnan(v)})
+        return result
+
+    @property
+    def order_list(self) -> list:
+        """
+        Getter of the order list.
+        """
+        return self._order_list
 
 
 def main():
     a = OrderProcessing("orders.xlsx")
+    print(a.order_list)
 
 
 if __name__ == '__main__':

@@ -25,8 +25,10 @@ class RobotBunny(Toy, Colourful):
     _generate_id = 0
 
     def __init__(self,
-                 sound_effects_number: int,
+                 num_sound: int,
                  colour: RobotBunnyColor,
+                 min_age: int = 6,
+                 has_batteries: bool = True,
                  name: str = "Fast Rabbit",
                  description: str = "This rabbit is super fast when the battery is full!",
                  product_id: str = ""
@@ -34,25 +36,25 @@ class RobotBunny(Toy, Colourful):
         """
         Constructs a robot bunny.
         """
-        self._check_input(sound_effects_number, colour, name, description, product_id)
+        self._check_input(num_sound, colour, has_batteries, name, description, product_id)
         if len(product_id) == 0:
             product_id = "T%04dE" % RobotBunny._generate_id
         self._increment_id()
-        self._sound_effects_number = sound_effects_number
+        self._num_sound = num_sound
         self._colour = colour
-        self._name = name
-        self._description = description
-        self._product_id = product_id
+        super().__init__(name, description, product_id, min_age, has_batteries)
 
     def _check_input(self,
                      sound_effects_number: int,
                      colour: RobotBunnyColor,
+                     has_batteries: bool,
                      name: str,
                      description: str,
                      product_id: str
                      ) -> None:
         CheckInput.check_type(sound_effects_number, int)
         CheckInput.check_type(colour, RobotBunnyColor)
+        CheckInput.check_type(has_batteries, bool)
         CheckInput.check_all_input_type([name, description, product_id], str)
         CheckInput.check_value_is_lower_equal_than_threshold(sound_effects_number, 0)
 
@@ -75,26 +77,6 @@ class RobotBunny(Toy, Colourful):
         return RobotBunny(sound_effects_number, colour)
 
     @property
-    def is_battery_operated(self) -> bool:
-        return True
-
-    @property
-    def min_age(self) -> int:
-        return 6
-
-    @property
-    def name(self) -> str:
-        return "%s Fast Rabbit" % self._colour
-
-    @property
-    def description(self) -> str:
-        return self._description
-
-    @property
-    def product_id(self) -> str:
-        return self._product_id
-
-    @property
     def colour(self) -> RobotBunnyColor:
         """
         Returns the colour of this robot bunny.
@@ -102,8 +84,8 @@ class RobotBunny(Toy, Colourful):
         return self._colour
 
     @property
-    def sound_effects_number(self) -> int:
+    def num_sound(self) -> int:
         """
         Returns the number of sound effects.
         """
-        return self._sound_effects_number
+        return self._num_sound

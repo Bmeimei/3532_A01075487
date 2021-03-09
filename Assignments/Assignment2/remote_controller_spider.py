@@ -28,9 +28,10 @@ class RemoteControllerSpider(Toy, GrowsInDark):
     def __init__(self,
                  speed: float,
                  jump_height: float,
-                 is_grow_in_dark: bool,
+                 has_grow: bool,
                  spider_type: SpiderType,
                  min_age: int = 8,
+                 has_batteries: bool = True,
                  name: str = "Terrifying Spider",
                  description: str = "Spider Man? Nope",
                  product_id: str = "") -> None:
@@ -39,21 +40,19 @@ class RemoteControllerSpider(Toy, GrowsInDark):
 
         :param speed: speed as a number
         :param jump_height: jump height as a number
-        :param is_grow_in_dark: a bool that represents this spider is grow in dark or not
+        :param has_grow: a bool that represents this spider is grow in dark or not
         :param spider_type: spider type
         """
-        self._check_input(speed, jump_height, is_grow_in_dark, spider_type, min_age, name, description, product_id)
+        self._check_input(speed, jump_height, has_grow, spider_type, min_age,
+                          has_batteries, name, description, product_id)
         if len(product_id) == 0:
             product_id = "T%04dH" % RemoteControllerSpider._generate_id
         self._increment_id()
         self._speed = speed
         self._jump_height = jump_height
-        self._is_grow_in_dark = is_grow_in_dark
+        self._has_grow = has_grow
         self._spider_type = spider_type
-        self._min_age = min_age
-        self._name = name
-        self._description = description
-        self._product_id = product_id
+        super().__init__(name, description, product_id, min_age, has_batteries)
 
     @staticmethod
     def holiday_type() -> Holiday:
@@ -68,6 +67,7 @@ class RemoteControllerSpider(Toy, GrowsInDark):
                      is_grow_in_dark: bool,
                      spider_type: SpiderType,
                      min_age: int,
+                     has_batteries: bool,
                      name: str,
                      description: str,
                      product_id: str
@@ -77,7 +77,7 @@ class RemoteControllerSpider(Toy, GrowsInDark):
         """
         CheckInput.check_all_input_type([speed, jump_height, min_age], int, float)
         CheckInput.check_type(spider_type, SpiderType)
-        CheckInput.check_type(is_grow_in_dark, bool)
+        CheckInput.check_all_input_type([is_grow_in_dark, has_batteries], bool)
         CheckInput.check_all_input_type([name, description, product_id], str)
         CheckInput.check_all_input_value_is_lower_equal_than_threshold([speed, jump_height, min_age], 0)
 
@@ -96,26 +96,6 @@ class RemoteControllerSpider(Toy, GrowsInDark):
         return RemoteControllerSpider(speed, jump_height, is_grow_in_dark, spider_type)
 
     @property
-    def is_battery_operated(self) -> bool:
-        return True
-
-    @property
-    def min_age(self) -> int:
-        return self._min_age
-
-    @property
-    def name(self) -> str:
-        return self._name
-
-    @property
-    def description(self) -> str:
-        return self._description
-
-    @property
-    def product_id(self) -> str:
-        return self._product_id
-
-    @property
     def speed(self) -> float:
         """
         Returns the speed of this spider as a number.
@@ -130,11 +110,11 @@ class RemoteControllerSpider(Toy, GrowsInDark):
         return self._jump_height
 
     @property
-    def is_grow_in_dark(self) -> bool:
+    def has_grow(self) -> bool:
         """
         Returns a bool that represents if this spider is growing in dark or not.
         """
-        return self._is_grow_in_dark
+        return self._has_grow
 
     @property
     def spider_type(self) -> SpiderType:

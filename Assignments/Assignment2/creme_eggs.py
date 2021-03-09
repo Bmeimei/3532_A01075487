@@ -18,8 +18,9 @@ class CremeEggs(Candy):
     _generate_id = 0
 
     def __init__(self,
-                 contains_nuts: bool,
+                 has_nuts: bool,
                  pack_size: int,
+                 has_lactose: bool = False,
                  name: str = "Creme Eggs",
                  description: str = "Creme Eggs are Easter themed and"
                                     " are not lactose free and may contain traces of nuts.",
@@ -29,19 +30,16 @@ class CremeEggs(Candy):
         Constructs a Creme Eggs.
 
         :param pack_size: containing a different number of creme eggs as an int
-        :param contains_nuts: true if it contains nuts, false if not
+        :param has_nuts: true if it contains nuts, false if not
 
         :precondition: pack_size must be a positive int
         """
-        self._check_input(contains_nuts, pack_size, name, description, product_id)
+        self._check_input(has_nuts, has_lactose, pack_size, name, description, product_id)
         if len(product_id) == 0:
             product_id = "C%04dE" % CremeEggs._generate_id
         self._increment_id()
-        self._contains_nuts = contains_nuts
         self._pack_size = pack_size
-        self._name = name
-        self._description = description
-        self._product_id = product_id
+        super().__init__(name, description, product_id, has_nuts, has_lactose)
 
     @staticmethod
     def generate_random_candy() -> Candy:
@@ -55,20 +53,6 @@ class CremeEggs(Candy):
         return CremeEggs(contains_nuts, pack_size)
 
     @property
-    def contains_nuts(self) -> bool:
-        """
-        Creme Eggs may contain traces of nuts.
-        """
-        return self._contains_nuts
-
-    @property
-    def lactose_free(self) -> bool:
-        """
-        Creme Eggs are not lactose free.
-        """
-        return False
-
-    @property
     def pack_size(self) -> int:
         """
         Pack Size - The creme eggs come in different packets, each containing a different number of creme eggs.
@@ -76,18 +60,6 @@ class CremeEggs(Candy):
         :return: pack size as an int
         """
         return self._pack_size
-
-    @property
-    def name(self) -> str:
-        return self._name
-
-    @property
-    def description(self) -> str:
-        return self._description
-
-    @property
-    def product_id(self) -> str:
-        return self._product_id
 
     @staticmethod
     def holiday_type() -> Holiday:
@@ -97,7 +69,8 @@ class CremeEggs(Candy):
         return Holiday.EASTER
 
     def _check_input(self,
-                     contains_nut: bool,
+                     has_nut: bool,
+                     has_lactose: bool,
                      pack_size: int,
                      name: str,
                      description: str,
@@ -105,5 +78,5 @@ class CremeEggs(Candy):
                      ) -> None:
         CheckInput.check_type(pack_size, int)
         CheckInput.check_value_is_lower_equal_than_threshold(pack_size, 0)
-        CheckInput.check_type(contains_nut, bool)
+        CheckInput.check_all_input_type([has_nut, has_lactose], bool)
         CheckInput.check_all_input_type([name, description, product_id], str)

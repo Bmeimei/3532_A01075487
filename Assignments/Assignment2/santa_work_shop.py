@@ -22,8 +22,11 @@ class SantaWorkShop(Toy):
     """
     _generate_id = 0
 
-    def __init__(self, dimensions: float, rooms_number: int,
+    def __init__(self,
+                 dimensions: float,
+                 num_rooms: int,
                  min_age: int = 5,
+                 has_batteries: bool = False,
                  name: str = "Santa Workshop",
                  description: str = "Merry Christmas!",
                  product_id: str = ""
@@ -31,18 +34,15 @@ class SantaWorkShop(Toy):
         """
         Constructs a Santa's Work Shop.
 
-        :param rooms_number: rooms number as an int
+        :param num_rooms: rooms number as an int
         """
-        self._check_input(rooms_number, dimensions, min_age, name, description, product_id)
+        self._check_input(num_rooms, dimensions, min_age, has_batteries, name, description, product_id)
         if len(product_id) == 0:
             product_id = "T%04dC" % SantaWorkShop._generate_id
         self._increment_id()
         self._dimensions = dimensions
-        self._rooms_number = rooms_number
-        self._min_age = min_age
-        self._name = name
-        self._description = description
-        self._product_id = product_id
+        self._num_rooms = num_rooms
+        super().__init__(name, description, product_id, min_age, has_batteries)
 
     @staticmethod
     def holiday_type() -> Holiday:
@@ -55,6 +55,7 @@ class SantaWorkShop(Toy):
                      rooms_number: int,
                      dimensions: float,
                      min_age: int,
+                     has_batteries: bool,
                      name: str,
                      description: str,
                      product_id: str) -> None:
@@ -63,6 +64,7 @@ class SantaWorkShop(Toy):
         """
         CheckInput.check_all_input_type([rooms_number, min_age], int)
         CheckInput.check_type(dimensions, int, float)
+        CheckInput.check_type(has_batteries, bool)
         CheckInput.check_all_input_value_is_lower_equal_than_threshold([rooms_number, dimensions, min_age], 0)
         CheckInput.check_all_input_type([description, product_id, name], str)
 
@@ -78,29 +80,6 @@ class SantaWorkShop(Toy):
         return SantaWorkShop(dimensions, rooms_number)
 
     @property
-    def is_battery_operated(self) -> bool:
-        """
-        Santa Work Shop is not a battery operated toy.
-        """
-        return False
-
-    @property
-    def min_age(self) -> int:
-        return self._min_age
-
-    @property
-    def name(self) -> str:
-        return self._name
-
-    @property
-    def description(self) -> str:
-        return self._description
-
-    @property
-    def product_id(self) -> str:
-        return self._product_id
-
-    @property
     def dimension(self) -> float:
         """
         Returns the dimensions of this Santa's Work shop.
@@ -110,10 +89,10 @@ class SantaWorkShop(Toy):
         return self._dimensions
 
     @property
-    def rooms_number(self) -> int:
+    def num_rooms(self) -> int:
         """
         Returns the number of rooms.
 
         :return: An int that represents the number of rooms.
         """
-        return self._rooms_number
+        return self._num_rooms

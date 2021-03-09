@@ -24,6 +24,23 @@ class Toy(Item, ItemConstructor):
 
     _inventory_type = InventoryEnum.TOYS
 
+    def __init__(self,
+                 name: str,
+                 description: str,
+                 product_id: str,
+                 min_age: int,
+                 has_batteries: bool,
+                 ) -> None:
+        """
+        Constructs a toy.
+
+        :param min_age: The minimum recommended age of the child that the toy is safe for.
+        :param has_batteries: Whether the toy is battery operated or not.
+        """
+        super().__init__(name, description, product_id)
+        self._min_age = min_age
+        self._has_batteries = has_batteries
+
     @staticmethod
     def inventory_type() -> InventoryEnum:
         """
@@ -47,17 +64,15 @@ class Toy(Item, ItemConstructor):
         pass
 
     @property
-    @abstractmethod
-    def is_battery_operated(self) -> bool:
+    def has_batteries(self) -> bool:
         """
         Returns a boolean that represents whether the toy is battery operated or not.
         """
-        pass
+        return self._has_batteries
 
     @property
-    @abstractmethod
     def min_age(self) -> int:
         """
         Returns an int that represents the minimum recommended age of the child that the toy is safe for.
         """
-        pass
+        return self._min_age

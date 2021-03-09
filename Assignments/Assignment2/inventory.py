@@ -6,6 +6,7 @@
 from item import Item
 from check_input import CheckInput
 from santa_work_shop import SantaWorkShop
+from creme_eggs import CremeEggs
 
 
 class Inventory:
@@ -98,6 +99,12 @@ class Inventory:
 
             print("%s - %s" % (item, status))
 
+    def __iter__(self) -> iter:
+        """
+        Generates an iterator for the inventory.
+        """
+        return iter(self._items)
+
 
 def main():
     a = Inventory.get_inventory()
@@ -105,6 +112,7 @@ def main():
     a.import_items(item, 10)
     a.import_items(SantaWorkShop(3.4, 2))
     a.import_items(SantaWorkShop(3.4, 2))
+    a.import_items(CremeEggs(False, 30), 5)
     a.check_stock()
 
 

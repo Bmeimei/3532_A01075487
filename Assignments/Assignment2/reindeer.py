@@ -23,21 +23,21 @@ class Reindeer(StuffedAnimal, GrowsInDark):
 
     def __init__(self,
                  size: Size,
+                 stuffing: Stuffing = Stuffing.WOOL,
+                 fabric: Fabric = Fabric.COTTON,
+                 has_grow: bool = True,
                  name: str = "Reindeer.",
                  description: str = "Reindeer is so soft and it is the best Friend of Santa.",
-                 product_id: str = ""
-                 ) -> None:
+                 product_id: str = "") -> None:
         """
         Constructs a Reindeer.
         """
-        self._check_input(size, name, description, product_id)
-        self._size = size
+        self._check_input(size, stuffing, fabric, has_grow, name, description, product_id)
         if len(product_id) == 0:
             product_id = "S%04dC" % Reindeer._generate_id
         self._increment_id()
-        self._name = name
-        self._description = description
-        self._product_id = product_id
+        self._has_grow = has_grow
+        super().__init__(name, description, product_id, size, stuffing, fabric)
 
     @staticmethod
     def generate_random_animal() -> StuffedAnimal:
@@ -52,51 +52,20 @@ class Reindeer(StuffedAnimal, GrowsInDark):
         return Holiday.CHRISTMAS
 
     @property
-    def stuffing(self) -> Stuffing:
-        """
-        Reindeer is made out stuffed with Wool.
-        """
-        return Stuffing.WOOL
-
-    @property
-    def size(self) -> Size:
-        return self._size
-
-    @property
-    def fabric(self) -> Fabric:
-        """
-        Reindeer is made out of Cotton.
-        """
-        return Fabric.COTTON
-
-    @property
-    def name(self) -> str:
-        return "Reindeer."
-
-    @property
-    def description(self) -> str:
-        return "Reindeer is so soft and it is the best Friend of Santa."
-
-    @property
-    def product_id(self) -> str:
-        return "S%04dC" % self._generate_id
-
-    @property
-    def nose(self) -> str:
-        """
-        Reindeer has a glow in the dark nose.
-        """
-        return "Dark Cute Nose"
-
-    @property
-    def is_grow_in_dark(self) -> bool:
-        return True
+    def has_grow(self) -> bool:
+        return self._has_grow
 
     def _check_input(self,
                      size: Size,
+                     stuffing: Stuffing,
+                     fabric: Fabric,
+                     has_grow: bool,
                      name: str,
                      description: str,
                      product_id: str
                      ) -> None:
         CheckInput.check_type(size, Size)
+        CheckInput.check_type(stuffing, Stuffing)
+        CheckInput.check_type(fabric, Fabric)
+        CheckInput.check_type(has_grow, bool)
         CheckInput.check_all_input_type([name, description, product_id], str)
