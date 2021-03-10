@@ -37,7 +37,7 @@ class Inventory:
             Inventory()
         return Inventory.__instance
 
-    def import_items(self, item: Item, count: int = 1) -> None:
+    def import_items(self, item: Item, count: int = 100) -> None:
         """
         Add Items stock. If the item already existed in the inventory, increase the count.
         Else put the item into inventory.
@@ -48,22 +48,37 @@ class Inventory:
         CheckInput.check_type(item, Item)
         CheckInput.check_type(count, int)
         CheckInput.check_value_is_lower_equal_than_threshold(count, 0)
+        if count < 100:
+            count = 100
         if item in self._items.keys():
             self._items[item] += count
             return None
         self._items[item] = count
 
-    def check_if_item_enough(self, item: Item, count: int) -> bool:
+    def get_item_by_product_id(self, product_id: str) -> Item or None:
+        """
+        Gets item from inventory by product id. Return None if not found.
+
+        :param product_id: product id as a string
+        """
+        for item in self._items.keys():
+            item_product_id = item.product_id
+            if product_id == item_product_id:
+                return item
+        return None
+
+    def check_if_item_enough(self, product_id: str, count: int) -> bool:
         """
         Checks if the inventory has enough stock for exporting this item.
 
         :return: True if it has enough items, False if not
         """
-        CheckInput.check_type(item, Item)
+        CheckInput.check_type(product_id, str)
         CheckInput.check_type(count, int)
         CheckInput.check_value_is_lower_equal_than_threshold(count, 0)
-        if item not in self._items.keys():
-            raise False
+        item = self.get_item_by_product_id(product_id)
+        if item is None:
+            return False
         return self._items[item] >= count
 
     def export_items(self, item: Item, count: int = 1) -> None:
@@ -81,6 +96,14 @@ class Inventory:
         if self._items[item] < count:
             raise ValueError("The Inventory doesn't have enough stock for %s" % item)
         self._items[item] -= count
+
+    def export_items_by_id(self, product_id: str, count: int = 1) -> None:
+        """
+        Exports Items from the inventory by product id.
+        """
+        CheckInput.check_type(product_id, str)
+        item = self.get_item_by_product_id(product_id)
+        self.export_items(item, count)
 
     def check_stock(self) -> None:
         """

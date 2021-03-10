@@ -21,7 +21,7 @@ class DancingSkeleton(StuffedAnimal, GrowsInDark):
                  size: Size,
                  stuffing: Stuffing = Stuffing.POLYESTER_Fiberfill,
                  fabric: Fabric = Fabric.ACRYLIC,
-                 has_grow: bool = True,
+                 has_glow: bool = True,
                  name: str = "Dancing Skeleton",
                  description: str = "Actually this skeleton is not terrible, it is cute as coco.",
                  product_id: str = ""
@@ -29,18 +29,18 @@ class DancingSkeleton(StuffedAnimal, GrowsInDark):
         """
         Constructs a Dancing Skeleton.
         """
-        self._check_input(size, stuffing, fabric, has_grow, name, description, product_id)
+        self._check_input(size, stuffing, fabric, has_glow, name, description, product_id)
         if len(product_id) == 0:
             product_id = "S%04dD" % DancingSkeleton._generate_id
         self._increment_id()
-        self._has_grow = has_grow
+        self._has_glow = has_glow
         super().__init__(name, description, product_id, size, stuffing, fabric)
 
     def _check_input(self,
                      size: Size,
                      stuffing: Stuffing,
                      fabric: Fabric,
-                     has_grow: bool,
+                     has_glow: bool,
                      name: str,
                      description: str,
                      product_id: str
@@ -48,7 +48,7 @@ class DancingSkeleton(StuffedAnimal, GrowsInDark):
         CheckInput.check_type(size, Size)
         CheckInput.check_type(stuffing, Stuffing)
         CheckInput.check_type(fabric, Fabric)
-        CheckInput.check_type(has_grow)
+        CheckInput.check_type(has_glow, bool)
         CheckInput.check_all_input_type([name, description, product_id], str)
 
     @staticmethod
@@ -65,8 +65,8 @@ class DancingSkeleton(StuffedAnimal, GrowsInDark):
         return DancingSkeleton(size)
 
     @property
-    def has_grow(self) -> bool:
+    def has_glow(self) -> bool:
         """
         The dancing skeleton also glows in the dark.
         """
-        return self._has_grow
+        return self._has_glow

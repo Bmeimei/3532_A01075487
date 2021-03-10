@@ -13,7 +13,7 @@ class GrowsInDark(ABC):
 
     @property
     @abstractmethod
-    def has_grow(self) -> bool:
+    def has_glow(self) -> bool:
         """
         Returns a bool that represents if this class is growing in dark or not.
         """

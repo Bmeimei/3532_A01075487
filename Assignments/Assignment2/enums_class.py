@@ -35,7 +35,7 @@ class Enums(Enum):
         Maps the string to the enum type.
         """
         for enum in list(cls):
-            if word == str(enum):
+            if word.strip() == str(enum).strip():
                 return enum
         raise ValueError(f'{word} not exist in this enum class!')
 
@@ -218,7 +218,7 @@ class Stuffing(Enums):
         Returns the name of stuffing as a string.
         """
         if self is Stuffing.POLYESTER_Fiberfill:
-            return "Polyester Fiberfill"
+            return "Polyester Fibrefill"
         return "Wool"
 
 
@@ -233,6 +233,16 @@ class Size(Enums):
     SMALL = auto()
     MEDIUM = auto()
     LARGE = auto()
+
+    def __str__(self):
+        """
+        Returns the name of size as a string.
+        """
+        if self is Size.SMALL:
+            return "S"
+        if self is Size.MEDIUM:
+            return "M"
+        return "L"
 
 
 class Fabric(Enums):

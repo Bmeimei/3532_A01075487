@@ -25,18 +25,18 @@ class Reindeer(StuffedAnimal, GrowsInDark):
                  size: Size,
                  stuffing: Stuffing = Stuffing.WOOL,
                  fabric: Fabric = Fabric.COTTON,
-                 has_grow: bool = True,
+                 has_glow: bool = True,
                  name: str = "Reindeer.",
                  description: str = "Reindeer is so soft and it is the best Friend of Santa.",
                  product_id: str = "") -> None:
         """
         Constructs a Reindeer.
         """
-        self._check_input(size, stuffing, fabric, has_grow, name, description, product_id)
+        self._check_input(size, stuffing, fabric, has_glow, name, description, product_id)
         if len(product_id) == 0:
             product_id = "S%04dC" % Reindeer._generate_id
         self._increment_id()
-        self._has_grow = has_grow
+        self._has_glow = has_glow
         super().__init__(name, description, product_id, size, stuffing, fabric)
 
     @staticmethod
@@ -52,8 +52,8 @@ class Reindeer(StuffedAnimal, GrowsInDark):
         return Holiday.CHRISTMAS
 
     @property
-    def has_grow(self) -> bool:
-        return self._has_grow
+    def has_glow(self) -> bool:
+        return self._has_glow
 
     def _check_input(self,
                      size: Size,

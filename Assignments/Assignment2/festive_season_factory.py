@@ -87,7 +87,7 @@ class ChristmasFactory(FestiveSeasonFactory):
         Constructs a Christmas Factory by Singleton.
         """
         if ChristmasFactory.__instance is not None:
-            raise Exception("The Factory already existed! Please don't create a new one!")
+            raise Exception("The Christmas Factory already existed! Please don't create a new one!")
         ChristmasFactory.__instance = self
 
     @classmethod
@@ -116,6 +116,14 @@ class HalloweenFactory(FestiveSeasonFactory):
 
     __instance = None
 
+    def __init__(self) -> None:
+        """
+        Constructs a Halloween Factory by Singleton.
+        """
+        if HalloweenFactory.__instance is not None:
+            raise Exception("The Halloween Factory already existed! Please don't create a new one!")
+        HalloweenFactory.__instance = self
+
     @classmethod
     def get_instance(cls) -> 'FestiveSeasonFactory':
         if cls.__instance is None:
@@ -138,6 +146,14 @@ class EasterFactory(FestiveSeasonFactory):
     """
 
     __instance = None
+
+    def __init__(self) -> None:
+        """
+        Constructs a Christmas Factory by Singleton.
+        """
+        if EasterFactory.__instance is not None:
+            raise Exception("The Easter Factory already existed! Please don't create a new one!")
+        EasterFactory.__instance = self
 
     @classmethod
     def get_instance(cls) -> 'FestiveSeasonFactory':

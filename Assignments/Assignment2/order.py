@@ -42,6 +42,55 @@ class Order:
         self._product_details = product_details
         self._factory = factory
 
+    @property
+    def order_number(self) -> str:
+        """
+        Getters for order number.
+        """
+        return self._order_number
+
+    @property
+    def product_id(self) -> str:
+        """
+        Getters for product id.
+        """
+        return self._product_id
+
+    @property
+    def name(self) -> str:
+        """
+        Getters for name.
+        """
+        return self._name
+
+    @property
+    def item_type(self) -> InventoryEnum:
+        """
+        Getters for item type.
+        """
+        return self._item_type
+
+    @property
+    def quantity(self) -> int:
+        """
+        Getters for quantity.
+        """
+        return self._quantity
+
+    @property
+    def product_details(self) -> dict:
+        """
+        Getters for product details.
+        """
+        return self._product_details
+
+    @property
+    def factory(self) -> FestiveSeasonFactory:
+        """
+        Getters for factory.
+        """
+        return self._factory
+
     def __str__(self) -> str:
         """
         Gets the string of the order information.
@@ -99,4 +148,5 @@ class OrderProcessing:
         quantity = int(row.pop('quantity', None))
         item_type = InventoryEnum.map_str_to_enum(row.pop('item', None))
         factory = FactoryMapping.map_to_factory(holiday)
+        row = FactoryMapping.map_attributes(row)
         return Order(order_number, product_id, name, quantity, item_type, row, factory)

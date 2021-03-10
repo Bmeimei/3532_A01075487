@@ -3,7 +3,7 @@
 # Created time :    2021/2/23 20:26 
 # File Name:        store.py
 from item import Item
-from order import Order, OrderProcessing
+from order import Order
 from inventory import Inventory
 
 
@@ -23,22 +23,28 @@ class Store:
         self._orders = []
         self._inventory = Inventory()
 
-    def receive_order(self, order: Order) -> None:
+    def receive_order_and_process_it(self, order: Order) -> None:
         """
         Receives one order and appends it into orders list.
         """
         self._orders.append(order)
-        # file_name = input("Please input the order file name(Optional, Default is orders.xlsx): ")
-        # if len(file_name) == 0:
-        #     file_name = "orders.xlsx"
-        # process_order = OrderProcessing(file_name)
-        # self._orders.extend(process_order.process_orders())
+        quantity = order.quantity
+        factory = order.factory
+        inventory_type = order.item_type
+        product_id = order.product_id
+        product_details = order.product_details
+        product_details["product_id"] = product_id
+        product_details["name"] = order.name
+        if not self._inventory.check_if_item_enough(product_id, quantity):
+            item = factory.create_item(inventory_type, **product_details)
+            self.get_items_from_factory(item, quantity)
+        self._inventory.export_items_by_id(product_id, quantity)
 
     def get_items_from_factory(self, item: Item, quantity: int = 100):
         """
         Gets items if the store does not have enough stock.
         """
-        pass
+        self._inventory.import_items(item, quantity)
 
     def create_daily_transaction_report(self):
         """
@@ -52,13 +58,3 @@ class Store:
         Checks store stock from the inventory.
         """
         self._inventory.check_stock()
-
-
-def main():
-    a = Store()
-    a.receive_orders()
-    a.create_daily_transaction_report()
-
-
-if __name__ == '__main__':
-    main()

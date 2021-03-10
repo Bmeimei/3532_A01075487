@@ -2,8 +2,8 @@
 # Student Number :  A01075487
 # Created time :    2021/2/24 20:34 
 # File Name:        woohoo_market.py
+from order import OrderProcessing
 from store import Store
-from inventory import Inventory
 
 
 class WooHooMarket:
@@ -37,24 +37,63 @@ class WooHooMarket:
         """
         self._store = Store()
 
-    def process_web_orders(self) -> None:
+    def _process_web_orders(self) -> None:
         """
         At the end of each day the store owner downloads an excel
         file of all the online orders placed that day and process them through the system.
         """
-        pass
+        file_name = input("Please input the order file name(Optional, Default is orders.xlsx): ")
+        if len(file_name) == 0:
+            file_name = "orders.xlsx"
+        process_order = OrderProcessing(file_name)
+        for order in process_order:
+            self._store.receive_order_and_process_it(order)
+        print("-" * 50)
+        print("Successfully Processed All the Orders! ")
+        print("-" * 50)
+        print()
 
-    def check_inventory(self) -> None:
+    def _check_inventory(self) -> None:
         """
         This allows the cashier to check what is currently in stock and
         will also provide a status indicator for items if the stock for this item
         """
+        print("-" * 50)
         self._store.check_store_stock()
+        print("-" * 50)
+
+    def _exit_and_print_daily_transaction_report(self) -> None:
+        """
+        Exits the program and print the daily transaction report.
+        """
+        self._store.create_daily_transaction_report()
+
+    def execute_program(self) -> None:
+        """
+        Run the program -- Woo Hoo Market!
+        """
+        print("Welcome To WOO HOO MARKET!!")
+        print("-" * 50)
+        while True:
+            select = input("1. Process Web Orders\n"
+                           "2. Check Inventory\n"
+                           "3. Exit\n"
+                           "Please enter a command: ")
+            if select == "1":
+                self._process_web_orders()
+            elif select == "2":
+                self._check_inventory()
+            elif select == "3":
+                self._exit_and_print_daily_transaction_report()
+                break
+            else:
+                print("%s is an INVALID Command! Please input again!" % select)
+                print("-" * 50)
 
 
 def main():
     market = WooHooMarket()
-    market.check_inventory()
+    market.execute_program()
 
 
 if __name__ == '__main__':
