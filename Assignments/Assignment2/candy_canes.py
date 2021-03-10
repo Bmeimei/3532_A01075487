@@ -4,7 +4,7 @@
 # File Name:        candy_canes.py
 from check_input import CheckInput
 from candy import Candy
-from enums_class import CandyCanesColor, Holiday
+from enums_class import Colours, Holiday
 from colourful import Colourful
 
 
@@ -17,8 +17,10 @@ class CandyCanes(Candy, Colourful):
 
     _generate_id = 0
 
+    _valid_colour = [Colours.RED, Colours.GREEN]
+
     def __init__(self,
-                 stripes_colour: CandyCanesColor,
+                 colour: Colours,
                  has_nuts: bool = False,
                  has_lactose: bool = True,
                  name: str = "Candy Canes",
@@ -31,26 +33,20 @@ class CandyCanes(Candy, Colourful):
         """
         Constructs a Candy Canes.
 
-        :param stripes_colour: The stripes on the candy cane can either be Red or Green
+        :param colour: The stripes on the candy cane can either be Red or Green
         """
-        self._check_input(stripes_colour, has_nuts, has_lactose, name, description, product_id)
+        self._check_input(colour, has_nuts, has_lactose, name, description, product_id)
         if len(product_id) == 0:
             product_id = "C%04dC" % CandyCanes._generate_id
         self._increment_id()
-        self._stripes_colour = stripes_colour
+        self._stripes_colour = colour
         super().__init__(name, description, product_id, has_nuts, has_lactose)
+        self.check_colour()
 
     @staticmethod
     def generate_random_candy() -> Candy:
-        stripes_colour = CandyCanesColor.generate_random_child()
+        stripes_colour = Colours.get_random_candy_canes_color()
         return CandyCanes(stripes_colour)
-
-    @property
-    def stripes_colour(self) -> CandyCanesColor:
-        """
-        Gets Stripes Colour.
-        """
-        return self._stripes_colour
 
     @staticmethod
     def holiday_type() -> Holiday:
@@ -60,8 +56,8 @@ class CandyCanes(Candy, Colourful):
         return Holiday.CHRISTMAS
 
     @property
-    def colour(self) -> CandyCanesColor:
-        return self.stripes_colour
+    def colour(self) -> Colours:
+        return self._stripes_colour
 
     def _check_input(self,
                      stripes_colour,
@@ -71,6 +67,6 @@ class CandyCanes(Candy, Colourful):
                      description: str,
                      product_id: str
                      ) -> None:
-        CheckInput.check_type(stripes_colour, CandyCanesColor)
+        CheckInput.check_type(stripes_colour, Colours)
         CheckInput.check_all_input_type([name, description, product_id], str)
         CheckInput.check_all_input_type([has_lactose, has_nuts], bool)

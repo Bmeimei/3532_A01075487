@@ -1,4 +1,3 @@
-
 """
 This module is responsible for holding a badly written (but not so bad
 that you won't find this in the workplace) BookAnalyzer class that needs
@@ -101,12 +100,12 @@ def main():
     book_analyzer = BookAnalyzer()
     book_analyzer.read_data()
     unique_words = book_analyzer.find_unique_words()
-    print("-"*50)
+    print("-" * 50)
     print(f"List of unique words (Count: {len(unique_words)})")
-    print("-"*50)
+    print("-" * 50)
     for word in unique_words:
         print(word)
-    print("-"*50)
+    print("-" * 50)
 
 
 if __name__ == '__main__':

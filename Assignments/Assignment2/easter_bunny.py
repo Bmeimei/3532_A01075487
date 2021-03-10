@@ -2,7 +2,7 @@
 # Student Number :  A01075487
 # Created time :    2021/2/24 13:22 
 # File Name:        easter_bunny.py
-from enums_class import Fabric, Size, Stuffing, Holiday, Colours, EasterBunnyColor
+from enums_class import Fabric, Size, Stuffing, Holiday, Colours
 from stuffed_animal import StuffedAnimal
 from check_input import CheckInput
 from colourful import Colourful
@@ -20,8 +20,10 @@ class EasterBunny(StuffedAnimal, Colourful):
     """
     _generate_id = 0
 
+    _valid_colour = [Colours.WHITE, Colours.GREY, Colours.PINK, Colours.BLUE]
+
     def __init__(self,
-                 colour: EasterBunnyColor,
+                 colour: Colours,
                  size: Size,
                  stuffing: Stuffing = Stuffing.POLYESTER_Fiberfill,
                  fabric: Fabric = Fabric.LINEN,
@@ -38,6 +40,7 @@ class EasterBunny(StuffedAnimal, Colourful):
             product_id = "S%04dE" % EasterBunny._generate_id
         self._increment_id()
         super().__init__(name, description, product_id, size, stuffing, fabric)
+        self.check_colour()
 
     @property
     def colour(self) -> Colours:
@@ -48,7 +51,7 @@ class EasterBunny(StuffedAnimal, Colourful):
 
     @staticmethod
     def generate_random_animal() -> StuffedAnimal:
-        colour = EasterBunnyColor.generate_random_child()
+        colour = Colours.get_random_easter_bunny_color()
         size = Size.generate_random_child()
         return EasterBunny(colour, size)
 
@@ -60,7 +63,7 @@ class EasterBunny(StuffedAnimal, Colourful):
         return Holiday.EASTER
 
     def _check_input(self,
-                     colour: EasterBunnyColor,
+                     colour: Colours,
                      size: Size,
                      stuffing: Stuffing,
                      fabric: Fabric,
@@ -68,7 +71,7 @@ class EasterBunny(StuffedAnimal, Colourful):
                      description: str,
                      product_id: str
                      ) -> None:
-        CheckInput.check_type(colour, EasterBunnyColor)
+        CheckInput.check_type(colour, Colours)
         CheckInput.check_type(stuffing, Stuffing)
         CheckInput.check_type(fabric, Fabric)
         CheckInput.check_type(size, Size)

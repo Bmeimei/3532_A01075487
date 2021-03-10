@@ -22,7 +22,7 @@ class Toy(Item, ItemConstructor):
     • Product ID (A unique combination of letters and numbers)
     """
 
-    _inventory_type = InventoryEnum.TOYS
+    _inventory_type = InventoryEnum.TOY
 
     def __init__(self,
                  name: str,

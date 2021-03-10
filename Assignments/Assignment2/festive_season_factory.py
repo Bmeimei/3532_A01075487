@@ -32,6 +32,16 @@ class FestiveSeasonFactory(ABC):
     It also has a default method: create_item(), which would generate an item based on the item type.
     """
 
+    __instance = None
+
+    @classmethod
+    @abstractmethod
+    def get_instance(cls) -> 'FestiveSeasonFactory':
+        """
+        Gets instance from the Singleton class.
+        """
+        pass
+
     @abstractmethod
     def create_toy(self, **product_details) -> Toy:
         """
@@ -58,9 +68,9 @@ class FestiveSeasonFactory(ABC):
         Constructs an item based on the inventory type.
         """
         CheckInput.check_type(inventory_type, InventoryEnum)
-        if inventory_type == InventoryEnum.TOYS:
+        if inventory_type == InventoryEnum.TOY:
             return self.create_toy(**product_details)
-        if inventory_type == InventoryEnum.STUFFED_ANIMALS:
+        if inventory_type == InventoryEnum.STUFFED_ANIMAL:
             return self.create_stuffed_animal(**product_details)
         return self.create_candy(**product_details)
 
@@ -69,6 +79,25 @@ class ChristmasFactory(FestiveSeasonFactory):
     """
     Christmas Factory.
     """
+
+    __instance = None
+
+    def __init__(self) -> None:
+        """
+        Constructs a Christmas Factory by Singleton.
+        """
+        if ChristmasFactory.__instance is not None:
+            raise Exception("The Factory already existed! Please don't create a new one!")
+        ChristmasFactory.__instance = self
+
+    @classmethod
+    def get_instance(cls) -> 'FestiveSeasonFactory':
+        """
+        Gets instance from the Singleton class.
+        """
+        if cls.__instance is None:
+            cls()
+        return cls.__instance
 
     def create_toy(self, **product_details) -> Toy:
         return SantaWorkShop(**product_details)
@@ -85,6 +114,14 @@ class HalloweenFactory(FestiveSeasonFactory):
     Halloween Factory.
     """
 
+    __instance = None
+
+    @classmethod
+    def get_instance(cls) -> 'FestiveSeasonFactory':
+        if cls.__instance is None:
+            cls()
+        return cls.__instance
+
     def create_toy(self, **product_details) -> Toy:
         return RemoteControllerSpider(**product_details)
 
@@ -99,6 +136,14 @@ class EasterFactory(FestiveSeasonFactory):
     """
     Easter Factory.
     """
+
+    __instance = None
+
+    @classmethod
+    def get_instance(cls) -> 'FestiveSeasonFactory':
+        if cls.__instance is None:
+            cls()
+        return cls.__instance
 
     def create_toy(self, **product_details) -> Toy:
         return RobotBunny(**product_details)

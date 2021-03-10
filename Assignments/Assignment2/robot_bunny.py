@@ -5,7 +5,7 @@
 from toy import Toy
 from check_input import CheckInput
 from random import randint
-from enums_class import RobotBunnyColor, Holiday
+from enums_class import Colours, Holiday
 from colourful import Colourful
 
 
@@ -24,9 +24,11 @@ class RobotBunny(Toy, Colourful):
     """
     _generate_id = 0
 
+    _valid_colour = [Colours.ORANGE, Colours.BLUE, Colours.PINK]
+
     def __init__(self,
                  num_sound: int,
-                 colour: RobotBunnyColor,
+                 colour: Colours,
                  min_age: int = 6,
                  has_batteries: bool = True,
                  name: str = "Fast Rabbit",
@@ -42,18 +44,19 @@ class RobotBunny(Toy, Colourful):
         self._increment_id()
         self._num_sound = num_sound
         self._colour = colour
+        self.check_colour()
         super().__init__(name, description, product_id, min_age, has_batteries)
 
     def _check_input(self,
                      sound_effects_number: int,
-                     colour: RobotBunnyColor,
+                     colour: Colours,
                      has_batteries: bool,
                      name: str,
                      description: str,
                      product_id: str
                      ) -> None:
         CheckInput.check_type(sound_effects_number, int)
-        CheckInput.check_type(colour, RobotBunnyColor)
+        CheckInput.check_type(colour, Colours)
         CheckInput.check_type(has_batteries, bool)
         CheckInput.check_all_input_type([name, description, product_id], str)
         CheckInput.check_value_is_lower_equal_than_threshold(sound_effects_number, 0)
@@ -73,11 +76,11 @@ class RobotBunny(Toy, Colourful):
         Sound Effects Number is range from (1, 4)
         """
         sound_effects_number = randint(1, 4)
-        colour = RobotBunnyColor.random_colour()
+        colour = Colours.get_random_robot_bunny_color()
         return RobotBunny(sound_effects_number, colour)
 
     @property
-    def colour(self) -> RobotBunnyColor:
+    def colour(self) -> Colours:
         """
         Returns the colour of this robot bunny.
         """

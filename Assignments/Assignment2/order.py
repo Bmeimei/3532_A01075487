@@ -2,10 +2,9 @@
 # Student Number :  A01075487
 # Created time :    2021/3/3 11:43 
 # File Name:        order.py
-
+from factory_mapping import FactoryMapping
 from enums_class import InventoryEnum, Holiday
-from check_input import CheckInput
-from festive_season_factory import FestiveSeasonFactory, ChristmasFactory, HalloweenFactory, EasterFactory
+from festive_season_factory import FestiveSeasonFactory
 from math import isnan
 import pandas as pd
 
@@ -24,34 +23,34 @@ class Order:
     • The order should also contain a reference to the appropriate Factory object that can create this item.
     """
 
-    def __init__(self, order_number: int, product_id: str, item_type: InventoryEnum, product_details: dict) -> None:
+    def __init__(self,
+                 order_number: str,
+                 product_id: str,
+                 name: str,
+                 quantity: int,
+                 item_type: InventoryEnum,
+                 product_details: dict,
+                 factory: FestiveSeasonFactory) -> None:
         """
         Constructs an order.
         """
         self._order_number = order_number
         self._product_id = product_id
+        self._name = name
         self._item_type = item_type
+        self._quantity = quantity
         self._product_details = product_details
+        self._factory = factory
 
-
-class FactoryMapping:
-    """
-    FactoryMapping would map the holiday to the appropriate factory class.
-    """
-
-    @staticmethod
-    def map_to_factory(holiday: Holiday) -> FestiveSeasonFactory:
+    def __str__(self) -> str:
         """
-        Returns the factory class base on the specific holiday.
+        Gets the string of the order information.
         """
-        CheckInput.check_type(holiday, Holiday)
-        if holiday == Holiday.CHRISTMAS:
-            return ChristmasFactory()
-        if holiday == Holiday.HALLOWEEN:
-            return HalloweenFactory()
-        if holiday == Holiday.EASTER:
-            return EasterFactory()
-        raise Exception("Invalid Festive!")
+        return f'Order {self._order_number},' \
+               f' Item {str(self._item_type)},' \
+               f' Product ID {self._product_id},' \
+               f' Name "{self._name}",' \
+               f' Quantity {self._quantity} '
 
 
 class OrderProcessing:
@@ -66,30 +65,39 @@ class OrderProcessing:
         Reads the excel file and generates a bunch of Orders
         :param file_name: file name must be a xlsx file.
         """
-        self._order_list = OrderProcessing.generate_order_list(pd.read_excel(file_name).T.to_dict())
+        self._excel_rows_info = OrderProcessing.get_rows_info(pd.read_excel(file_name).T.to_dict())
+
+    def __iter__(self) -> Order:
+        """
+        Iterator of the Order Processing.
+        Every time call this iterator would generate an order until the orders have been processed all.
+        """
+        yield from (self.map_to_order_from_row(row) for row in self._excel_rows_info)
+
+    def process_orders(self) -> iter:
+        """
+        Returns the generator of the processing orders.
+        """
+        return iter(self)
 
     @staticmethod
-    def generate_order_list(excel_dict: dict) -> list:
+    def get_rows_info(excel_dict: dict) -> list:
         """
-        Generates the order list from an excel dict by pandas.
+        Generates the rows list from an excel dict by pandas.
         """
         result = []
         for key, value in excel_dict.items():
             result.append({k: v for k, v in value.items() if isinstance(v, str) or not isnan(v)})
         return result
 
-    @property
-    def order_list(self) -> list:
-        """
-        Getter of the order list.
-        """
-        return self._order_list
+    @staticmethod
+    def map_to_order_from_row(row: dict) -> Order:
+        holiday = Holiday.map_str_to_enum(row.pop('holiday', None))
+        order_number = row.pop('order_number', None)
+        product_id = row.pop('product_id', None)
+        name = row.pop('name', None)
+        quantity = int(row.pop('quantity', None))
+        item_type = InventoryEnum.map_str_to_enum(row.pop('item', None))
+        factory = FactoryMapping.map_to_factory(holiday)
+        return Order(order_number, product_id, name, quantity, item_type, row, factory)
 
-
-def main():
-    a = OrderProcessing("orders.xlsx")
-    print(a.order_list)
-
-
-if __name__ == '__main__':
-    main()

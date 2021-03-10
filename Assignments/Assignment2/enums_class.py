@@ -29,6 +29,16 @@ class Enums(Enum):
         """
         return self.name.title()
 
+    @classmethod
+    def map_str_to_enum(cls, word: str) -> "Enums":
+        """
+        Maps the string to the enum type.
+        """
+        for enum in list(cls):
+            if word == str(enum):
+                return enum
+        raise ValueError(f'{word} not exist in this enum class!')
+
 
 class Holiday(Enums):
     """
@@ -47,9 +57,17 @@ class InventoryEnum(Enums):
     • Stuffed Animals
     • Candy
     """
-    TOYS = auto()
-    STUFFED_ANIMALS = auto()
+    TOY = auto()
+    STUFFED_ANIMAL = auto()
     CANDY = auto()
+
+    def __str__(self) -> str:
+        """
+        Returns a string that represents the current enum value.
+        """
+        if self is InventoryEnum.STUFFED_ANIMAL:
+            return "StuffedAnimal"
+        return self.name.title()
 
 
 class ToyEnum(Enums):
@@ -137,51 +155,52 @@ class SpiderType(Enums):
 
 class Colours(Enums):
     """
-    The abstract parent class for all child color Enums.
-    """
-    pass
+    All Colours for the program needs.
+    Including:
 
+    - RobotBunnyColor
+        • Orange
+        • Blue
+        • Pink
 
-class RobotBunnyColor(Colours):
-    """
-    The colour - This can be either Orange, Blue, or Pink and nothing else.
+    - EasterBunnyColor
+        • White
+        • Grey
+        • Pink
+        • Blue
 
-    • Orange
-    • Blue
-    • Pink
+    - CandyCanesColor
+        • Red
+        • Green
     """
     ORANGE = auto()
     BLUE = auto()
     PINK = auto()
-
-
-class EasterBunnyColor(Colours):
-    """
-    The Easter Bunny is made out of Linen and stuffed with Polyester Fiberfill.
-    It comes in different colours - White, Grey, Pink and Blue and nothing else.
-
-    • White
-    • Grey
-    • Pink
-    • Blue
-    """
     WHITE = auto()
     GREY = auto()
-    PINK = auto()
-    BLUE = auto()
-
-
-class CandyCanesColor(Colours):
-    """
-    Candy Canes are Christmas themed.
-    It is lactose free and does not contain nuts.
-    The stripes on the candy cane can either be Red or Green
-
-    • Red
-    • Green
-    """
     RED = auto()
     GREEN = auto()
+
+    @staticmethod
+    def get_random_robot_bunny_color() -> 'Colours':
+        """
+        Gets a random robot bunny color.
+        """
+        return sample([Colours.ORANGE, Colours.BLUE, Colours.PINK], 1)[0]
+
+    @staticmethod
+    def get_random_easter_bunny_color() -> 'Colours':
+        """
+        Gets a random robot bunny color.
+        """
+        return sample([Colours.WHITE, Colours.GREY, Colours.PINK, Colours.BLUE], 1)[0]
+
+    @staticmethod
+    def get_random_candy_canes_color() -> 'Colours':
+        """
+        Gets a random robot bunny color.
+        """
+        return sample([Colours.RED, Colours.GREEN], 1)[0]
 
 
 class Stuffing(Enums):

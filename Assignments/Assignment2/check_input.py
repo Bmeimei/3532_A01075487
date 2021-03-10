@@ -27,7 +27,9 @@ class CheckInput:
     @staticmethod
     def check_all_input_type(target: list[object], *target_type: type) -> None:
         """
-        Checks a bunch of inputs is one of the target type. Raises TypeError if one of the input is invalid type or None.
+
+        Checks a bunch of inputs is one of the target type.
+        Raises TypeError if one of the input is invalid type or None.
         :param target: a list that made by inputs.
         :param target_type: the target type tuple
         :raise TypeError: If one of the input target is not in the target type or target is None
