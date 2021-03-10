@@ -100,4 +100,3 @@ class OrderProcessing:
         item_type = InventoryEnum.map_str_to_enum(row.pop('item', None))
         factory = FactoryMapping.map_to_factory(holiday)
         return Order(order_number, product_id, name, quantity, item_type, row, factory)
-

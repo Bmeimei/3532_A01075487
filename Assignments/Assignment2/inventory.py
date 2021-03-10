@@ -87,6 +87,9 @@ class Inventory:
         This allows the cashier to check what is currently in stock and will also provide a status indicator for
         items if the stock for this item is LOW, VERY LOW, IN STOCK, or OUT OF STOCK.
         """
+        if not self._items:
+            print("Currently No Items In Store!")
+            return None
         for item, count in self._items.items():
             if count >= 10:
                 status = "IN STOCK"

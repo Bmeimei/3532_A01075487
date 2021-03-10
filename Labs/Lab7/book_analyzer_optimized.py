@@ -1,5 +1,3 @@
-from functools import reduce, lru_cache
-
 """
 This module is responsible for holding a badly written (but not so bad
 that you won't find this in the workplace) BookAnalyzer class that needs
@@ -15,7 +13,7 @@ class BookAnalyzer:
     """
 
     # a constant to help filter out common punctuation.
-    COMMON_PUNCTUATION = [",", "*", ";", ".", ":", "(", "[", "]", ")"]
+    COMMON_PUNCTUATION = ",*;.:([])"
 
     def __init__(self):
         self.text = None
@@ -28,9 +26,10 @@ class BookAnalyzer:
         :param src: the name of the file, a string
         """
         with open(src, mode='r', encoding='utf-8') as book_file:
-            self.text = reduce(list.__add__,
-                               map(str.split,
-                                   [line for line in book_file.readlines() if line != "\n"]))
+            self.text = []
+            temp = map(str.split, (line for line in book_file.readlines()))
+            for i in temp:
+                self.text += i
         for punctuation in self.COMMON_PUNCTUATION:
             self.text = [word.replace(punctuation, '') for word in self.text]
 
@@ -48,12 +47,12 @@ def main():
     book_analyzer = BookAnalyzer()
     book_analyzer.read_data()
     unique_words = book_analyzer.find_unique_words()
-    print("-" * 50)
+    print("--------------------------------------------------")
     print(f"List of unique words (Count: {len(unique_words)})")
-    print("-" * 50)
+    print("--------------------------------------------------")
     for word in unique_words:
         print(word)
-    print("-" * 50)
+    print("--------------------------------------------------")
 
 
 if __name__ == '__main__':
