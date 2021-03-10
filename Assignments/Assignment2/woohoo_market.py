@@ -2,6 +2,7 @@
 # Student Number :  A01075487
 # Created time :    2021/2/24 20:34 
 # File Name:        woohoo_market.py
+from Assignments.Assignment2.inventory import Inventory
 from order import OrderProcessing
 from store import Store
 

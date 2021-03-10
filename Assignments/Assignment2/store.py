@@ -21,7 +21,7 @@ class Store:
         Constructs a store.
         """
         self._orders = []
-        self._inventory = Inventory()
+        self._inventory = Inventory.get_inventory()
 
     def receive_order_and_process_it(self, order: Order) -> None:
         """
@@ -40,7 +40,7 @@ class Store:
             self.get_items_from_factory(item, quantity)
         self._inventory.export_items_by_id(product_id, quantity)
 
-    def get_items_from_factory(self, item: Item, quantity: int = 100):
+    def get_items_from_factory(self, item: Item, quantity: int):
         """
         Gets items if the store does not have enough stock.
         """
