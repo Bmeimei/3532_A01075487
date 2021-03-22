@@ -15,41 +15,35 @@ class LibraryItemGenerator:
     """
 
     @staticmethod
-    def create_book() -> Book:
+    def create_book(item_info: dict) -> Book:
         """
         Creates a book.
         """
-        call_number = input("Enter Call Number: ")
-        title = input("Enter title: ")
-        num_copies = int(input("Enter number of copies "
-                               "(positive number): "))
         author = input("Enter Author Name: ")
-        return Book(call_number, title, num_copies, author)
+        item_info["author"] = author
+        return Book(**item_info)
 
     @staticmethod
-    def create_dvd() -> DVD:
+    def create_dvd(item_info: dict) -> DVD:
         """
         Creates a DVD.
         """
-        call_number = input("Enter Call Number: ")
-        title = input("Enter title: ")
-        num_copies = int(input("Enter number of copies "
-                               "(positive number): "))
-        release_day = input("Enter Release Day:")
+        release_day = input("Enter Release Date:")
         region_code = input("Enter Region Code:")
-        return DVD(call_number, title, num_copies, release_day, region_code)
+        item_info["release_date"] = release_day
+        item_info["region_code"] = region_code
+        return DVD(**item_info)
 
     @staticmethod
-    def create_journal() -> Journal:
+    def create_journal(item_info: dict) -> Journal:
         """
         Creates a Journal.
         """
-        call_number = input("Enter Call Number: ")
-        title = input("Enter Journal Name: ")
-        num_copies = int(input("Enter Number of Copies: "))
         issue_number = input("Enter Issue Number: ")
         publisher = input("Enter Publisher Name: ")
-        return Journal(call_number, title, num_copies, issue_number, publisher)
+        item_info["issue_number"] = issue_number
+        item_info["publisher"] = publisher
+        return Journal(**item_info)
 
     @staticmethod
     def create_library_item() -> LibraryItem:
@@ -57,16 +51,29 @@ class LibraryItemGenerator:
         Creates a library item.
         """
         while True:
-            option = input("1. Book\n"
-                           "2. Journal\n"
-                           "3. DVD\n"
-                           "Please input the item option:")
-            option_dict = {
-                "1": LibraryItemGenerator.create_book,
-                "2": LibraryItemGenerator.create_journal,
-                "3": LibraryItemGenerator.create_dvd
-            }
-            if option not in option_dict:
-                print("Invalid Command! Please type it again!")
-            else:
-                return option_dict[option]()
+            try:
+                option = input("1. Book\n"
+                               "2. Journal\n"
+                               "3. DVD\n"
+                               "Please input the item option:")
+                option_dict = {
+                    "1": LibraryItemGenerator.create_book,
+                    "2": LibraryItemGenerator.create_journal,
+                    "3": LibraryItemGenerator.create_dvd
+                }
+                if option not in option_dict:
+                    print("Invalid Command! Please type it again!")
+                else:
+                    call_number = input("Enter Call Number: ")
+                    title = input("Enter title: ")
+                    num_copies = int(input("Enter number of copies "
+                                           "(positive number): "))
+                    item_info = {"call_num": call_number,
+                                 "title": title,
+                                 "num_copies": num_copies}
+                    return option_dict[option](item_info)
+
+            except ValueError:
+                print("-----------------\n"
+                      "Invalid Input, Please tyr it again!\n"
+                      "-----------------\n")

@@ -11,14 +11,14 @@ class Journal(LibraryItem):
     Journals have names, issue number, and a publisher, and a DVD class
     """
 
-    def __init__(self, call_num: str, names: str, number_of_copy: int,  issue_number: str, publisher: str) -> None:
+    def __init__(self, call_num: str, title: str, num_copies: int, issue_number: str, publisher: str) -> None:
         """
         Constructs a journal.
 
         :param issue_number: Issue Number as a string.
         :param publisher: Publisher as a string.
         """
-        super().__init__(call_num, names, number_of_copy)
+        super().__init__(call_num, title, num_copies)
         self._publisher = publisher
         self._issue_number = issue_number
 

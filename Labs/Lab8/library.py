@@ -94,6 +94,9 @@ class Library:
 
             elif string_input == '5':
                 self.catalogue.add_item()
+                print("----------\n"
+                      "Successfully Add This Item!\n"
+                      "----------")
 
             elif string_input == '6':
                 call_number = input("Enter the call number of the book")
