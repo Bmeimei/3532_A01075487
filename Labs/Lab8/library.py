@@ -100,9 +100,8 @@ class Library:
                 self.catalogue.remove_item(call_number)
 
             else:
-                break
-
-        print("Thank you for visiting the Library.")
+                print("Thank you for visiting the Library.")
+                return None
 
     def display_available_items(self) -> None:
         """
