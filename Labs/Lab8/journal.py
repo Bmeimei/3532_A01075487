@@ -22,12 +22,26 @@ class Journal(LibraryItem):
         self._publisher = publisher
         self._issue_number = issue_number
 
+    @property
+    def publisher(self) -> str:
+        """
+        Gets the publisher.
+        """
+        return self._publisher
+
+    @property
+    def issue_number(self) -> str:
+        """
+        Gets the issue number.
+        """
+        return self._issue_number
+
     def __str__(self) -> str:
         """
         Journal String.
         """
-        return f"---- Journal: {self.get_title()} ----\n" \
+        return f"---- Journal: {self.title} ----\n" \
                f"Call Number: {self.call_number}\n" \
-               f"Number Of Copy: {self._num_copies}\n" \
-               f"Issue Number: {self._issue_number}\n" \
-               f"Publisher: {self._publisher}"
+               f"Number Of Copy: {self.num_copies}\n" \
+               f"Issue Number: {self.issue_number}\n" \
+               f"Publisher: {self.publisher}"

@@ -16,13 +16,15 @@ class DVD(LibraryItem):
         self._release_date = release_date
         self._region_code = region_code
 
-    def get_release_date(self) -> str:
+    @property
+    def release_date(self) -> str:
         """
         Gets the release date.
         """
         return self._release_date
 
-    def get_region_code(self) -> str:
+    @property
+    def region_code(self) -> str:
         """
         Gets the region code.
         """
@@ -32,7 +34,8 @@ class DVD(LibraryItem):
         """
         DVD String.
         """
-        return f"---- DVD: {self.get_title()} ----\n" \
+        return f"---- DVD: {self.title} ----\n" \
                f"Call Number: {self.call_number}\n" \
-               f"Number of Copies: {self._num_copies}\n" \
-               f"Release Date: {self._release_date}"
+               f"Number of Copies: {self.num_copies}\n" \
+               f"Release Date: {self.release_date}" \
+               f"Region Code: {self.region_code}"
