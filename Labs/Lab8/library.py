@@ -44,9 +44,9 @@ class Library:
             else:
                 print(f"Could not find book with call number {call_number}"
                       f". Checkout failed.")
-        else:
-            print(f"No copies left for call number {call_number}"
-                  f". Checkout failed.")
+            return None
+        print(f"No copies left for call number {call_number}"
+              f". Checkout failed.")
 
     def display_library_menu(self) -> None:
         """
