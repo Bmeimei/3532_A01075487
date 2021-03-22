@@ -36,7 +36,7 @@ class Catalogue:
         :param title: a string
         :return: a list of titles.
         """
-        title_list = [library_book.get_title() for library_book in self._item_list]
+        title_list = [library_book.title for library_book in self._item_list]
         results = difflib.get_close_matches(title.title(), title_list, cutoff=0.2)
         return results
 
@@ -64,7 +64,7 @@ class Catalogue:
         found_book = self.retrieve_item_by_call_number(call_number)
         if found_book:
             self._item_list.remove(found_book)
-            print(f"Successfully removed {found_book.get_title()} with "
+            print(f"Successfully removed {found_book.title} with "
                   f"call number: {call_number}")
         else:
             print(f"book with call number: {call_number} not found.")

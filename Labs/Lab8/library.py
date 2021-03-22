@@ -53,58 +53,61 @@ class Library:
         Display the library menu allowing the user to either access the
         list of books, check out, return, find, add, remove a book.
         """
-        user_input = None
-        while user_input != 7:
-            print("\nWelcome to the Library!")
-            print("-----------------------")
-            print("1. Display all Item")
-            print("2. Check Out an Item")
-            print("3. Return an Item")
-            print("4. Find an Item")
-            print("5. Add an Item")
-            print("6. Remove an Item")
-            print("7. Quit")
-            string_input = input("Please enter your choice (1-7)")
+        while True:
+            try:
+                print("\nWelcome to the Library!")
+                print("-----------------------")
+                print("1. Display all Item")
+                print("2. Check Out an Item")
+                print("3. Return an Item")
+                print("4. Find an Item")
+                print("5. Add an Item")
+                print("6. Remove an Item")
+                print("7. Quit")
+                string_input = int(input("Please enter your choice (1-7)"))
 
-            # handle user pressing only enter in menu
-            if string_input == '':
-                continue
+                if string_input not in range(1, 8):
+                    print("Could not process the input. Please enter a"
+                          " number from 1 - 7.")
 
-            user_input = int(string_input)
+                elif string_input == 1:
+                    self.display_available_items()
+                    input("\n------------------------\n"
+                          "Press Enter to continue\n"
+                          "------------------------")
+                elif string_input == 2:
+                    call_number = input("Enter the call number of the book"
+                                        " you wish to check out.")
+                    self.check_out(call_number)
+                elif string_input == 3:
+                    call_number = input("Enter the call number of the book"
+                                        " you wish to return.")
+                    self.catalogue.return_item(call_number)
+                elif string_input == 4:
+                    input_title = input("Enter the title of the book:")
+                    found_titles = set(self.catalogue.find_items(input_title))
+                    print("We found the following:")
+                    if found_titles:
+                        for title in found_titles:
+                            print(title)
+                    else:
+                        print("Sorry! We found nothing with that title")
 
-            if user_input == 1:
-                self.display_available_items()
-                user_input = input("Press Enter to continue")
-            elif user_input == 2:
-                call_number = input("Enter the call number of the book"
-                                    " you wish to check out.")
-                self.check_out(call_number)
-            elif user_input == 3:
-                call_number = input("Enter the call number of the book"
-                                    " you wish to return.")
-                self.catalogue.return_item(call_number)
-            elif user_input == 4:
-                input_title = input("Enter the title of the book:")
-                found_titles = set(self.catalogue.find_items(input_title))
-                print("We found the following:")
-                if len(found_titles) > 0:
-                    for title in found_titles:
-                        print(title)
+                elif string_input == 5:
+                    self.catalogue.add_item()
+
+                elif string_input == 6:
+                    call_number = input("Enter the call number of the book")
+                    self.catalogue.remove_item(call_number)
+
                 else:
-                    print("Sorry! We found nothing with that title")
+                    break
 
-            elif user_input == 5:
-                self.catalogue.add_item()
-
-            elif user_input == 6:
-                call_number = input("Enter the call number of the book")
-                self.catalogue.remove_item(call_number)
-
-            elif user_input == 7:
-                pass
-            else:
-                print("Could not process the input. Please enter a"
-                      " number from 1 - 7.")
+            except ValueError:
+                print("-------------------------\n"
+                      "Error: Invalid Command!\n"
+                      "Please type it again!\n"
+                      "------------------------")
 
         print("Thank you for visiting the Library.")
 
