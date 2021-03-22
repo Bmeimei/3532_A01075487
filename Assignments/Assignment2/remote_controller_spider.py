@@ -30,7 +30,7 @@ class RemoteControllerSpider(Toy, GrowsInDark):
                  jump_height: float,
                  has_glow: bool,
                  spider_type: SpiderType,
-                 min_age: int = 8,
+                 min_age: int,
                  has_batteries: bool = True,
                  name: str = "Terrifying Spider",
                  description: str = "Spider Man? Nope",
@@ -93,7 +93,7 @@ class RemoteControllerSpider(Toy, GrowsInDark):
         jump_height = round(uniform(1, 3), 1)
         is_grow_in_dark = (randint(0, 1) == 0)
         spider_type = SpiderType.random_spider_type()
-        return RemoteControllerSpider(speed, jump_height, is_grow_in_dark, spider_type)
+        return RemoteControllerSpider(speed, jump_height, is_grow_in_dark, spider_type, 8)
 
     @property
     def speed(self) -> float:

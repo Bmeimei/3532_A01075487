@@ -2,7 +2,7 @@
 # Student Number :  A01075487
 # Created time :    2021/2/24 20:34 
 # File Name:        woohoo_market.py
-from order import OrderProcessing
+from order import OrderProcessing, InvalidOrder
 from store import Store
 
 
@@ -48,6 +48,7 @@ class WooHooMarket:
         process_order = OrderProcessing(file_name)
         for order in process_order:
             self._store.receive_order_and_process_it(order)
+
         print("-" * 50)
         print("Successfully Processed All the Orders! ")
         print("-" * 50)
@@ -75,19 +76,27 @@ class WooHooMarket:
         print("Welcome To WOO HOO MARKET!!")
         print("-" * 50)
         while True:
-            select = input("1. Process Web Orders\n"
-                           "2. Check Inventory\n"
-                           "3. Exit\n"
-                           "Please enter a command: ")
-            if select == "1":
-                self._process_web_orders()
-            elif select == "2":
-                self._check_inventory()
-            elif select == "3":
-                self._exit_and_print_daily_transaction_report()
-                break
-            else:
-                print("%s is an INVALID Command! Please input again!" % select)
+
+            try:
+
+                select = input("1. Process Web Orders\n"
+                               "2. Check Inventory\n"
+                               "3. Exit\n"
+                               "Please enter a command: ")
+                if select == "1":
+                    self._process_web_orders()
+                elif select == "2":
+                    self._check_inventory()
+                elif select == "3":
+                    self._exit_and_print_daily_transaction_report()
+                    break
+                else:
+                    print("%s is an INVALID Command! Please input again!" % select)
+                    print("-" * 50)
+
+            except FileNotFoundError as error:
+                print("-" * 50)
+                print(error)
                 print("-" * 50)
 
 

@@ -29,7 +29,7 @@ class RobotBunny(Toy, Colourful):
     def __init__(self,
                  num_sound: int,
                  colour: Colours,
-                 min_age: int = 6,
+                 min_age: int,
                  has_batteries: bool = True,
                  name: str = "Fast Rabbit",
                  description: str = "This rabbit is super fast when the battery is full!",
@@ -77,7 +77,7 @@ class RobotBunny(Toy, Colourful):
         """
         sound_effects_number = randint(1, 4)
         colour = Colours.get_random_robot_bunny_color()
-        return RobotBunny(sound_effects_number, colour)
+        return RobotBunny(sound_effects_number, colour, 6)
 
     @property
     def colour(self) -> Colours:

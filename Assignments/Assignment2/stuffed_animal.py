@@ -22,7 +22,7 @@ class StuffedAnimal(Item, ItemConstructor):
     • Product ID
     """
 
-    _inventory_type = InventoryEnum.CANDY
+    _inventory_type = InventoryEnum.STUFFED_ANIMAL
 
     def __init__(self,
                  name: str,

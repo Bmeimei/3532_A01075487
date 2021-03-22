@@ -37,7 +37,7 @@ class Enums(Enum):
         for enum in list(cls):
             if word.strip() == str(enum).strip():
                 return enum
-        raise ValueError(f'{word} not exist in this enum class!')
+        raise ValueError(f'{word} not exist in {str(cls)}')
 
 
 class Holiday(Enums):

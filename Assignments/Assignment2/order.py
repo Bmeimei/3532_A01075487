@@ -5,11 +5,41 @@
 from factory_mapping import FactoryMapping
 from enums_class import InventoryEnum, Holiday
 from festive_season_factory import FestiveSeasonFactory
+from check_input import CheckInput
 from math import isnan
 import pandas as pd
 
 
-class Order:
+class OrderInterface:
+    """
+    An interface that both Order and Invalid Order would implement.
+    """
+    pass
+
+
+class InvalidOrder(OrderInterface):
+    """
+    An Invalid Order Class that represents an invalid order.
+    """
+
+    def __init__(self, order_number: int, error: Exception) -> None:
+        """
+        Constructs an Invalid Order.
+
+        :param order_number: order number.
+        :param error: error message.
+        """
+        self._order_number = order_number
+        self._error = error
+
+    def __str__(self) -> str:
+        """
+        Gets the string of the order information.
+        """
+        return f'Order {self._order_number}, Could not process order data was corrupted, - {self._error}'
+
+
+class Order(OrderInterface):
     """
     Each Order contains the following:
 
@@ -24,7 +54,7 @@ class Order:
     """
 
     def __init__(self,
-                 order_number: str,
+                 order_number: int,
                  product_id: str,
                  name: str,
                  quantity: int,
@@ -34,6 +64,7 @@ class Order:
         """
         Constructs an order.
         """
+        self._check_input_type(order_number, product_id, name, quantity, item_type, product_details, factory)
         self._order_number = order_number
         self._product_id = product_id
         self._name = name
@@ -42,8 +73,26 @@ class Order:
         self._product_details = product_details
         self._factory = factory
 
+    @staticmethod
+    def _check_input_type(
+            order_number: int,
+            product_id: str,
+            name: str,
+            quantity: int,
+            item_type: InventoryEnum,
+            product_details: dict,
+            factory: FestiveSeasonFactory) -> None:
+        """
+        Checks if all inputs are valid.
+        """
+        CheckInput.check_all_input_type([product_id, name], str)
+        CheckInput.check_all_input_type([order_number, quantity], int)
+        CheckInput.check_type(item_type, InventoryEnum)
+        CheckInput.check_type(product_details, dict)
+        CheckInput.check_type(factory, FestiveSeasonFactory)
+
     @property
-    def order_number(self) -> str:
+    def order_number(self) -> int:
         """
         Getters for order number.
         """
@@ -140,13 +189,18 @@ class OrderProcessing:
         return result
 
     @staticmethod
-    def map_to_order_from_row(row: dict) -> Order:
-        holiday = Holiday.map_str_to_enum(row.pop('holiday', None))
+    def map_to_order_from_row(row: dict) -> OrderInterface:
         order_number = row.pop('order_number', None)
-        product_id = row.pop('product_id', None)
-        name = row.pop('name', None)
-        quantity = int(row.pop('quantity', None))
-        item_type = InventoryEnum.map_str_to_enum(row.pop('item', None))
-        factory = FactoryMapping.map_to_factory(holiday)
-        row = FactoryMapping.map_attributes(row)
-        return Order(order_number, product_id, name, quantity, item_type, row, factory)
+        try:
+
+            holiday = Holiday.map_str_to_enum(row.pop('holiday', None))
+            product_id = row.pop('product_id', None)
+            name = row.pop('name', None)
+            quantity = int(row.pop('quantity', None))
+            item_type = InventoryEnum.map_str_to_enum(row.pop('item', None))
+            factory = FactoryMapping.map_to_factory(holiday)
+            row = FactoryMapping.map_attributes(row)
+            return Order(order_number, product_id, name, quantity, item_type, row, factory)
+
+        except ValueError as e:
+            return InvalidOrder(order_number, e)

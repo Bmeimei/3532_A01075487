@@ -25,7 +25,7 @@ class SantaWorkShop(Toy):
     def __init__(self,
                  dimensions: float,
                  num_rooms: int,
-                 min_age: int = 5,
+                 min_age: int,
                  has_batteries: bool = False,
                  name: str = "Santa Workshop",
                  description: str = "Merry Christmas!",
@@ -77,7 +77,7 @@ class SantaWorkShop(Toy):
         """
         dimensions = round(uniform(5, 100), 2)
         rooms_number = randint(1, 5)
-        return SantaWorkShop(dimensions, rooms_number)
+        return SantaWorkShop(dimensions, rooms_number, 5)
 
     @property
     def dimension(self) -> float:
