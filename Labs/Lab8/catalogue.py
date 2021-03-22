@@ -50,10 +50,10 @@ class Catalogue:
         if found_item:
             print(f"Could not add Item with call number "
                   f"{new_item.call_number}. It already exists. ")
-        else:
-            self._item_list.append(new_item)
-            print("Item added successfully! Item details:")
-            print(new_item)
+            return None
+        self._item_list.append(new_item)
+        print("Item added successfully! Item details:")
+        print(new_item)
 
     def remove_item(self, call_number: str) -> None:
         """
@@ -66,8 +66,8 @@ class Catalogue:
             self._item_list.remove(found_book)
             print(f"Successfully removed {found_book.title} with "
                   f"call number: {call_number}")
-        else:
-            print(f"book with call number: {call_number} not found.")
+            return None
+        print(f"book with call number: {call_number} not found.")
 
     def reduce_item_count(self, call_number) -> bool:
         """
@@ -108,9 +108,10 @@ class Catalogue:
         status = self.increment_item_count(call_number)
         if status:
             print("book returned successfully!")
-        else:
-            print(f"Could not find book with call number {call_number}"
-                  f". Return failed.")
+            return None
+
+        print(f"Could not find book with call number {call_number}"
+              f". Return failed.")
 
     def retrieve_item_by_call_number(self, call_number: str) -> LibraryItem or None:
         """
