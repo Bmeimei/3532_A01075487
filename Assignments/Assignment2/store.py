@@ -61,6 +61,8 @@ class Store:
         date = datetime.now()
         file_name = f"DTR_{date.strftime('%d%m%Y_%H%M')}.txt"
         with open(file_name, 'w') as file_object:
+            file_object.write("WOOHOO Market - DAILY TRANSACTION REPORT (DRT)\n"
+                              f"{date.strftime('%d-%m-%Y  %H:%M')}\n")
             for order in self._orders:
                 file_object.write(str(order))
                 file_object.write("\n")
