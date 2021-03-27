@@ -89,7 +89,7 @@ class WooHooMarket:
                     self._check_inventory()
                 elif select == "3":
                     self._exit_and_print_daily_transaction_report()
-                    break
+                    return None
                 else:
                     print("%s is an INVALID Command! Please input again!" % select)
                     print("-" * 50)
