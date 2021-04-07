@@ -20,12 +20,10 @@ class ProducerThread(Thread):
         super().run()
         times = 0
         for city in self._cities:
-            self._queue.access_queue_lock.acquire()
             self._queue.put(ISSDataRequest.get_overhead_pass(city))
             times += 1
             if times % 5 == 0:
                 sleep(1)
-            self._queue.access_queue_lock.release()
 
 
 class ConsumerThread(Thread):
@@ -38,14 +36,12 @@ class ConsumerThread(Thread):
     def run(self) -> None:
         super().run()
         while self.data_incoming or len(self._queue) > 0:
-            self._queue.access_queue_lock.acquire()
             if len(self._queue) == 0:
                 sleep(0.75)
             else:
                 item = self._queue.get()
                 print(item)
                 sleep(0.5)
-            self._queue.access_queue_lock.release()
 
 
 def main():

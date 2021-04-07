@@ -20,19 +20,21 @@ class CityOverheadTimeQueue:
         """
         This method is responsible for adding to the queue.
         """
-        self._data_queue.append(overhead_time)
-        self._size += 1
+        with self.access_queue_lock:
+            self._data_queue.append(overhead_time)
+            self._size += 1
 
     def get(self) -> CityOverheadTimes:
         """
         This method is responsible for removing an element from a Queue.
         """
-        if self._size == 0:
-            raise IndexError("The Queue is Empty!")
-        result = self._data_queue[0]
-        del self._data_queue[0]
-        self._size -= 1
-        return result
+        with self.access_queue_lock:
+            if self._size == 0:
+                raise IndexError("The Queue is Empty!")
+            result = self._data_queue[0]
+            del self._data_queue[0]
+            self._size -= 1
+            return result
 
     def __len__(self) -> int:
         """
