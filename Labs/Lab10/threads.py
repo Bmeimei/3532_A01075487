@@ -52,8 +52,9 @@ def main():
     """
     Test the Producer and Consumer Threads.
     """
+    print("Start Testing the threads, it might costs a while at the beginning, please wait patiently~")
     queue = CityOverheadTimeQueue()
-    database = CityDatabase("city_locations_test.xlsx").city_db
+    database = CityDatabase("city_locations.xlsx").city_db
 
     cities = []
     first_part = []
