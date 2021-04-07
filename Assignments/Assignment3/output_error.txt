@@ -1,0 +1,19 @@
+Timestamp: 25/03/2021 14:26
+Number of requests: 5
+
+An error occurred. Skipping this request.
+
+An error occurred. Skipping this request.
+Name: constrict
+ID: 132
+Generation: generation-i
+Accuracy: 100
+PP: 35
+Power: 10
+Type: normal
+Damage Class: physical
+Effect (Short): Has a $effect_chance% chance to lower the target's Speed by one stage.
+
+An error occurred. Skipping this request.
+
+An error occurred. Skipping this request.

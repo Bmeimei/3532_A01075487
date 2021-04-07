@@ -1,0 +1,406 @@
+Timestamp: 25/03/2021 14:26
+Number of requests: 3
+Name: pikachu
+ID: 25
+Height: 4
+Weight: 60
+Types: electric
+
+Stats:
+------
+
+('hp', 35)
+('attack', 55)
+('defense', 40)
+('special-attack', 50)
+('special-defense', 50)
+('speed', 90)
+Abilities:
+------
+
+static
+
+lightning-rod
+
+Moves:
+-------
+
+('Move name: mega-punch', 'Level acquired: 0')
+
+('Move name: pay-day', 'Level acquired: 0')
+
+('Move name: thunder-punch', 'Level acquired: 0')
+
+('Move name: slam', 'Level acquired: 20')
+
+('Move name: mega-kick', 'Level acquired: 0')
+
+('Move name: headbutt', 'Level acquired: 0')
+
+('Move name: body-slam', 'Level acquired: 0')
+
+('Move name: take-down', 'Level acquired: 0')
+
+('Move name: double-edge', 'Level acquired: 0')
+
+('Move name: tail-whip', 'Level acquired: 6')
+
+('Move name: growl', 'Level acquired: 1')
+
+('Move name: surf', 'Level acquired: 0')
+
+('Move name: submission', 'Level acquired: 0')
+
+('Move name: counter', 'Level acquired: 0')
+
+('Move name: seismic-toss', 'Level acquired: 0')
+
+('Move name: strength', 'Level acquired: 0')
+
+('Move name: thunder-shock', 'Level acquired: 1')
+
+('Move name: thunderbolt', 'Level acquired: 0')
+
+('Move name: thunder-wave', 'Level acquired: 9')
+
+('Move name: thunder', 'Level acquired: 43')
+
+('Move name: dig', 'Level acquired: 0')
+
+('Move name: toxic', 'Level acquired: 0')
+
+('Move name: agility', 'Level acquired: 33')
+
+('Move name: quick-attack', 'Level acquired: 16')
+
+('Move name: rage', 'Level acquired: 0')
+
+('Move name: mimic', 'Level acquired: 0')
+
+('Move name: double-team', 'Level acquired: 0')
+
+('Move name: defense-curl', 'Level acquired: 0')
+
+('Move name: light-screen', 'Level acquired: 50')
+
+('Move name: reflect', 'Level acquired: 0')
+
+('Move name: bide', 'Level acquired: 0')
+
+('Move name: swift', 'Level acquired: 26')
+
+('Move name: skull-bash', 'Level acquired: 0')
+
+('Move name: flash', 'Level acquired: 0')
+
+('Move name: rest', 'Level acquired: 0')
+
+('Move name: substitute', 'Level acquired: 0')
+
+('Move name: snore', 'Level acquired: 0')
+
+('Move name: curse', 'Level acquired: 0')
+
+('Move name: protect', 'Level acquired: 0')
+
+('Move name: mud-slap', 'Level acquired: 0')
+
+('Move name: zap-cannon', 'Level acquired: 0')
+
+('Move name: detect', 'Level acquired: 0')
+
+('Move name: endure', 'Level acquired: 0')
+
+('Move name: rollout', 'Level acquired: 0')
+
+('Move name: swagger', 'Level acquired: 0')
+
+('Move name: spark', 'Level acquired: 26')
+
+('Move name: attract', 'Level acquired: 0')
+
+('Move name: sleep-talk', 'Level acquired: 0')
+
+('Move name: return', 'Level acquired: 0')
+
+('Move name: frustration', 'Level acquired: 0')
+
+('Move name: dynamic-punch', 'Level acquired: 0')
+
+('Move name: iron-tail', 'Level acquired: 0')
+
+('Move name: hidden-power', 'Level acquired: 0')
+
+('Move name: rain-dance', 'Level acquired: 0')
+
+('Move name: rock-smash', 'Level acquired: 0')
+
+('Move name: facade', 'Level acquired: 0')
+
+('Move name: focus-punch', 'Level acquired: 0')
+
+('Move name: helping-hand', 'Level acquired: 0')
+
+('Move name: brick-break', 'Level acquired: 0')
+
+('Move name: knock-off', 'Level acquired: 0')
+
+('Move name: secret-power', 'Level acquired: 0')
+
+('Move name: signal-beam', 'Level acquired: 0')
+
+('Move name: covet', 'Level acquired: 0')
+
+('Move name: shock-wave', 'Level acquired: 0')
+
+('Move name: natural-gift', 'Level acquired: 0')
+
+('Move name: feint', 'Level acquired: 29')
+
+('Move name: fling', 'Level acquired: 0')
+
+('Move name: magnet-rise', 'Level acquired: 0')
+
+('Move name: discharge', 'Level acquired: 37')
+
+('Move name: captivate', 'Level acquired: 0')
+
+('Move name: grass-knot', 'Level acquired: 0')
+
+('Move name: charge-beam', 'Level acquired: 0')
+
+('Move name: electro-ball', 'Level acquired: 18')
+
+('Move name: round', 'Level acquired: 0')
+
+('Move name: echoed-voice', 'Level acquired: 0')
+
+('Move name: volt-switch', 'Level acquired: 0')
+
+('Move name: electroweb', 'Level acquired: 0')
+
+('Move name: wild-charge', 'Level acquired: 0')
+
+('Move name: play-nice', 'Level acquired: 7')
+
+('Move name: confide', 'Level acquired: 0')
+
+('Move name: nuzzle', 'Level acquired: 23')
+Name: ditto
+ID: 132
+Height: 3
+Weight: 40
+Types: normal
+
+Stats:
+------
+
+('hp', 48)
+('attack', 48)
+('defense', 48)
+('special-attack', 48)
+('special-defense', 48)
+('speed', 48)
+Abilities:
+------
+
+limber
+
+imposter
+
+Moves:
+-------
+
+('Move name: transform', 'Level acquired: 1')
+Name: charmeleon
+ID: 5
+Height: 11
+Weight: 190
+Types: fire
+
+Stats:
+------
+
+('hp', 58)
+('attack', 64)
+('defense', 58)
+('special-attack', 80)
+('special-defense', 65)
+('speed', 80)
+Abilities:
+------
+
+blaze
+
+solar-power
+
+Moves:
+-------
+
+('Move name: mega-punch', 'Level acquired: 0')
+
+('Move name: fire-punch', 'Level acquired: 0')
+
+('Move name: thunder-punch', 'Level acquired: 0')
+
+('Move name: scratch', 'Level acquired: 1')
+
+('Move name: swords-dance', 'Level acquired: 0')
+
+('Move name: cut', 'Level acquired: 0')
+
+('Move name: mega-kick', 'Level acquired: 0')
+
+('Move name: headbutt', 'Level acquired: 0')
+
+('Move name: body-slam', 'Level acquired: 0')
+
+('Move name: take-down', 'Level acquired: 0')
+
+('Move name: double-edge', 'Level acquired: 0')
+
+('Move name: leer', 'Level acquired: 15')
+
+('Move name: growl', 'Level acquired: 1')
+
+('Move name: ember', 'Level acquired: 1')
+
+('Move name: flamethrower', 'Level acquired: 42')
+
+('Move name: submission', 'Level acquired: 0')
+
+('Move name: counter', 'Level acquired: 0')
+
+('Move name: seismic-toss', 'Level acquired: 0')
+
+('Move name: strength', 'Level acquired: 0')
+
+('Move name: dragon-rage', 'Level acquired: 0')
+
+('Move name: fire-spin', 'Level acquired: 56')
+
+('Move name: dig', 'Level acquired: 0')
+
+('Move name: toxic', 'Level acquired: 0')
+
+('Move name: rage', 'Level acquired: 24')
+
+('Move name: mimic', 'Level acquired: 0')
+
+('Move name: double-team', 'Level acquired: 0')
+
+('Move name: smokescreen', 'Level acquired: 13')
+
+('Move name: defense-curl', 'Level acquired: 0')
+
+('Move name: reflect', 'Level acquired: 0')
+
+('Move name: bide', 'Level acquired: 0')
+
+('Move name: fire-blast', 'Level acquired: 0')
+
+('Move name: swift', 'Level acquired: 0')
+
+('Move name: skull-bash', 'Level acquired: 0')
+
+('Move name: rest', 'Level acquired: 0')
+
+('Move name: rock-slide', 'Level acquired: 0')
+
+('Move name: slash', 'Level acquired: 33')
+
+('Move name: substitute', 'Level acquired: 0')
+
+('Move name: snore', 'Level acquired: 0')
+
+('Move name: curse', 'Level acquired: 0')
+
+('Move name: protect', 'Level acquired: 0')
+
+('Move name: scary-face', 'Level acquired: 27')
+
+('Move name: mud-slap', 'Level acquired: 0')
+
+('Move name: outrage', 'Level acquired: 0')
+
+('Move name: endure', 'Level acquired: 0')
+
+('Move name: swagger', 'Level acquired: 0')
+
+('Move name: fury-cutter', 'Level acquired: 0')
+
+('Move name: attract', 'Level acquired: 0')
+
+('Move name: sleep-talk', 'Level acquired: 0')
+
+('Move name: return', 'Level acquired: 0')
+
+('Move name: frustration', 'Level acquired: 0')
+
+('Move name: dynamic-punch', 'Level acquired: 0')
+
+('Move name: dragon-breath', 'Level acquired: 0')
+
+('Move name: iron-tail', 'Level acquired: 0')
+
+('Move name: metal-claw', 'Level acquired: 13')
+
+('Move name: hidden-power', 'Level acquired: 0')
+
+('Move name: sunny-day', 'Level acquired: 0')
+
+('Move name: rock-smash', 'Level acquired: 0')
+
+('Move name: heat-wave', 'Level acquired: 0')
+
+('Move name: will-o-wisp', 'Level acquired: 0')
+
+('Move name: facade', 'Level acquired: 0')
+
+('Move name: focus-punch', 'Level acquired: 0')
+
+('Move name: brick-break', 'Level acquired: 0')
+
+('Move name: secret-power', 'Level acquired: 0')
+
+('Move name: overheat', 'Level acquired: 0')
+
+('Move name: rock-tomb', 'Level acquired: 0')
+
+('Move name: aerial-ace', 'Level acquired: 0')
+
+('Move name: dragon-claw', 'Level acquired: 0')
+
+('Move name: natural-gift', 'Level acquired: 0')
+
+('Move name: fling', 'Level acquired: 0')
+
+('Move name: dragon-pulse', 'Level acquired: 0')
+
+('Move name: shadow-claw', 'Level acquired: 0')
+
+('Move name: fire-fang', 'Level acquired: 28')
+
+('Move name: captivate', 'Level acquired: 0')
+
+('Move name: hone-claws', 'Level acquired: 0')
+
+('Move name: flame-burst', 'Level acquired: 32')
+
+('Move name: flame-charge', 'Level acquired: 0')
+
+('Move name: round', 'Level acquired: 0')
+
+('Move name: echoed-voice', 'Level acquired: 0')
+
+('Move name: incinerate', 'Level acquired: 0')
+
+('Move name: inferno', 'Level acquired: 54')
+
+('Move name: fire-pledge', 'Level acquired: 0')
+
+('Move name: work-up', 'Level acquired: 0')
+
+('Move name: confide', 'Level acquired: 0')
+
+('Move name: power-up-punch', 'Level acquired: 0')
