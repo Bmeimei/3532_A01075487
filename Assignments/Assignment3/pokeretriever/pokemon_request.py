@@ -4,11 +4,11 @@
 # File Name:         facade.py
 from asyncio import get_event_loop
 
-from Assignments.Assignment3.pokeretriever.handler import Handler
-from Assignments.Assignment3.pokeretriever.pokedex_object import PokedexObject
-from Assignments.Assignment3.pokeretriever.pokemon_error import PokemonError
-from Assignments.Assignment3.pokeretriever.request import Request
-from Assignments.Assignment3.pokeretriever.factory import ModeFactory
+from .handler import Handler
+from .pokedex_object import PokedexObject
+from .pokemon_error import PokemonError
+from .request import Request
+from .factory import ModeFactory
 
 
 class PokemonRequest:

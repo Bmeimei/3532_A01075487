@@ -2,7 +2,7 @@
 # Student Number:    A01075487
 # Created time:      2021/4/8 0:40
 # File Name:         stat_class.py
-from Assignments.Assignment3.pokeretriever.pokedex_object import PokedexObject
+from .pokedex_object import PokedexObject
 
 
 class Stat(PokedexObject):

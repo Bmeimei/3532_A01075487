@@ -2,7 +2,7 @@
 # Student Number:    A01075487
 # Created time:      2021/4/7 23:09
 # File Name:         move.py
-from Assignments.Assignment3.pokeretriever.pokedex_object import PokedexObject
+from .pokedex_object import PokedexObject
 
 
 class Move(PokedexObject):

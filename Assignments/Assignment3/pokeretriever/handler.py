@@ -4,8 +4,8 @@
 # File Name:         handler.py
 from asyncio import create_task, gather
 
-from Assignments.Assignment3.pokeretriever.mode import Mode
-from Assignments.Assignment3.pokeretriever.request import Request
+from .mode import Mode
+from .request import Request
 from aiohttp import ClientSession
 
 

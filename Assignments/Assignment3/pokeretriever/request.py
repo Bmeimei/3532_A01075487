@@ -4,7 +4,7 @@
 # File Name:         request.py
 import argparse
 
-from Assignments.Assignment3.pokeretriever.mode import Mode
+from .mode import Mode
 
 
 class Request:

@@ -4,13 +4,13 @@
 # File Name:         factory.py
 from typing import Type
 
-from Assignments.Assignment3.pokeretriever.ability import Ability
-from Assignments.Assignment3.pokeretriever.mode import Mode
-from Assignments.Assignment3.pokeretriever.move import Move
-from Assignments.Assignment3.pokeretriever.pokedex_object import PokedexObject
-from Assignments.Assignment3.pokeretriever.pokemon import Pokemon
-from Assignments.Assignment3.pokeretriever.request import Request
-from Assignments.Assignment3.pokeretriever.stat_class import Stat
+from .ability import Ability
+from .mode import Mode
+from .move import Move
+from .pokedex_object import PokedexObject
+from .pokemon import Pokemon
+from .request import Request
+from .stat_class import Stat
 
 
 class ModeFactory:

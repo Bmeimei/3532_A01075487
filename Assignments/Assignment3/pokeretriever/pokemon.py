@@ -4,11 +4,11 @@
 # File Name:         pokemon.py
 from asyncio import get_event_loop
 
-from Assignments.Assignment3.pokeretriever.handler import Handler
-from Assignments.Assignment3.pokeretriever.pokedex_object import PokedexObject
-from Assignments.Assignment3.pokeretriever.stat_class import Stat
-from Assignments.Assignment3.pokeretriever.ability import Ability
-from Assignments.Assignment3.pokeretriever.move import Move
+from .handler import Handler
+from .pokedex_object import PokedexObject
+from .stat_class import Stat
+from .ability import Ability
+from .move import Move
 
 
 class Pokemon(PokedexObject):

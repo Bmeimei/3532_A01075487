@@ -2,7 +2,7 @@
 # Student Number:    A01075487
 # Created time:      2021/4/9 0:36
 # File Name:         pokemon_error.py
-from Assignments.Assignment3.pokeretriever.pokedex_object import PokedexObject
+from .pokedex_object import PokedexObject
 
 
 class PokemonError(PokedexObject):
