@@ -84,16 +84,22 @@ class Handler:
         :return a bunch of request that contains single input data
         """
         request_list = []
-        with open(request.input_file, "r") as file_object:
-            for line in file_object.read().splitlines():
-                single_request = Request()
-                single_request.input_data = line
-                single_request.mode = request.mode
-                single_request.output = request.output
-                single_request.expanded = request.expanded
+        try:
+            with open(request.input_file, "r") as file_object:
+                for line in file_object.read().splitlines():
+                    single_request = Request()
+                    single_request.input_data = line
+                    single_request.mode = request.mode
+                    single_request.output = request.output
+                    single_request.expanded = request.expanded
 
-                request_list.append(single_request)
-            return request_list
+                    request_list.append(single_request)
+                return request_list
+
+        # If the File is not existed
+        except FileNotFoundError as e:
+            print("Error: ", e)
+            exit(-1)
 
     @staticmethod
     async def process_multiple_request_tasks(requests: Request) -> tuple:
