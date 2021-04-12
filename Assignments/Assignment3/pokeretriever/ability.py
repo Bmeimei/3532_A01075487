@@ -30,6 +30,10 @@ class Ability(PokedexObject):
         self._pokemon = pokemon
 
     def __str__(self) -> str:
+        """
+        Formats Ability.
+        :return: a string that represents Ability
+        """
         return f"Name: {self.name}\n" \
                f"ID: {self.id}\n" \
                f"Generation: {self._generation}\n" \
@@ -48,6 +52,11 @@ class Ability(PokedexObject):
 
     @staticmethod
     def map_to_object(information: dict) -> 'PokedexObject':
+        """
+        Maps the information dict to Ability.
+        :param information: the response dict
+        :return: an Ability instance
+        """
         name = information["name"]
         id_ = information["id"]
         generation = information["generation"]["name"]

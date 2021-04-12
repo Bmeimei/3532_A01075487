@@ -80,7 +80,7 @@ class Pokemon(PokedexObject):
 
     def _map_stats_to_tuples_str(self) -> str:
         """
-        Converts stats to strings.
+        Converts stats objects to strings.
         """
         return "".join(map(lambda x: str(x) + "\n", [(element["stat"]["name"],
                                                       element["base_stat"]) for element in self._stats]))
@@ -131,6 +131,8 @@ class Pokemon(PokedexObject):
     def __str__(self) -> str:
         """
         Formatted the pokemon.
+
+        :return a formated string that represents Pokemon, if this pokemon is expanded, return expanded string.
         """
         if self._is_expanded:
             return self._expanded_str()
@@ -152,6 +154,12 @@ class Pokemon(PokedexObject):
 
     @staticmethod
     def map_to_object(information: dict) -> 'PokedexObject':
+        """
+        Maps the information dict to Pokemon.
+
+        :param information: the response dict
+        :return: an Pokemon instance
+        """
         name = information["name"]
         id_ = information["id"]
         height = information["height"]

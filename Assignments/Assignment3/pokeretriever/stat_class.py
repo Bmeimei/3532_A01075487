@@ -38,6 +38,12 @@ class Stat(PokedexObject):
 
     @staticmethod
     def map_to_object(information: dict) -> 'PokedexObject':
+        """
+        Maps the information dict to Stat.
+
+        :param information: the response dict
+        :return: an Stat instance
+        """
         name = information["name"]
         id_ = information["id"]
         is_battle_only = information["is_battle_only"]

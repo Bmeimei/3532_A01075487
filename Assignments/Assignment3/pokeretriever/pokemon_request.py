@@ -31,6 +31,8 @@ class PokemonRequest:
         response = loop.run_until_complete(Handler.process_multiple_request_tasks(request))
         result = []
         for i in response:
+
+            # Checks if this response has error key, if has, convert it into PokemonError Object.
             if "error" in i:
                 pokemon_object = PokemonError("Error", -1)
             else:

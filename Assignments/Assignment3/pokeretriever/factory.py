@@ -22,6 +22,9 @@ class ModeFactory:
     def map_to_pokedex_object(request: Request) -> Type[PokedexObject]:
         """
         Return the pokedex class for a request.
+
+        :param request a Request from command line
+        :return a specific Mode class which matches request mode
         """
         if request.mode == Mode.POKEMON:
             return Pokemon

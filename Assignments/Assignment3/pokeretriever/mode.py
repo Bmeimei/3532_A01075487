@@ -7,6 +7,9 @@ from enum import Enum
 
 
 class Mode(Enum):
+    """
+    Mode Enum class.
+    """
     POKEMON = "Pokemon"
     ABILITY = "Ability"
     MOVE = "Move"

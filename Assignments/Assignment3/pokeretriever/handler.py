@@ -21,6 +21,10 @@ class Handler:
     async def get_request_data_with_url(session: ClientSession, url: str) -> dict:
         """
         Gets data dict with provided url.
+
+        :param url: url of api
+        :param session ClientSession
+        :return api response dict from json
         """
         response = await session.request(method="GET", url=url)
         json_dict = await response.json()
@@ -32,6 +36,10 @@ class Handler:
         An async coroutine that executes GET http request. The response is
         converted to a json. The HTTP request and the json conversion are
         asynchronous processes that need to be awaited.
+
+        :param session: ClientSession
+        :param request Request from command line
+        :return api response dict from json
         """
         try:
             url = "https://pokeapi.co/api/v2/"
@@ -58,6 +66,9 @@ class Handler:
     async def process_single_request_task(requests: Request) -> tuple:
         """
         Process Single Request.
+
+        :param requests Request from command line
+        :return api response dict from json
         """
         async with ClientSession() as session:
             task = create_task(Handler.get_request_data(requests, session))
@@ -68,6 +79,9 @@ class Handler:
     def map_request_file_into_multiple_requests(request: Request) -> list[Request]:
         """
         Reads the input file, and maps the request into multiple requests as a list.
+
+        :param request Request from command line
+        :return a bunch of request that contains single input data
         """
         request_list = []
         with open(request.input_file, "r") as file_object:
@@ -85,6 +99,9 @@ class Handler:
     async def process_multiple_request_tasks(requests: Request) -> tuple:
         """
         Process multiple requests.
+
+        :param requests Request from command line
+        :return api response dict from json
         """
         requests_list = Handler.map_request_file_into_multiple_requests(requests)
 
@@ -97,6 +114,9 @@ class Handler:
     async def process_request_tasks_with_default_urls(default_url: list[str]) -> tuple:
         """
         Process Request.
+
+        :param default_url url of api
+        :return api response dicts from json into a tuple
         """
         async with ClientSession() as session:
             list_tasks = [create_task(Handler.get_request_data_with_url(session, request))

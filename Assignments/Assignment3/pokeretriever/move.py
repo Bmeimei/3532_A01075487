@@ -36,6 +36,10 @@ class Move(PokedexObject):
         self._effect = effect
 
     def __str__(self) -> str:
+        """
+        Formats Move.
+        :return: a formatted string that represents Move
+        """
         return f"Name: {self.name}\n" \
                f"ID: {self.id}\n" \
                f"Generation: {self._generation}\n" \
@@ -48,6 +52,11 @@ class Move(PokedexObject):
 
     @staticmethod
     def map_to_object(information: dict) -> 'PokedexObject':
+        """
+        Maps the information dict to Move.
+        :param information: the response dict
+        :return: an Move instance
+        """
         name = information["name"]
         id_ = information["id"]
         generation = information["generation"]["name"]
