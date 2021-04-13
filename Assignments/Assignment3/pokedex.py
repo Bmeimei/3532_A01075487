@@ -14,6 +14,8 @@ def main():
     request = Request.setup_command_line()
     response = PokemonRequest.execute_features(request)
     if request.output == "print":
+        print(datetime.now().strftime("%d/%m/%Y %H:%M") + "\n")
+        print(f"Number of requests: {len(response)}" + "\n\n")
         for i in response:
             print(i)
     else:
