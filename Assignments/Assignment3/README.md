@@ -28,3 +28,5 @@ ECHO error
 python pokedex.py --inputfile input_error.txt --output output_error.txt move
 
 UML of Poke Retriever:
+
+![image](https://github.com/Bmeimei/3532_A01075487/blob/master/Assignments/Assignment3/Assignment%203.png)
